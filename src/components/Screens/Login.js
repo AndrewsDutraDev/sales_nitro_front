@@ -25,24 +25,7 @@ const Login = ({ navigation }) => {
 		.catch((err) => {
 			console.error("ops! ocorreu um erro" + err);
 		});
-	}
-
-	// useEffect(() => {
-	// 	api
-	// 	.post("/user/login",{
-	// 		email: "rsouza@rsouza.com",
-	// 		password: "123"
-	// 	})
-	// 	.then((response) => {
-	// 		if(response.data.success) {
-	// 			console.log(response.data.message)
-	// 		}
-	// 	})
-	// 	.catch((err) => {
-	// 		console.error("ops! ocorreu um erro" + err);
-	// 	});
-	// }, []);
-  
+	}  
 
   return (
     <View style={style.loginContainer}>
