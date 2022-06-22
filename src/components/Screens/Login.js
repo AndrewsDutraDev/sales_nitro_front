@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, TextInput, Text, TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+import { StyleSheet, View, TextInput, Text, TouchableOpacity, StatusBar, KeyboardAvoidingView, Platform, ScrollView, Dimensions } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons/faEye';
 import { faEyeSlash } from '@fortawesome/free-solid-svg-icons/faEyeSlash';
 import api from '../../services/api';
-import { Dimensions } from 'react-native';
 
 
 const Login = ({ navigation }) => {
@@ -70,7 +69,7 @@ const Login = ({ navigation }) => {
 					
 					<View style={style.text_inline}>
 						<Text style={style.text_footer}>Não tem cadastro?</Text>
-						<Text style={style.text_cadastre_se}>Cadastre-se</Text> 
+						<Text style={style.text_cadastre_se} onPress={() => navigation.navigate('Register', { name: 'Jane' })}>Cadastre-se</Text> 
 					</View>
 				</View>
 			</ScrollView>
@@ -83,11 +82,13 @@ const style = StyleSheet.create({
 	bg_login: {
 		width: '100%',
 		height: '100%',
+		marginTop: StatusBar.currentHeight,
 		flex: 1,
 		backgroundColor: '#0066FF'
 	},
 	container: {
 		height: Dimensions.get('window').height,
+		width: Dimensions.get('window').width,
 	},
 	title_login: {
 		width: '100%',

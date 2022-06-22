@@ -18,18 +18,14 @@ const MyTheme = {
 const Stack = createNativeStackNavigator();
 
 const InitialLogin = () => {
-  return (
-    <NavigationContainer theme={MyTheme}>
-      <Stack.Navigator  screenOptions={{ headerShown: false }}>
-        <Stack.Screen
-          name="Login"
-          component={Login}
-          options={{ title: 'Welcome' }}
-        />
-        <Stack.Screen name="Profile" component={Register} />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
+	return (
+		<NavigationContainer theme={MyTheme}>
+			<Stack.Navigator  screenOptions={{ headerShown: false }}>
+				<Stack.Screen name="Login" component={Login} options={{ title: 'Welcome' }}/>
+				<Stack.Screen name="Register" component={Register} />
+			</Stack.Navigator>
+		</NavigationContainer>
+	);
 };
 
 export default InitialLogin;
