@@ -20,7 +20,7 @@ const Stack = createNativeStackNavigator();
 const InitialLogin = () => {
   return (
     <NavigationContainer theme={MyTheme}>
-      <Stack.Navigator>
+      <Stack.Navigator  screenOptions={{ headerShown: false }}>
         <Stack.Screen
           name="Login"
           component={Login}
