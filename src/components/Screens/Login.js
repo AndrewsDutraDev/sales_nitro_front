@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons/faEye';
 import { faEyeSlash } from '@fortawesome/free-solid-svg-icons/faEyeSlash';
 import api from '../../services/api';
+import { Dimensions } from 'react-native';
 
 
 const Login = ({ navigation }) => {
@@ -36,39 +37,41 @@ const Login = ({ navigation }) => {
 	<View style={style.bg_login}>
 		<KeyboardAvoidingView behavior={ Platform.OS == 'ios' ? 'padding' : 'height' } keyboardVerticalOffset={10}>
 			<ScrollView>
-				<Text style={style.title_login}>
-					<Text style={style.text_sales}>SALES</Text>
-					<Text style={style.text_nitro}>NITRO</Text>
-				</Text>
-				<View style={style.login_content}>
-					<Text style={style.subtitle_login}>Login como Usuário</Text>
-					<View style={style.input_container}>
-						<Text style={style.label_input}>Email</Text>
-						<TextInput style={style.input_text} placeholder='Ex. zézinho@mail.com'  
-							onChangeText={(email) => setEmail({email})}
-						/>
-					</View>
-					<View style={style.input_container}>
-						<Text style={style.label_input}>Senha</Text>
-						<View style={style.password_content}>
-							<TextInput style={style.input_text} placeholder='Coloque sua senha' password={true} secureTextEntry={isPasswordVisible ? false : true}
-								onChangeText={(password) => setPassword({password})}
+				<View style={style.container}>
+					<Text style={style.title_login}>
+						<Text style={style.text_sales}>SALES</Text>
+						<Text style={style.text_nitro}>NITRO</Text>
+					</Text>
+					<View style={style.login_content}>
+						<Text style={style.subtitle_login}>Login como Usuário</Text>
+						<View style={style.input_container}>
+							<Text style={style.label_input}>Email</Text>
+							<TextInput style={style.input_text} placeholder='Ex. zézinho@mail.com'  
+								onChangeText={(email) => setEmail({email})}
 							/>
-							<Text style={style.password_icon} onPress={() => setIsPasswordVisible(!isPasswordVisible)}>
-								<FontAwesomeIcon icon={isPasswordVisible ? faEye : faEyeSlash} size={20} style={style.icon} />
-							</Text>
+						</View>
+						<View style={style.input_container}>
+							<Text style={style.label_input}>Senha</Text>
+							<View style={style.password_content}>
+								<TextInput style={style.input_text} placeholder='Coloque sua senha' password={true} secureTextEntry={isPasswordVisible ? false : true}
+									onChangeText={(password) => setPassword({password})}
+								/>
+								<Text style={style.password_icon} onPress={() => setIsPasswordVisible(!isPasswordVisible)}>
+									<FontAwesomeIcon icon={isPasswordVisible ? faEye : faEyeSlash} size={20} style={style.icon} />
+								</Text>
+							</View>
+						</View>
+						<View style={style.input_container}>
+							<TouchableOpacity style={style.button_login} onPress={ () => login()}>
+								<Text style={style.button_text_login}>Login</Text>
+							</TouchableOpacity>
 						</View>
 					</View>
-					<View style={style.input_container}>
-						<TouchableOpacity style={style.button_login} onPress={ () => login()}>
-							<Text style={style.button_text_login}>Login</Text>
-						</TouchableOpacity>
+					
+					<View style={style.text_inline}>
+						<Text style={style.text_footer}>Não tem cadastro?</Text>
+						<Text style={style.text_cadastre_se}>Cadastre-se</Text> 
 					</View>
-				</View>
-				
-				<View style={style.text_inline}>
-					<Text style={style.text_footer}>Não tem cadastro?</Text>
-					<Text style={style.text_cadastre_se}>Cadastre-se</Text> 
 				</View>
 			</ScrollView>
 		</KeyboardAvoidingView>
@@ -83,10 +86,8 @@ const style = StyleSheet.create({
 		flex: 1,
 		backgroundColor: '#0066FF'
 	},
-	scrool: {
-		height: '100%',
-		width: '100%',
-		backgroundColor: 'red'
+	container: {
+		height: Dimensions.get('window').height,
 	},
 	title_login: {
 		width: '100%',
@@ -108,7 +109,8 @@ const style = StyleSheet.create({
 		height: '75%',
 		justifyContent: 'center',
 		alignItems: 'center',
-		padding: 20,
+		paddingHorizontal:10,
+		paddingVertical: 30,
 	},
 	subtitle_login: {
 		color: '#fff',
@@ -175,7 +177,7 @@ const style = StyleSheet.create({
 	text_inline: {
 		display: 'flex',
 		flexDirection: 'row',
-		justifyContent: 'center'
+		justifyContent: 'center',
 	},
 	text_footer: {
 		textAlign: 'center',
