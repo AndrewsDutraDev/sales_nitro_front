@@ -21,7 +21,7 @@ const Login = ({ navigation }) => {
 			.post("/user/login", body)
 			.then((response) => {
 				if(response.data.success) {
-					navigation.navigate('Profile', { name: 'Jane' })
+					navigation.navigate('Home', { name: 'Jane' })
 				}
 			})
 			.catch((err) => {
@@ -144,11 +144,10 @@ const style = StyleSheet.create({
 		alignItems: 'center',
 	},
 	password_icon: {
-		margin: -50,
 		height: '100%',
 		width: 50,
-		paddingHorizontal: 20,
-		paddingVertical: 25
+		marginLeft: -40,
+		marginTop: 40,
 	},
 	icon: {
 		display: 'flex',
