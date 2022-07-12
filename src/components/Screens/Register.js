@@ -22,9 +22,40 @@ const Register = ({ navigation }) => {
 
 	const nextPage = () => {
 		if(page < 3) {
-			setPage(page+1);
+			if(validate_blank[page]()){
+				setPage(page+1);
+			}else {
+				alert("Preencha os campos!")
+			}
 		}else{
 			alert('request');
+		}
+	}
+
+	const validate_blank = {
+		1: () => {
+			if(nome && email && cpf && cep && sexo) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		},
+		2: () => {
+			if(endereco && bairro && complemento && dataNascimento) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		},
+		3: () => {
+			if(celular && senha && confirmarSenha) {
+				return true;
+			}
+			else {
+				return false;
+			}
 		}
 	}
 
