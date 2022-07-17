@@ -32,9 +32,15 @@ const Register = ({ navigation }) => {
 		}
 	}
 
+	const prevPage = () => {
+		if(page > 1) {
+			setPage(page-1);
+		}
+	}
+
 	const validate_blank = {
 		1: () => {
-			if(nome && email && cpf && cep && sexo) {
+			if(nome && email && cpf && sexo) {
 				return true;
 			}
 			else {
@@ -42,7 +48,7 @@ const Register = ({ navigation }) => {
 			}
 		},
 		2: () => {
-			if(endereco && bairro && complemento && dataNascimento) {
+			if(endereco && bairro && complemento && dataNascimento && cep) {
 				return true;
 			}
 			else {
@@ -132,13 +138,25 @@ const Register = ({ navigation }) => {
 								<Text style={style.label_input}>Masculino</Text>
 
 							</View>
-							<View style={style.button_container}>
-								<TouchableOpacity style={style.button_next}
-								onPress={() => nextPage()}
-								>
-										<SVGImg width={25} height={25} />
-								</TouchableOpacity>
+
+							<View style={style.button_prev_next}>
+								<View>
+									<TouchableOpacity style={style.button_prev}
+									onPress={() => prevPage()}
+									>
+											<SVGImg width={25} height={25} />
+									</TouchableOpacity>
+								</View>
+								<View>
+									<TouchableOpacity style={style.button_next}
+									onPress={() => nextPage()}
+									>
+											<SVGImg width={25} height={25} />
+									</TouchableOpacity>
+								</View>
 							</View>
+
+							
 						</View>
 					</View>
 
@@ -169,12 +187,22 @@ const Register = ({ navigation }) => {
 								onChange={(cep) => setCep(cep)}
 								/>
 							</View>
-							<View style={style.button_container}>
-								<TouchableOpacity style={style.button_next}
-								onPress={() => nextPage()}
-								>
-										<SVGImg width={25} height={25} />
-								</TouchableOpacity>
+
+							<View style={style.button_prev_next}>
+								<View>
+									<TouchableOpacity style={style.button_prev}
+									onPress={() => prevPage()}
+									>
+											<SVGImg width={25} height={25} />
+									</TouchableOpacity>
+								</View>
+								<View>
+									<TouchableOpacity style={style.button_next}
+									onPress={() => nextPage()}
+									>
+											<SVGImg width={25} height={25} />
+									</TouchableOpacity>
+								</View>
 							</View>
 						</View>
 					</View>
@@ -315,6 +343,14 @@ const style = StyleSheet.create({
 		borderColor: '#D8D8D8',
 		color: '#757575',
 	},
+	button_prev_next:{
+		display: 'flex',
+		width: '100%',
+		justifyContent: 'center',
+		alignItems: 'center',
+    	flexDirection: 'row',
+		marginVertical: 20,
+	},	
 	button_next: {
 		width: 40,
 		height: 40,
@@ -323,6 +359,17 @@ const style = StyleSheet.create({
 		display: 'flex',
 		alignItems: 'center',
 		justifyContent: 'center'
+	},
+	button_prev: {
+		width: 40,
+		height: 40,
+		borderRadius: 50,
+		backgroundColor: '#0067FF',
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+		transform: [{ rotate: '180deg' }],
+		marginRight: 30
 	},
 	button_create: {
 		width: 150,
@@ -334,12 +381,6 @@ const style = StyleSheet.create({
 		display: 'flex',
 		alignItems: 'center',
 		justifyContent: 'center'
-	},
-	button_container: {
-		width: '100%',
-		display: 'flex',
-		alignItems: 'center',
-		marginVertical: 20,
 	},
 	content: {
 		display: 'flex',
