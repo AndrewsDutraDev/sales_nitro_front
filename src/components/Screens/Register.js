@@ -3,6 +3,7 @@ import { StyleSheet, View, Image, TextInput, Text, TouchableOpacity, StatusBar, 
 import { RadioButton } from 'react-native-paper';
 import { SvgUri } from 'react-native-svg';
 import SVGImg from '../../img/next_button.svg';
+import { TextInputMask } from 'react-native-masked-text'
 
 const Register = ({ navigation }) => {
 
@@ -114,14 +115,25 @@ const Register = ({ navigation }) => {
 							</View>
 							<View style={style.input_container}>
 								<Text style={style.label_input}>CPF*</Text>
-								<TextInput style={style.input_text} placeholder='Ex. 000.000.000-00'
-								onChange={(cpf) => setCpf(cpf)}
+								<TextInputMask
+									style={style.input_text}
+									placeholder='Ex. 000.000.000-00'
+									type={'cpf'}
+									value={cpf}
+									onChangeText={(cpf) => setCpf(cpf)}
 								/>
 							</View>
 							<View style={style.input_container}>
 								<Text style={style.label_input}>Data de Nascimento*</Text>
-								<TextInput style={style.input_text} placeholder='Ex. 12/11/1999'
-								onChange={(dataNascimento) => setDataNascimento(dataNascimento)}
+								<TextInputMask
+									style={style.input_text} 
+									placeholder='Ex. 12/11/1999'
+									type={'datetime'}
+									options={{
+										format: 'DD/MM/YYYY'
+									}}
+									value={dataNascimento}
+									onChangeText={(dataNascimento) => setDataNascimento(dataNascimento)}
 								/>
 							</View>
 							<View style={style.radio_container}>
@@ -183,9 +195,16 @@ const Register = ({ navigation }) => {
 							</View>
 							<View style={style.input_container}>
 								<Text style={style.label_input}>CEP*</Text>
-								<TextInput style={style.input_text} placeholder='Ex. 96.225-000'
-								onChange={(cep) => setCep(cep)}
+
+								<TextInputMask
+									style={style.input_text} 
+									placeholder='Ex. 96.225-000'
+									type={'zip-code'}
+									value={cep}
+									onChangeText={(cep) => setCep(cep)}
 								/>
+
+								
 							</View>
 
 							<View style={style.button_prev_next}>
@@ -214,8 +233,17 @@ const Register = ({ navigation }) => {
 						<View style={style.form_container}>
 							<View style={style.input_container}>
 								<Text style={style.label_input}>Celular*</Text>
-								<TextInput style={style.input_text} placeholder='Ex. 53 999000000'
-								onChange={(celular) => setCelular(celular)}
+								<TextInputMask
+									style={style.input_text} 
+									placeholder='Ex. 53 999000000'
+									type={'cel-phone'}
+									options={{
+										maskType: 'BRL',
+										withDDD: true,
+										dddMask: '(99) '
+									}}
+									value={celular}
+									onChangeText={(celular) => setCelular(celular)}
 								/>
 							</View>
 							<View style={style.input_container}>
