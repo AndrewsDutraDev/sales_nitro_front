@@ -71,6 +71,10 @@ const Login = ({ navigation }) => {
 						<Text style={style.text_footer}>Não tem cadastro?</Text>
 						<Text style={style.text_cadastre_se} onPress={() => navigation.navigate('Register', { name: 'Jane' })}>Cadastre-se</Text> 
 					</View>
+
+					<View style={style.text_inline}>
+						<Text style={style.text_cadastre_se} onPress={() => navigation.navigate('Home', { name: '' })}>Home</Text> 
+					</View>
 				</View>
 			</ScrollView>
 		</KeyboardAvoidingView>
