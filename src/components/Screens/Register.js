@@ -4,6 +4,7 @@ import { RadioButton } from 'react-native-paper';
 import { SvgUri } from 'react-native-svg';
 import SVGImg from '../../img/next_button.svg';
 import { TextInputMask } from 'react-native-masked-text'
+import api from '../../services/api';
 
 const Register = ({ navigation }) => {
 
@@ -12,6 +13,9 @@ const Register = ({ navigation }) => {
 	const [email, setEmail] = useState();
 	const [cpf, setCpf] = useState();
 	const [dataNascimento, setDataNascimento] = useState();
+	const [pais, setPais] = useState();
+	const [cidade, setCidade] = useState();
+	const [estado, setEstado] = useState();
 	const [endereco, setEndereco] = useState();
 	const [bairro, setBairro] = useState();
 	const [complemento, setComplemento] = useState();
@@ -29,7 +33,7 @@ const Register = ({ navigation }) => {
 				alert("Preencha os campos!")
 			}
 		}else{
-			alert('request');
+			createAccount();
 		}
 	}
 
@@ -67,7 +71,35 @@ const Register = ({ navigation }) => {
 	}
 
 	const createAccount = () => {
-		alert('Criar Conta');
+		if(validate_blank[3]()){
+			var body = {
+				name: nome,
+				email: email,
+				cpf: cpf, 
+				gender: sexo, 
+				phoneNumber: celular, 
+				birthDate: 1, 
+				password: senha, 
+				street: endereco, 
+				district: bairro, 
+				city: cidade, 
+				state: estado, 
+				zipCode: cep, 
+				country: pais,
+			}
+			api
+			.post("/user/createuser", body)
+			.then((response) => {
+				if(response.data.success) {
+					alert('sucess')
+				}
+			})
+			.catch((err) => {
+				alert("Registro Inválido!");
+			});
+		}else {
+			alert("Preencha os campos!")
+		}
 	}
 
   return (
@@ -104,13 +136,13 @@ const Register = ({ navigation }) => {
 							<View style={style.input_container}>
 								<Text style={style.label_input}>Nome*</Text>
 								<TextInput style={style.input_text} placeholder='Ex. Zé Roberto'
-								onChange={(nome) => setNome(nome)}
+								onChangeText={(nome) => setNome(nome)}
 								/>
 							</View>
 							<View style={style.input_container}>
 								<Text style={style.label_input}>Email*</Text>
 								<TextInput style={style.input_text} placeholder='Ex. zézinho@mail.com'
-								onChange={(email) => setEmail(email)}
+								onChangeText={(email) => setEmail(email)}
 								/>
 							</View>
 							<View style={style.input_container}>
@@ -178,19 +210,37 @@ const Register = ({ navigation }) => {
 							<View style={style.input_container}>
 								<Text style={style.label_input}>Endereco*</Text>
 								<TextInput style={style.input_text} placeholder='Ex. Rua Dez, 988'
-								onChange={(endereco) => setEndereco(endereco)}
+								onChangeText={(endereco) => setEndereco(endereco)}
 								/>
 							</View>
 							<View style={style.input_container}>
 								<Text style={style.label_input}>Bairro*</Text>
 								<TextInput style={style.input_text} placeholder='Ex. Centro'
-								onChange={(bairro) => setBairro(bairro)}
+								onChangeText={(bairro) => setBairro(bairro)}
 								/>
 							</View>
 							<View style={style.input_container}>
 								<Text style={style.label_input}>Complemento	*</Text>
 								<TextInput style={style.input_text} placeholder='Ex. Ao lado da famácia São João'
-								onChange={(complemento) => setComplemento(complemento)}
+								onChangeText={(complemento) => setComplemento(complemento)}
+								/>
+							</View>
+							<View style={style.input_container}>
+								<Text style={style.label_input}>Cidade	*</Text>
+								<TextInput style={style.input_text} placeholder='Ex. Guaporé'
+								onChangeText={(cidade) => setCidade(cidade)}
+								/>
+							</View>
+							<View style={style.input_container}>
+								<Text style={style.label_input}>Estado	*</Text>
+								<TextInput style={style.input_text} placeholder='Ex. Guaporé'
+								onChangeText={(estado) => setEstado(estado)}
+								/>
+							</View>
+							<View style={style.input_container}>
+								<Text style={style.label_input}>País	*</Text>
+								<TextInput style={style.input_text} placeholder='Ex. Guaporé'
+								onChangeText={(pais) => setPais(pais)}
 								/>
 							</View>
 							<View style={style.input_container}>
@@ -249,13 +299,13 @@ const Register = ({ navigation }) => {
 							<View style={style.input_container}>
 								<Text style={style.label_input}>Senha*</Text>
 								<TextInput style={style.input_text} placeholder='Sua senha'
-								onChange={(senha) => setSenha(senha)}
+								onChangeText={(senha) => setSenha(senha)}
 								/>
 							</View>
 							<View style={style.input_container}>
 								<Text style={style.label_input}>Confirme sua senha*</Text>
 								<TextInput style={style.input_text} placeholder='Repita sua senha'
-								onChange={(confirmarSenha) => setConfirmarSenha(confirmarSenha)}
+								onChangeText={(confirmarSenha) => setConfirmarSenha(confirmarSenha)}
 								/>
 							</View>
 							<View style={style.input_container}>
@@ -263,7 +313,7 @@ const Register = ({ navigation }) => {
 							</View>
 							<View style={style.button_container}>
 								<TouchableOpacity style={style.button_create}
-								onPress={() => createAccount()}
+								onPress={() => nextPage()}
 								>
 									<Text style={style.label_create}>Criar conta</Text>
 								</TouchableOpacity>
@@ -285,7 +335,7 @@ const style = StyleSheet.create({
 		flex: 1,
     },
 	container: {
-		height: Dimensions.get('window').height,
+		height: '100%',
 		width: Dimensions.get('window').width,
 		marginBottom: 40,
 	},
