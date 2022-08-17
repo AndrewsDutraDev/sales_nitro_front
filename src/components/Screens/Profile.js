@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, Image, View, Text, StatusBar, TouchableOpacity, KeyboardAvoidingView, Platform, Dimensions } from 'react-native';
-import SVGImg from '../../img/arrow_back.svg';
+import Arrow_back from '../../img/arrow_back.svg';
 import Icon_dados_pessoais from '../../img/icon_dados_pessoais.svg';
 import Icon_arrow_front from '../../img/icon_arrow_front.svg';
 import Icon_dados_entrega from '../../img/icon_dados_entrega.svg';
@@ -19,7 +19,7 @@ const Profile = ({ navigation }) => {
                         <View style={style.header_text}>
                             <TouchableOpacity 
                                 onPress={() => navigation.navigate('Login', { name: 'Jane' })}>
-                                <SVGImg width={25} height={25}  />
+                                <Arrow_back width={25} height={25}  />
                             </TouchableOpacity>
                             <Text style={style.header_title}>Perfil</Text>
                         </View>
@@ -29,7 +29,9 @@ const Profile = ({ navigation }) => {
                     </View>
                     <View style= {style.content}>
                         <Text style={style.content_title}> Seus Dados </Text>
-                        <TouchableOpacity style={style.content_item}>
+                        <TouchableOpacity style={style.content_item}
+                        onPress={() => navigation.navigate('Edit_Personal_Data', { name: '' })}
+                        >
                             <Icon_dados_pessoais width={25} height={25} />
                             <Text style={style.content_item_text}>Alterar Dados Pessoais</Text>
                             <View style={style.content_item_arrow}><Icon_arrow_front width={15} height={15} /></View>

@@ -87,7 +87,7 @@ const Register = ({ navigation }) => {
 				country: pais,
 			}
 			api
-			.post("/user/createuser", body)
+			.post("/user/", body)
 			.then((response) => {
 				if(response.data.success) {
 					alert('sucess')
