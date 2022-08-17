@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Image, TextInput, Text, TouchableOpacity, StatusBar, KeyboardAvoidingView, Platform, ScrollView, Dimensions } from 'react-native';
 import { RadioButton } from 'react-native-paper';
-import { SvgUri } from 'react-native-svg';
 import SVGImg from '../../img/next_button.svg';
 import { TextInputMask } from 'react-native-masked-text'
 import api from '../../services/api';
@@ -95,6 +94,7 @@ const Register = ({ navigation }) => {
 				}
 			})
 			.catch((err) => {
+				alert(err);
 				alert("Registro Inválido!");
 			});
 		}else {

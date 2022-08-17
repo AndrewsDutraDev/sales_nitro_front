@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Login from './src/components/Screens/Login';
 import Register from './src/components/Screens/Register';
 import Home from './src/components/Screens/Home';
+import Profile from './src/components/Screens/Profile';
 
 const MyTheme = {
   ...DefaultTheme,
@@ -24,6 +25,7 @@ const InitialLogin = () => {
 				<Stack.Screen name="Login" component={Login} options={{ title: 'Welcome' }}/>
 				<Stack.Screen name="Register" component={Register} />
 				<Stack.Screen name="Home" component={Home} />
+				<Stack.Screen name="Profile" component={Profile} />
 			</Stack.Navigator>
 		</NavigationContainer>
 	);
