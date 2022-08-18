@@ -10,6 +10,7 @@ import Edit_Personal_Data from './src/components/Screens/Edit_Personal_Data';
 import Edit_Delivery_Data from './src/components/Screens/Edit_Delivery_Data';
 import Edit_Password from './src/components/Screens/Edit_Password';
 import Profile_Store from './src/components/Screens/Profile_Store';
+import Edit_Product from './src/components/Screens/Edit_Product';
 
 const MyTheme = {
   ...DefaultTheme,
@@ -29,6 +30,7 @@ const InitialLogin = () => {
 				<Stack.Screen name="Login" component={Login} options={{ title: 'Welcome' }}/>
 				<Stack.Screen name="Register" component={Register} />
 				<Stack.Screen name="Add_Product" component={Add_Product} />
+				<Stack.Screen name="Edit_Product" component={Edit_Product} />
 				<Stack.Screen name="Profile" component={Profile} />
 				<Stack.Screen name="Edit_Personal_Data" component={Edit_Personal_Data} />
 				<Stack.Screen name="Edit_Delivery_Data" component={Edit_Delivery_Data} />
