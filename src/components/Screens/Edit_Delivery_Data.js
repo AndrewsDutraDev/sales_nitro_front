@@ -5,15 +5,15 @@ import { TextInputMask } from 'react-native-masked-text'
 import Arrow_back from '../../img/arrow_back.svg';
 
 
-const Edit_Personal_Data = ({ navigation }) => {
+const Edit_Delivery_Data = ({ navigation }) => {
 
-    const [nome, setNome] = useState();
-	const [email, setEmail] = useState();
-	const [cpf, setCpf] = useState();
-	const [dataNascimento, setDataNascimento] = useState();
-	const [celular, setCelular] = useState();
-
-    const [sexo, setSexo] = React.useState('Feminino');
+    const [pais, setPais] = useState();
+	const [cidade, setCidade] = useState();
+	const [estado, setEstado] = useState();
+	const [endereco, setEndereco] = useState();
+	const [bairro, setBairro] = useState();
+	const [complemento, setComplemento] = useState();
+	const [cep, setCep] = useState();
 
     return (
         <View style={style.bg_edit_personal_data}>
@@ -26,74 +26,59 @@ const Edit_Personal_Data = ({ navigation }) => {
                                     onPress={() => navigation.navigate('Profile', { name: 'Jane' })}>
                                     <Arrow_back width={25} height={25} fill={'#0066FF'} />
                                 </TouchableOpacity>
-                                <Text style={style.header_title}>Dados Pessoais</Text>
+                                <Text style={style.header_title}>Dados de Entrega</Text>
                             </View>
                         </View>
                         <View style= {style.content}>
                             <View style={style.form_container}>
                                 <View style={style.input_container}>
-                                    <Text style={style.label_input}>Nome*</Text>
-                                    <TextInput style={style.input_text} placeholder='Ex. Zé Roberto'
-                                    onChangeText={(nome) => setNome(nome)}
+                                    <Text style={style.label_input}>Endereco*</Text>
+                                    <TextInput style={style.input_text} placeholder='Ex. Rua Dez, 988'
+                                    onChangeText={(endereco) => setEndereco(endereco)}
                                     />
                                 </View>
                                 <View style={style.input_container}>
-                                    <Text style={style.label_input}>Email*</Text>
-                                    <TextInput style={style.input_text} placeholder='Ex. zézinho@mail.com'
-                                    onChangeText={(email) => setEmail(email)}
+                                    <Text style={style.label_input}>Bairro*</Text>
+                                    <TextInput style={style.input_text} placeholder='Ex. Centro'
+                                    onChangeText={(bairro) => setBairro(bairro)}
                                     />
                                 </View>
                                 <View style={style.input_container}>
-                                    <Text style={style.label_input}>CPF*</Text>
-                                    <TextInputMask
-                                        style={style.input_text}
-                                        placeholder='Ex. 000.000.000-00'
-                                        type={'cpf'}
-                                        value={cpf}
-                                        onChangeText={(cpf) => setCpf(cpf)}
+                                    <Text style={style.label_input}>Complemento	*</Text>
+                                    <TextInput style={style.input_text} placeholder='Ex. Ao lado da famácia São João'
+                                    onChangeText={(complemento) => setComplemento(complemento)}
                                     />
                                 </View>
                                 <View style={style.input_container}>
-                                    <Text style={style.label_input}>Data de Nascimento*</Text>
-                                    <TextInputMask
-                                        style={style.input_text} 
-                                        placeholder='Ex. 12/11/1999'
-                                        type={'datetime'}
-                                        options={{
-                                            format: 'DD/MM/YYYY'
-                                        }}
-                                        value={dataNascimento}
-                                        onChangeText={(dataNascimento) => setDataNascimento(dataNascimento)}
+                                    <Text style={style.label_input}>Cidade	*</Text>
+                                    <TextInput style={style.input_text} placeholder='Ex. Guaporé'
+                                    onChangeText={(cidade) => setCidade(cidade)}
                                     />
                                 </View>
                                 <View style={style.input_container}>
-                                    <Text style={style.label_input}>Celular*</Text>
-                                    <TextInputMask
-                                        style={style.input_text} 
-                                        placeholder='Ex. 53 999000000'
-                                        type={'cel-phone'}
-                                        options={{
-                                            maskType: 'BRL',
-                                            withDDD: true,
-                                            dddMask: '(99) '
-                                        }}
-                                        value={celular}
-                                        onChangeText={(celular) => setCelular(celular)}
+                                    <Text style={style.label_input}>Estado	*</Text>
+                                    <TextInput style={style.input_text} placeholder='Ex. Guaporé'
+                                    onChangeText={(estado) => setEstado(estado)}
                                     />
                                 </View>
-                                <View style={style.radio_container}>
-                                    <Text style={style.label_input}>Sexo:*</Text>
-                                    <RadioButton value="Feminino" color='#0066FF' uncheckedColor='#0066FF'
-                                        status={ sexo === 'Feminino' ? 'checked' : 'unchecked' }
-                                        onPress={() => setSexo('Feminino')}
+                                <View style={style.input_container}>
+                                    <Text style={style.label_input}>País	*</Text>
+                                    <TextInput style={style.input_text} placeholder='Ex. Guaporé'
+                                    onChangeText={(pais) => setPais(pais)}
                                     />
-                                    <Text style={style.label_input}>Feminino</Text>
-                                    <RadioButton value="Masculino" color='#0066FF' uncheckedColor='#0066FF'
-                                        status={ sexo === 'Masculino' ? 'checked' : 'unchecked' }
-                                        onPress={() => setSexo('Masculino')}
-                                    />
-                                    <Text style={style.label_input}>Masculino</Text>
+                                </View>
+                                <View style={style.input_container}>
+                                    <Text style={style.label_input}>CEP*</Text>
 
+                                    <TextInputMask
+                                        style={style.input_text} 
+                                        placeholder='Ex. 96.225-000'
+                                        type={'zip-code'}
+                                        value={cep}
+                                        onChangeText={(cep) => setCep(cep)}
+                                    />
+
+                                    
                                 </View>
 
                                 <View style={style.button_save_container}>
@@ -204,4 +189,4 @@ const style = StyleSheet.create({
     }
 });
 
-export default Edit_Personal_Data;
+export default Edit_Delivery_Data;

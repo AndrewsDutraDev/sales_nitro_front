@@ -5,11 +5,11 @@ import Icon_dados_pessoais from '../../img/icon_dados_pessoais.svg';
 import Icon_arrow_front from '../../img/icon_arrow_front.svg';
 import Icon_dados_entrega from '../../img/icon_dados_entrega.svg';
 import Icon_dados_senha from '../../img/icon_dados_senha.svg';
+import Iocn_gerenciamento from '../../img/icon_gerenciamento.svg';
+import Icon_add from '../../img/icon_add.svg';
 
 
-
-const Profile = ({ navigation }) => {
-
+const Profile_Store = ({ navigation }) => {
 
     return (
         <View style={style.bg_profile}>
@@ -21,35 +21,27 @@ const Profile = ({ navigation }) => {
                                 onPress={() => navigation.navigate('Login', { name: 'Jane' })}>
                                 <Arrow_back width={25} height={25}  />
                             </TouchableOpacity>
-                            <Text style={style.header_title}>Perfil</Text>
+                            <Text style={style.header_title}>Sua Loja</Text>
                         </View>
                         <View style={style.image_container}>
                             <Image style={style.image_content} source={require('../../img/imagem_teste.jpg')}></Image>
                         </View>
                     </View>
                     <View style= {style.content}>
-                        <Text style={style.content_title}> Seus Dados </Text>
+                        <Text style={style.content_title}> Gerenciamento </Text>
                         <TouchableOpacity style={style.content_item}
-                        onPress={() => navigation.navigate('Edit_Personal_Data', { name: '' })}
+                        onPress={() => navigation.navigate('Add_Product', { name: '' })}
                         >
-                            <Icon_dados_pessoais width={25} height={25} />
-                            <Text style={style.content_item_text}>Alterar Dados Pessoais</Text>
+                            <Icon_add width={25} height={25} />
+                            <Text style={style.content_item_text}>Adicionar Produto</Text>
                             <View style={style.content_item_arrow}><Icon_arrow_front width={15} height={15} /></View>
                         </TouchableOpacity>
 
                         <TouchableOpacity style={style.content_item}
                         onPress={() => navigation.navigate('Edit_Delivery_Data', { name: '' })}
                         >
-                            <Icon_dados_entrega width={25} height={25} />
-                            <Text style={style.content_item_text}>Alterar Dados de Entrega</Text>
-                            <View style={style.content_item_arrow}><Icon_arrow_front width={15} height={15} /></View>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity style={style.content_item} 
-                        onPress={() => navigation.navigate('Edit_Password', { name: '' })}
-                        >
-                            <Icon_dados_senha width={25} height={25} />
-                            <Text style={style.content_item_text}>Alterar Senha</Text>
+                            <Iocn_gerenciamento width={25} height={25} />
+                            <Text style={style.content_item_text}>Geerenciamento de Produto</Text>
                             <View style={style.content_item_arrow}><Icon_arrow_front width={15} height={15} /></View>
                         </TouchableOpacity>
                     </View>
@@ -143,4 +135,4 @@ const style = StyleSheet.create({
     }
 });
 
-export default Profile;
+export default Profile_Store;
