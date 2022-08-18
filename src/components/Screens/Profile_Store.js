@@ -38,7 +38,7 @@ const Profile_Store = ({ navigation }) => {
                         </TouchableOpacity>
 
                         <TouchableOpacity style={style.content_item}
-                        onPress={() => navigation.navigate('Edit_Delivery_Data', { name: '' })}
+                        onPress={() => navigation.navigate('List_Product', { name: '' })}
                         >
                             <Iocn_gerenciamento width={25} height={25} />
                             <Text style={style.content_item_text}>Geerenciamento de Produto</Text>

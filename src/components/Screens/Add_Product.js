@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, TextInput, Text, TouchableOpacity, StatusBar, KeyboardAvoidingView, Platform, ScrollView, Dimensions, Button } from 'react-native';
+import { StyleSheet, View, TextInput, Text, Image, TouchableOpacity, StatusBar, KeyboardAvoidingView, Platform, ScrollView, Dimensions, Button } from 'react-native';
 import Icon_add_button from '../../img/icon_add_button.svg';
 import Icon_subtract_button from '../../img/icon_subtract_button.svg';
 import Arrow_back from '../../img/arrow_back.svg';
+import Icon_cam from '../../img/icon_cam.svg';
 import RNPickerSelect from 'react-native-picker-select';
 
 const Add_Product = ({ navigation }) => {
@@ -44,6 +45,15 @@ const Add_Product = ({ navigation }) => {
                             </View>
                         </View>
                         <View style= {style.content}>
+                            <View style={style.image_picker}>
+                                <View style={style.image_container}>
+                                    <Image style={style.image_content} source={require('../../img/imagem_teste.jpg')}></Image>
+                                    
+                                </View>
+                                <TouchableOpacity style={style.icon_cam}>
+                                    <Icon_cam width={50} height={50} />
+                                </TouchableOpacity>
+                            </View>
                             <View style={style.form_container}>
                                 <View style={style.input_container}>
                                     <Text style={style.label_input}>Nome*</Text>
@@ -161,6 +171,31 @@ const style = StyleSheet.create({
         color: '#000',
         fontSize: 26,
         textAlign: 'center',
+    },
+    image_picker: {
+        width: '100%',
+		paddingHorizontal: 25,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    image_container: {
+        backgroundColor: '#acacac',
+        width: 150,
+        height: 150,
+        borderColor: '#fff',
+        borderWidth: 5,
+        overflow: 'hidden'
+    },
+    image_content : {
+        width: 150,
+        height: 150,
+    },
+    icon_cam: {
+        width: 150,
+        marginTop: -30,
+        marginEnd: -30,
+        alignItems: 'flex-end'
     },
     form_container: {
 		width: '100%',
