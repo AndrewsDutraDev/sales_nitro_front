@@ -9,12 +9,24 @@ const Add_Product = ({ navigation }) => {
 
     const [nome, setNome] = useState();
     const [valor, setValor] = useState(0);
-    const [quantidade, setQuantidade] = useState();
+    const [quantidade, setQuantidade] = useState(0);
     const [descricao, setDescricao] = useState();
     const [categoria, setCategoria] = useState();
 
     const addProduct = () => {
         alert('Produto adicionado com sucesso')
+    }
+
+    const add_quantidade = () => {
+        if(quantidade < 100) {
+            setQuantidade(quantidade+1);
+        }
+    }
+
+    const subtract_quantidade = () => {
+        if(quantidade > 0) {
+            setQuantidade(quantidade-1);
+        }
     }
 
     return (
@@ -35,7 +47,7 @@ const Add_Product = ({ navigation }) => {
                             <View style={style.form_container}>
                                 <View style={style.input_container}>
                                     <Text style={style.label_input}>Nome*</Text>
-                                    <TextInput style={style.input_text} placeholder='Ex. Zé Roberto'
+                                    <TextInput style={style.input_text} placeholder='Ex. Sapato'
                                     onChangeText={(nome) => setNome(nome)}
                                     />
                                 </View>
@@ -49,13 +61,16 @@ const Add_Product = ({ navigation }) => {
                                     <Text style={style.label_input}>Quantidade*</Text>
                                     <View style={style.input_container_with_icons}>
                                         <TouchableOpacity
+                                        onPress={() => subtract_quantidade()}
                                         style={style.icon_left}>
                                             <Icon_subtract_button width={25} height={25} />
                                         </TouchableOpacity>
-                                        <TextInput style={style.input_text_center} placeholder='0'
-                                        onChangeText={(quantidade) => setQuantidade(quantidade)}
+                                        <TextInput style={style.input_text_center}
+                                        editable={false}
+                                        placeholder={quantidade.toString()}
                                         />
                                         <TouchableOpacity
+                                         onPress={() => add_quantidade()}
                                         style={style.icon_right}>
                                             <Icon_add_button width={25} height={25} />
                                         </TouchableOpacity>
@@ -70,7 +85,7 @@ const Add_Product = ({ navigation }) => {
                                     />
                                 </View>
                                 <View style={style.input_container}>
-                                    <Text style={style.label_input}>Descrição*</Text>
+                                    <Text style={style.label_input}>Categoria*</Text>
                                     <RNPickerSelect 
                                         onValueChange={(value) => console.log(value)}
                                         placeholder={{label: 'Selecione uma categoria', value: null}}
@@ -170,7 +185,8 @@ const style = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
 		alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        position: 'relative'
 	},
 	radio_container: {
 		width: '100%',
@@ -249,8 +265,9 @@ const style = StyleSheet.create({
         marginStart: -40,
     },
     icon_left:{
+        display: 'flex',
         marginEnd: -40,
-        elevation: 3
+        zIndex: 1
     }
 });
 
