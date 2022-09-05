@@ -1,4 +1,5 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { ActivityIndicator } from "react-native";
 import { StyleSheet, Animated,  Modal, View, TextInput, Image, Text, TouchableOpacity, StatusBar, KeyboardAvoidingView, Platform, ScrollView, Dimensions, Button } from 'react-native';
 import Icon_add_button from '../../img/icon_add_button.svg';
 import Icon_subtract_button from '../../img/icon_subtract_button.svg';
@@ -14,6 +15,8 @@ import Icon_favoritos from '../../img/icon_favoritos.svg';
 import Icon_compras from '../../img/icon_compras.svg';
 import Icon_conta from '../../img/icon_conta.svg';
 import RNPickerSelect from 'react-native-picker-select';
+import api from '../../services/api';
+
 
 const Home = ({ navigation }) => {
 
@@ -22,6 +25,8 @@ const Home = ({ navigation }) => {
     const [category, setCategory] = useState(1);
     const fadeAnim = useRef(new Animated.Value(0)).current;
     const [lateralBarOpened, setlateralBarOpened] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+
     const fadeIn = () => {
         // Will change fadeAnim value to 1 in 5 seconds
         setlateralBarOpened(true);
@@ -47,8 +52,59 @@ const Home = ({ navigation }) => {
 
       };
 
+      const load_products = () => {
+        var body = {
+            email: "admin@salesnitro.com",
+            password: "admin"
+        }
+        setIsLoading(true);
+        api
+        .get("/user/listproducts")
+        .then((response) => {
+            if(response.data) {
+                setArray(response.data)
+                setIsLoading(false);
+            }
+        })
+        .catch((err) => {
+            alert("Nenhum produto encontrado!");
+            setIsLoading(false);
+
+        });
+      };
+
+      useEffect( () => {
+        load_products();
+      }, []);
+
+
+      const search_products = (search) => {
+        let searchText = search.search;
+        
+        if (searchText) {
+            var body = {
+                id: '62d5cbf24c3f8ee15257f4ec',
+            }
+            api
+            .get("/user/listproduct", body)
+            .then((response) => {
+                if(response.data.success) {
+                    alert('ok')
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+                // alert("Login Inválido!");
+            });
+        }
+      };
+
     return (
         <View style={style.bg_edit_personal_data}>
+            { isLoading ? 
+            <View style={{ position: 'absolute', flex: 1, justifyContent: "center", alignItems: "center", zIndex: 999, height: '100%', width: '100%', backgroundColor: '#00000099' }}>
+                <ActivityIndicator color={"#fff"} size={50} /> 
+            </View> : <></>}
             <KeyboardAvoidingView behavior={ Platform.OS == 'ios' ? 'padding' : 'height' } keyboardVerticalOffset={10}>
                 <ScrollView style={style.scroll}>
                     <View style={style.container}>
@@ -66,7 +122,9 @@ const Home = ({ navigation }) => {
                             </View>
                             <View style={style.header_searchBar}>
                                 <Icon_search style={style.searchIcon} width={20} height={20} />
-                                <TextInput style={style.searchBar} placeholder="Buscar Produto"/>
+                                <TextInput style={style.searchBar} placeholder="Buscar Produto"
+                                onChangeText={(search) => search_products({search})}
+                                />
                             </View>
                         </View>
                         <View style={style.categoryList}>
@@ -89,21 +147,21 @@ const Home = ({ navigation }) => {
                                 {/* <TouchableOpacity style={style.image_container}>
                                     <Image style={style.image_content} source={require('../../img/imagem_teste.jpg')}></Image>
                                 </TouchableOpacity>     */}
-                                {array.map(index => (
-                                    <TouchableOpacity style={style.list_item} key={index}
+                                {array.map(item => (
+                                    <TouchableOpacity style={style.list_item} key={item._id}
                                     onPress={() => alert('produto')}
                                     >
                                         <View style={style.item_header}>
                                             <Text style={style.item_header_title}>Novidade</Text>
                                         </View>
 
-                                        <View key={index} style={style.image_container}>
+                                        <View style={style.image_container}>
                                             <Image style={style.image_content} source={require('../../img/imagem_teste.jpg')}></Image>
                                         </View>
                                         <View style={style.item_footer}>
-                                            <Text style={style.item_title}>Puma</Text>
-                                            <Text style={style.item_subtitle}>Edição Especial</Text>
-                                            <Text style={style.item_price}>R$ 799,99</Text>
+                                            <Text style={style.item_title}>{item.name}</Text>
+                                            <Text style={style.item_subtitle}>{item.descrition}</Text>
+                                            <Text style={style.item_price}>R$ {item.value}</Text>
                                         </View>
                                     </TouchableOpacity>
                                 ))}
@@ -267,7 +325,6 @@ const style = StyleSheet.create({
         display: 'flex',
         flexDirection:'row',
         flexWrap: 'wrap',
-        alignItems: 'center',
         justifyContent: 'space-between'
     },
     list_item: {
@@ -298,7 +355,7 @@ const style = StyleSheet.create({
     },
     item_footer: {
         width: '100%',
-        height: 80,
+        maxHeight: 150,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
