@@ -17,7 +17,7 @@ import RNPickerSelect from 'react-native-picker-select';
 
 const Home = ({ navigation }) => {
 
-    const [array, setArray] = useState([0, 1, 2, 3, 4]);
+    const [array, setArray] = useState([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
     const [modalVisible, setModalVisible] = useState(false);
     const [category, setCategory] = useState(1);
     const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -28,19 +28,23 @@ const Home = ({ navigation }) => {
 
         Animated.timing(fadeAnim, {
           toValue: 1,
-          duration: 0.5,
+          duration: 500,
           useNativeDriver: true
         }).start();
       };
     
       const fadeOut = () => {
         // Will change fadeAnim value to 0 in 3 seconds
-        setlateralBarOpened(false);
         Animated.timing(fadeAnim, {
           toValue: 0,
-          duration: 0.5,
+          duration: 500,
           useNativeDriver: true
         }).start();
+        
+        setTimeout(() => {
+            setlateralBarOpened(false);
+        }, 500);
+
       };
 
     return (
@@ -86,7 +90,7 @@ const Home = ({ navigation }) => {
                                     <Image style={style.image_content} source={require('../../img/imagem_teste.jpg')}></Image>
                                 </TouchableOpacity>     */}
                                 {array.map(index => (
-                                    <TouchableOpacity style={style.list_item}
+                                    <TouchableOpacity style={style.list_item} key={index}
                                     onPress={() => alert('produto')}
                                     >
                                         <View style={style.item_header}>
@@ -130,37 +134,38 @@ const Home = ({ navigation }) => {
                             </View>
                         </Modal>
                     </View>
-                    <Animated.View style={ [lateralBarOpened ? style.lateral_bar : style.lateral_bar_closed, {
-                            // Bind opacity to animated value
-                            opacity: fadeAnim
-                        }]}>
-                        <View style={style.lateral_bar_icon}>
-                            <TouchableOpacity 
-                                onPress={fadeOut}>
-                                <Menu_opened width={25} height={25} />
-                            </TouchableOpacity>
-                        </View>
-                        <View style={style.lateral_listItems}>
-                            <TouchableOpacity style={style.lateral_item}>
-                                <Icon_novidades width={20} height={20} />
-                                <Text style={style.laterel_item_text}>Novidades</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={style.lateral_item}>
-                                <Icon_favoritos width={20} height={20} />
-                                <Text style={style.laterel_item_text}>Favoritos</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={style.lateral_item}>
-                                <Icon_compras width={20} height={20} />
-                                <Text style={style.laterel_item_text}>Suas Compras</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={style.lateral_item}>
-                                <Icon_conta width={20} height={20} />
-                                <Text style={style.laterel_item_text}>Sua Conta</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </Animated.View>
+                    
                 </ScrollView>
             </KeyboardAvoidingView>
+            <Animated.View style={ [lateralBarOpened ? style.lateral_bar : style.lateral_bar_closed, {
+                    // Bind opacity to animated value
+                    opacity: fadeAnim
+                }]}>
+                <View style={style.lateral_bar_icon}>
+                    <TouchableOpacity 
+                        onPress={fadeOut}>
+                        <Menu_opened width={25} height={25} />
+                    </TouchableOpacity>
+                </View>
+                <View style={style.lateral_listItems}>
+                    <TouchableOpacity style={style.lateral_item}>
+                        <Icon_novidades width={20} height={20} />
+                        <Text style={style.laterel_item_text}>Novidades</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={style.lateral_item}>
+                        <Icon_favoritos width={20} height={20} />
+                        <Text style={style.laterel_item_text}>Favoritos</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={style.lateral_item}>
+                        <Icon_compras width={20} height={20} />
+                        <Text style={style.laterel_item_text}>Suas Compras</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={style.lateral_item}>
+                        <Icon_conta width={20} height={20} />
+                        <Text style={style.laterel_item_text}>Sua Conta</Text>
+                    </TouchableOpacity>
+                </View>
+            </Animated.View>
         </View>  
     )
 };
@@ -180,7 +185,7 @@ const style = StyleSheet.create({
 	container: {
 		height: '100%',
 		width: Dimensions.get('window').width,
-        height: Dimensions.get('window').height,
+        height: '100%',
 		marginBottom: 40,
         position: 'relative',
 	},
@@ -347,7 +352,6 @@ const style = StyleSheet.create({
     lateral_bar: {
         display: 'flex',
         position: 'absolute',
-        width: '50%',
         height: '100%',
         backgroundColor: '#0066FF',
         flexDirection: 'row',
@@ -362,7 +366,6 @@ const style = StyleSheet.create({
     lateral_bar_closed: {
         display: 'flex',
         position: 'absolute',
-        width: '50%',
         marginStart: '-50%',
         height: '100%',
         backgroundColor: '#0066FF',
@@ -376,7 +379,6 @@ const style = StyleSheet.create({
     lateral_bar_icon: {
     },
     lateral_listItems: {
-        width: '100%',
         display: 'flex',
         alignItems: 'center',
         height: '100%',
