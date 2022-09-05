@@ -83,6 +83,9 @@ const Login = ({ navigation }) => {
 					<View style={style.text_inline}>
 						<Text style={style.text_cadastre_se} onPress={() => navigation.navigate('Profile_Store', { name: '' })}>Profile Store</Text> 
 					</View>
+					<View style={style.text_inline}>
+						<Text style={style.text_cadastre_se} onPress={() => navigation.navigate('Home', { name: '' })}>Home</Text> 
+					</View>
 				</View>
 			</ScrollView>
 		</KeyboardAvoidingView>

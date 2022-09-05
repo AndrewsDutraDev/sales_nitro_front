@@ -12,6 +12,7 @@ import Edit_Password from './src/components/Screens/Edit_Password';
 import Profile_Store from './src/components/Screens/Profile_Store';
 import Edit_Product from './src/components/Screens/Edit_Product';
 import List_Product from './src/components/Screens/List_Product';
+import Home from './src/components/Screens/Home';
 
 const MyTheme = {
   ...DefaultTheme,
@@ -38,6 +39,7 @@ const InitialLogin = () => {
 				<Stack.Screen name="Edit_Delivery_Data" component={Edit_Delivery_Data} />
 				<Stack.Screen name="Edit_Password" component={Edit_Password} />
 				<Stack.Screen name="Profile_Store" component={Profile_Store} />
+				<Stack.Screen name="Home" component={Home} />
 			</Stack.Navigator>
 		</NavigationContainer>
 	);

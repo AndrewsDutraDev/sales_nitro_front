@@ -7,15 +7,10 @@ import Icon_delete from '../../img/icon_delete.svg';
 import Arrow_back from '../../img/arrow_back.svg';
 import RNPickerSelect from 'react-native-picker-select';
 
-const List_Product = ({ navigation }) => {
+const Home = ({ navigation }) => {
 
     const [array, setArray] = useState([0, 1, 2, 3, 4]);
     const [modalVisible, setModalVisible] = useState(false);
-
-    const selectCurrentProduct = () => {
-
-    }
-
 
     return (
         <View style={style.bg_edit_personal_data}>
@@ -172,4 +167,4 @@ const style = StyleSheet.create({
     
 });
 
-export default List_Product;
+export default Home;
