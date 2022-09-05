@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Image, TextInput, Text, TouchableOpacity, StatusBar, KeyboardAvoidingView, Platform, ScrollView, Dimensions } from 'react-native';
+import { ActivityIndicator } from "react-native";
+import { StyleSheet, View, TextInput, Text, TouchableOpacity, StatusBar, KeyboardAvoidingView, Platform, ScrollView, Dimensions } from 'react-native';
 import { RadioButton } from 'react-native-paper';
 import SVGImg from '../../img/next_button.svg';
 import { TextInputMask } from 'react-native-masked-text'
@@ -23,6 +24,8 @@ const Register = ({ navigation }) => {
 	const [senha, setSenha] = useState();
 	const [confirmarSenha, setConfirmarSenha] = useState();
 	const [sexo, setSexo] = React.useState('Feminino');
+
+    const [isLoading, setIsLoading] = useState(false);
 
 	const nextPage = () => {
 		if(page < 3) {
@@ -71,6 +74,8 @@ const Register = ({ navigation }) => {
 
 	const createAccount = () => {
 		if(validate_blank[3]()){
+			setIsLoading(true);
+
 			var body = {
 				name: nome,
 				email: email,
@@ -91,10 +96,12 @@ const Register = ({ navigation }) => {
 			.then((response) => {
 				if(response.data.success) {
 					alert('sucess')
+					setIsLoading(false);
+
 				}
 			})
 			.catch((err) => {
-				alert(err);
+				setIsLoading(false);
 				alert("Registro Inválido!");
 			});
 		}else {
@@ -104,6 +111,10 @@ const Register = ({ navigation }) => {
 
   return (
 	<View style={style.bg_register}>
+		{ isLoading ? 
+		<View style={{ position: 'absolute', flex: 1, justifyContent: "center", alignItems: "center", zIndex: 999, height: '100%', width: '100%', backgroundColor: '#00000099' }}>
+			<ActivityIndicator color={"#fff"} size={50} /> 
+		</View> : <></>}
 		<KeyboardAvoidingView behavior={ Platform.OS == 'ios' ? 'padding' : 'height' } keyboardVerticalOffset={10}>
 			<ScrollView>
 				<View style={style.container}>

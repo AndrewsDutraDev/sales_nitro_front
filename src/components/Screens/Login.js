@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { ActivityIndicator } from "react-native";
+
 import { StyleSheet, View, TextInput, Text, TouchableOpacity, StatusBar, KeyboardAvoidingView, Platform, ScrollView, Dimensions } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons/faEye';
@@ -10,22 +12,30 @@ const Login = ({ navigation }) => {
   	const [email, setEmail] = useState();
   	const [password, setPassword] = useState();
 	const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+
 
 	const login = () => {
+		
 		if(email && password) {
 			var body = {
 				email: email.email,
 				password: password.password
 			}
+			setIsLoading(true);
+
 			api
 			.post("/user/login", body)
 			.then((response) => {
 				if(response.data.success) {
+					setIsLoading(false);
 					navigation.navigate('Home', { name: 'Jane' })
 				}
 			})
 			.catch((err) => {
+				setIsLoading(false);
 				alert("Login Inválido!");
+				
 			});
 		}else {
 			alert("Preencha os campos!")
@@ -34,6 +44,10 @@ const Login = ({ navigation }) => {
 
   return (
 	<View style={style.bg_login}>
+		{ isLoading ? 
+            <View style={{ position: 'absolute', flex: 1, justifyContent: "center", alignItems: "center", zIndex: 999, height: '100%', width: '100%', backgroundColor: '#00000099' }}>
+                <ActivityIndicator color={"#fff"} size={50} /> 
+            </View> : <></>}
 		<KeyboardAvoidingView behavior={ Platform.OS == 'ios' ? 'padding' : 'height' } keyboardVerticalOffset={10}>
 			<ScrollView>
 				<View style={style.container}>

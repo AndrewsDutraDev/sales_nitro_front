@@ -1,11 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ActivityIndicator } from "react-native";
 import { StyleSheet, Animated,  Modal, View, TextInput, Image, Text, TouchableOpacity, StatusBar, KeyboardAvoidingView, Platform, ScrollView, Dimensions, Button } from 'react-native';
-import Icon_add_button from '../../img/icon_add_button.svg';
-import Icon_subtract_button from '../../img/icon_subtract_button.svg';
 import Icon_edit from '../../img/icon_edit.svg';
 import Icon_delete from '../../img/icon_delete.svg';
-import Arrow_back from '../../img/arrow_back.svg';
 import Menu_closed from '../../img/menu_closed.svg';
 import Menu_opened from '../../img/menu_opened.svg';
 import Icon_car from '../../img/icon_car.svg';
@@ -14,13 +11,12 @@ import Icon_novidades from '../../img/icon_novidades.svg';
 import Icon_favoritos from '../../img/icon_favoritos.svg';
 import Icon_compras from '../../img/icon_compras.svg';
 import Icon_conta from '../../img/icon_conta.svg';
-import RNPickerSelect from 'react-native-picker-select';
 import api from '../../services/api';
 
 
 const Home = ({ navigation }) => {
 
-    const [array, setArray] = useState([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
+    const [array, setArray] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
     const [category, setCategory] = useState(1);
     const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -53,10 +49,6 @@ const Home = ({ navigation }) => {
       };
 
       const load_products = () => {
-        var body = {
-            email: "admin@salesnitro.com",
-            password: "admin"
-        }
         setIsLoading(true);
         api
         .get("/user/listproducts")
@@ -83,13 +75,13 @@ const Home = ({ navigation }) => {
         
         if (searchText) {
             var body = {
-                id: '62d5cbf24c3f8ee15257f4ec',
+                id: "1",
             }
             api
             .get("/user/listproduct", body)
             .then((response) => {
                 if(response.data.success) {
-                    alert('ok')
+                    alert('oka')
                 }
             })
             .catch((err) => {
@@ -147,7 +139,7 @@ const Home = ({ navigation }) => {
                                 {/* <TouchableOpacity style={style.image_container}>
                                     <Image style={style.image_content} source={require('../../img/imagem_teste.jpg')}></Image>
                                 </TouchableOpacity>     */}
-                                {array.map(item => (
+                                { array.length > 0 ? array.map(item => (
                                     <TouchableOpacity style={style.list_item} key={item._id}
                                     onPress={() => alert('produto')}
                                     >
@@ -164,7 +156,9 @@ const Home = ({ navigation }) => {
                                             <Text style={style.item_price}>R$ {item.value}</Text>
                                         </View>
                                     </TouchableOpacity>
-                                ))}
+                                )) : 
+                                    <View style={style.list_message}><Text style={style.list_message_text}> Não há produtos! :(</Text></View>
+                                }
                             </View>
                         </View>
                         <Modal 
@@ -384,6 +378,18 @@ const style = StyleSheet.create({
         marginVertical: 10,
         fontWeight: '500'
     },
+
+    list_message: {
+        width: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginVertical: 10,
+    },
+    list_message_text: {
+        fontSize: 22,
+        fontWeight: '500',
+        color: '#757575'
+    },  
 
     modal: {
         height: '100%',
