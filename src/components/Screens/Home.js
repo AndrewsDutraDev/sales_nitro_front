@@ -222,10 +222,11 @@ const style = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginBottom: 30,
-        flexDirection: 'row'
+        flexDirection: 'row',
+        paddingHorizontal: 20,
     },
     searchBar: {
-        width: '90%',
+        width: '100%',
         borderRadius: 20,
         backgroundColor: '#fff',
         height: 50,
