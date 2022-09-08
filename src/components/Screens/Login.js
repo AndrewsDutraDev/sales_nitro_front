@@ -14,7 +14,6 @@ const Login = ({ navigation }) => {
 	const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
-
 	const login = () => {
 		
 		if(email && password) {

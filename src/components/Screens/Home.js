@@ -13,10 +13,11 @@ import Icon_compras from '../../img/icon_compras.svg';
 import Icon_conta from '../../img/icon_conta.svg';
 import api from '../../services/api';
 
-
 const Home = ({ navigation }) => {
 
     const [array, setArray] = useState([]);
+    const [productsList, setProductsList] = useState([]);
+    const [productsListResult, setProductsListResult] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
     const [category, setCategory] = useState(1);
     const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -47,14 +48,14 @@ const Home = ({ navigation }) => {
         }, 500);
 
       };
-
       const load_products = () => {
         setIsLoading(true);
         api
         .get("/user/listproducts")
         .then((response) => {
             if(response.data) {
-                setArray(response.data)
+                setProductsList(response.data);
+                setProductsListResult(response.data);
                 setIsLoading(false);
             }
         })
@@ -69,27 +70,50 @@ const Home = ({ navigation }) => {
         load_products();
       }, []);
 
+      
 
       const search_products = (search) => {
-        let searchText = search.search;
-        
+        let searchText = search.search.toLowerCase();
+        let array = Array();
+        // console.log(searchText);
         if (searchText) {
-            var body = {
-                id: "1",
-            }
-            api
-            .get("/user/listproduct", body)
-            .then((response) => {
-                if(response.data.success) {
-                    alert('oka')
+            productsList.map(item => {
+                let itemName = item.name.toLowerCase();
+                if(itemName === searchText || itemName.startsWith(searchText) || itemName.includes(searchText)){
+                    array.push(item);
                 }
-            })
-            .catch((err) => {
-                console.log(err);
-                // alert("Login Inválido!");
             });
+
+            setProductsListResult(array);
+            // console.log(array);
+        }else {
+            setProductsListResult(productsList);
         }
       };
+
+      const display_prodcuts = () => {
+        return  (
+        productsListResult.length > 0 ? productsListResult.map(item => (
+            <TouchableOpacity style={style.list_item} key={item._id}
+            onPress={() => alert('produto')}
+            >
+                <View style={style.item_header}>
+                    <Text style={style.item_header_title}>Novidade</Text>
+                </View>
+
+                <View style={style.image_container}>
+                    <Image style={style.image_content} source={require('../../img/imagem_teste.jpg')}></Image>
+                </View>
+                <View style={style.item_footer}>
+                    <Text style={style.item_title}>{item.name}</Text>
+                    <Text style={style.item_subtitle}>{item.descrition}</Text>
+                    <Text style={style.item_price}>R$ {item.value}</Text>
+                </View>
+            </TouchableOpacity>
+        )) : 
+            <View style={style.list_message}><Text style={style.list_message_text}> Não há produtos! :(</Text></View>
+        );
+      }
 
     return (
         <View style={style.bg_edit_personal_data}>
@@ -139,26 +163,7 @@ const Home = ({ navigation }) => {
                                 {/* <TouchableOpacity style={style.image_container}>
                                     <Image style={style.image_content} source={require('../../img/imagem_teste.jpg')}></Image>
                                 </TouchableOpacity>     */}
-                                { array.length > 0 ? array.map(item => (
-                                    <TouchableOpacity style={style.list_item} key={item._id}
-                                    onPress={() => alert('produto')}
-                                    >
-                                        <View style={style.item_header}>
-                                            <Text style={style.item_header_title}>Novidade</Text>
-                                        </View>
-
-                                        <View style={style.image_container}>
-                                            <Image style={style.image_content} source={require('../../img/imagem_teste.jpg')}></Image>
-                                        </View>
-                                        <View style={style.item_footer}>
-                                            <Text style={style.item_title}>{item.name}</Text>
-                                            <Text style={style.item_subtitle}>{item.descrition}</Text>
-                                            <Text style={style.item_price}>R$ {item.value}</Text>
-                                        </View>
-                                    </TouchableOpacity>
-                                )) : 
-                                    <View style={style.list_message}><Text style={style.list_message_text}> Não há produtos! :(</Text></View>
-                                }
+                                {display_prodcuts()}
                             </View>
                         </View>
                         <Modal 
@@ -319,11 +324,13 @@ const style = StyleSheet.create({
         display: 'flex',
         flexDirection:'row',
         flexWrap: 'wrap',
-        justifyContent: 'space-between'
+        justifyContent: 'flex-start',
+        
     },
     list_item: {
         width: 140,
         marginBottom: 15,
+        marginHorizontal: ((Dimensions.get('window').width - 20) - (140 * Math.floor((Dimensions.get('window').width - 20) / 140))) / (Math.floor((Dimensions.get('window').width - 20) / 140) * 4),
         overflow: 'hidden',
     },
     item_header: {
@@ -423,8 +430,6 @@ const style = StyleSheet.create({
         zIndex: 99,
         paddingHorizontal: 30,
         paddingVertical: 45,
-        
-
     },
     lateral_bar_closed: {
         display: 'flex',
