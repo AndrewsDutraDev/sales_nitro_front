@@ -48,7 +48,7 @@ const Login = ({ navigation }) => {
                 <ActivityIndicator color={"#fff"} size={50} /> 
             </View> : <></>}
 		<KeyboardAvoidingView behavior={ Platform.OS == 'ios' ? 'padding' : 'height' } keyboardVerticalOffset={10}>
-			<ScrollView>
+			<ScrollView style={style.scroll}>
 				<View style={style.container}>
 					<Text style={style.title_login}>
 						<Text style={style.text_sales}>SALES</Text>
@@ -68,9 +68,9 @@ const Login = ({ navigation }) => {
 								<TextInput style={style.input_text} placeholder='Coloque sua senha' password={true} secureTextEntry={isPasswordVisible ? false : true}
 									onChangeText={(password) => setPassword({password})}
 								/>
-								<Text style={style.password_icon} onPress={() => setIsPasswordVisible(!isPasswordVisible)}>
+								<View style={style.password_icon} onPress={() => setIsPasswordVisible(!isPasswordVisible)}>
 									<FontAwesomeIcon icon={isPasswordVisible ? faEye : faEyeSlash} size={20} style={style.icon} />
-								</Text>
+								</View>
 							</View>
 						</View>
 						<View style={style.input_container}>
@@ -85,9 +85,9 @@ const Login = ({ navigation }) => {
 						<Text style={style.text_cadastre_se} onPress={() => navigation.navigate('Register', { name: 'Jane' })}>Cadastre-se</Text> 
 					</View>
 
-					{/* <View style={style.text_inline}>
+					<View style={style.text_inline}>
 						<Text style={style.text_cadastre_se} onPress={() => navigation.navigate('Add_Product', { name: '' })}>Home</Text> 
-					</View> */}
+					</View>
 
 					<View style={style.text_inline}>
 						<Text style={style.text_cadastre_se} onPress={() => navigation.navigate('Profile', { name: '' })}>Profile</Text> 
@@ -110,13 +110,18 @@ const style = StyleSheet.create({
 	bg_login: {
 		width: '100%',
 		height: '100%',
+		backgroundColor: '#0066FF',
 		marginTop: StatusBar.currentHeight,
 		flex: 1,
-		backgroundColor: '#0066FF'
 	},
+	scroll: {
+        width: '100%',
+        height: '100%',
+    },
 	container: {
-		height: Dimensions.get('window').height,
 		width: Dimensions.get('window').width,
+        height: '100%',
+		backgroundColor: 'green',
 	},
 	title_login: {
 		width: '100%',
@@ -170,12 +175,16 @@ const style = StyleSheet.create({
 	password_content: {
 		flexDirection: 'row',
 		alignItems: 'center',
+		position: 'relative'
 	},
 	password_icon: {
+		display: 'flex',
 		height: '100%',
 		width: 50,
-		marginLeft: -40,
-		marginTop: 40,
+		right: 0,
+		position: 'absolute',
+		alignItems: 'center',
+		justifyContent: 'center'
 	},
 	icon: {
 		display: 'flex',
