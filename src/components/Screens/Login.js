@@ -121,6 +121,8 @@ const style = StyleSheet.create({
 	container: {
 		width: Dimensions.get('window').width,
         height: '100%',
+		marginBottom: 40,
+        position: 'relative',
 		backgroundColor: 'green',
 	},
 	title_login: {
@@ -140,7 +142,6 @@ const style = StyleSheet.create({
 	login_content: {
 		display: 'flex',
 		width: '100%',
-		height: '75%',
 		justifyContent: 'center',
 		alignItems: 'center',
 		paddingHorizontal:10,

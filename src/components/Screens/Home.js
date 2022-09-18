@@ -196,7 +196,7 @@ const Home = ({ navigation }) => {
             </KeyboardAvoidingView>
             <Animated.View style={ [lateralBarOpened ? style.lateral_bar : style.lateral_bar_closed, {
                     // Bind opacity to animated value
-                    opacity: fadeAnim
+                    opacity: fadeAnim,
                 }]}>
                 <View style={style.lateral_bar_icon}>
                     <TouchableOpacity 
