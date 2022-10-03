@@ -10,7 +10,7 @@ import api from '../../services/api';
 
 const List_Product = ({ navigation }) => {
 
-    const [array, setArray] = useState([0, 1, 2, 3, 4]);
+    // const [array, setArray] = useState([0, 1, 2, 3, 4]);
     const [productId, setProductId] = useState();
     const [modalVisible, setModalVisible] = useState(false);
     const [productsList, setProductsList] = useState([]);
@@ -36,11 +36,12 @@ const List_Product = ({ navigation }) => {
     }
 
     const remove = () => {
+        // alert(productId)
         var body = {
             _id: productId,
         }
         api
-        .post("/admin/addproduct", body)
+        .delete("/admin/deleteproduct", body)
         .then((response) => {
             alert(response)
             if(response.data.success) {

@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, TextInput, Text, Image, TouchableOpacity, StatusBar, KeyboardAvoidingView, Platform, ScrollView, Dimensions, Button } from 'react-native';
+import { ActivityIndicator } from "react-native";
+
 import Icon_add_button from '../../img/icon_add_button.svg';
 import Icon_subtract_button from '../../img/icon_subtract_button.svg';
 import Arrow_back from '../../img/arrow_back.svg';
@@ -14,6 +16,8 @@ const Add_Product = ({ navigation }) => {
     const [quantidade, setQuantidade] = useState(0);
     const [descricao, setDescricao] = useState();
     const [categoria, setCategoria] = useState();
+    const [isLoading, setIsLoading] = useState(false);
+
 
     const addProduct = () => {
         var body = {
@@ -23,20 +27,25 @@ const Add_Product = ({ navigation }) => {
             descrition: descricao,
             category: categoria
         }
-        // api
-        // .post("/admin/addproduct", body)
-        // .then((response) => {
-        //     alert(response)
-        //     if(response.data.success) {
-        //         alert('Produto adicionado com sucesso')
-        //         navigation.navigate('Profile_Store', { name: '' })
-        //     }
-        // })
-        // .catch((err) => {
-        //     alert("Ocorreu um erro ao adicionar o produto! Erro -> "+ err);
-        // });
-        alert('Produto adicionado com sucesso');
-        navigation.navigate('Profile_Store', { name: '' })
+
+        setIsLoading(true);
+        api
+        .post("/admin/addproduct", body)
+        .then((response) => {
+            alert(response)
+            if(response.data.success) {
+                setIsLoading(false);
+                alert('Produto adicionado com sucesso')
+                navigation.navigate('List_Product')
+            }
+        })
+        .catch((err) => {
+            setIsLoading(false);
+            alert("Ocorreu um erro ao adicionar o produto! Erro -> "+ err);
+            
+        });
+        // alert('Produto adicionado com sucesso');
+        // navigation.navigate('Profile_Store', { name: '' })
         
     }
 
@@ -54,6 +63,10 @@ const Add_Product = ({ navigation }) => {
 
     return (
         <View style={style.bg_edit_personal_data}>
+            { isLoading ? 
+            <View style={{ position: 'absolute', flex: 1, justifyContent: "center", alignItems: "center", zIndex: 999, height: '100%', width: '100%', backgroundColor: '#00000099' }}>
+                <ActivityIndicator color={"#fff"} size={50} /> 
+            </View> : <></>}
             <KeyboardAvoidingView behavior={ Platform.OS == 'ios' ? 'padding' : 'height' } keyboardVerticalOffset={10}>
                 <ScrollView>
                     <View style={style.container}>

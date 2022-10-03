@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Image, View, Text, StatusBar, TouchableOpacity, KeyboardAvoidingView, Platform, Dimensions } from 'react-native';
+import { ActivityIndicator } from "react-native";
 import Arrow_back from '../../img/arrow_back.svg';
 import Icon_dados_pessoais from '../../img/icon_dados_pessoais.svg';
 import Icon_arrow_front from '../../img/icon_arrow_front.svg';
@@ -7,21 +8,19 @@ import Icon_dados_entrega from '../../img/icon_dados_entrega.svg';
 import Icon_dados_senha from '../../img/icon_dados_senha.svg';
 import api from '../../services/api';
 
-
-
-
-const Profile = ({ navigation }) => {
+const Profile = ({ navigation, route }) => {
 
     const [user, setUser] = useState();
+    const [userId, setUserId] = useState(route.params.id);
+    const [userName, setUserName] = useState(route.params.name);
     const [isLoading, setIsLoading] = useState(false);
 
 
     const load_profile = () => {
         var body = {
-
+            _id: userId,
         }
         setIsLoading(true);
-
         api
         .post("/user/show", body)
         .then((response) => {
@@ -34,7 +33,7 @@ const Profile = ({ navigation }) => {
         })
         .catch((err) => {
             setIsLoading(false);
-            alert("Login Inválido!");
+            alert("Error ->"+err);
             
         });
     }

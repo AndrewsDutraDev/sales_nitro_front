@@ -103,12 +103,14 @@ const Edit_Product = ({ navigation, route }) => {
                                 <View style={style.input_container}>
                                     <Text style={style.label_input}>Nome*</Text>
                                     <TextInput style={style.input_text} placeholder='Ex. Sapato'
+                                    value={nome}
                                     onChangeText={(nome) => setNome(nome)}
                                     />
                                 </View>
                                 <View style={style.input_container}>
                                     <Text style={style.label_input}>Valor*</Text>
                                     <TextInput style={style.input_text} placeholder='R$ 0.00'
+                                    value={valor}
                                     onChangeText={(valor) => setValor(valor)}
                                     />
                                 </View>
@@ -123,6 +125,8 @@ const Edit_Product = ({ navigation, route }) => {
                                         <TextInput style={style.input_text_center}
                                         editable={false}
                                         placeholder={quantidade.toString()}
+                                        value={quantidade.toString()}
+
                                         />
                                         <TouchableOpacity
                                          onPress={() => add_quantidade()}
@@ -134,6 +138,7 @@ const Edit_Product = ({ navigation, route }) => {
                                 <View style={style.input_container}>
                                     <Text style={style.label_input}>Descrição*</Text>
                                     <TextInput style={style.input_text_multiline} placeholder='Coloque aqui a descrição do produto'
+                                    value={descricao}
                                     onChangeText={(descricao) => setDescricao(descricao)}
                                     multiline={true}
                                     numberOfLines={4}
@@ -149,6 +154,7 @@ const Edit_Product = ({ navigation, route }) => {
                                             { label: 'Roupas', value: 'Roupas' },
                                             { label: 'Acessórios', value: 'Acessórios' },
                                         ]}
+                                        value={categoria}
                                         
                                         // style={style.select}
                                     />

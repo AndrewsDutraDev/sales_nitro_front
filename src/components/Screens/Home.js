@@ -13,9 +13,11 @@ import Icon_compras from '../../img/icon_compras.svg';
 import Icon_conta from '../../img/icon_conta.svg';
 import api from '../../services/api';
 
-const Home = ({ navigation }) => {
+const Home = ({ navigation, route }) => {
 
     const [array, setArray] = useState([]);
+    const [userId, setUserId] = useState(route.params.id);
+    const [userName, setUserName] = useState(route.params.name);
     const [productsList, setProductsList] = useState([]);
     const [productsListResult, setProductsListResult] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
@@ -23,6 +25,9 @@ const Home = ({ navigation }) => {
     const fadeAnim = useRef(new Animated.Value(0)).current;
     const [lateralBarOpened, setlateralBarOpened] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+
+    // setUserId(route.params.id);
+    // setUserName(route.params.name);
 
     const fadeIn = () => {
         // Will change fadeAnim value to 1 in 5 seconds
@@ -218,7 +223,7 @@ const Home = ({ navigation }) => {
                         <Text style={style.laterel_item_text}>Suas Compras</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={style.lateral_item}
-                    onPress={() => navigation.navigate('Profile', { name: '' })}>
+                    onPress={() => navigation.navigate('Profile', {id: userId, name: userName })}>
                         <Icon_conta width={20} height={20} />
                         <Text style={style.laterel_item_text}>Sua Conta</Text>
                     </TouchableOpacity>

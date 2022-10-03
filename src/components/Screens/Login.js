@@ -29,7 +29,7 @@ const Login = ({ navigation }) => {
 				if(response.data.success) {
 					setIsLoading(false);
 					// alert(JSON.stringify(response.data));
-					navigation.navigate('Home')
+					navigation.navigate('Home', {id: response.data.id, name: response.data.name})
 				}
 			})
 			.catch((err) => {
