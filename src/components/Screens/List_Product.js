@@ -27,7 +27,7 @@ const List_Product = ({ navigation }) => {
             [
               {
                 text: "Não",
-                onPress: () => console.log("cancel"),
+                onPress: () => {},
                 style: "cancel"
               },
               { text: "Sim", onPress: () => remove()}

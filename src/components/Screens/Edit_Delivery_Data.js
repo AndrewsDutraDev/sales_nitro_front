@@ -3,6 +3,8 @@ import { StyleSheet, View, Image, TextInput, Text, TouchableOpacity, StatusBar, 
 import { RadioButton } from 'react-native-paper';
 import { TextInputMask } from 'react-native-masked-text'
 import Arrow_back from '../../img/arrow_back.svg';
+import api from '../../services/api';
+
 
 
 const Edit_Delivery_Data = ({ navigation }) => {
@@ -14,6 +16,10 @@ const Edit_Delivery_Data = ({ navigation }) => {
 	const [bairro, setBairro] = useState();
 	const [complemento, setComplemento] = useState();
 	const [cep, setCep] = useState();
+
+    const load_data = () => {
+        
+    }
 
     const update = () => {
         var body = {
@@ -31,14 +37,14 @@ const Edit_Delivery_Data = ({ navigation }) => {
         //     alert(response)
         //     if(response.data.success) {
         //         alert('Dados de Entrega atualizados com sucesso')
-        //         navigation.navigate('Profile_Store', { name: '' })
+        //         navigation.navigate('Profile', { name: '' })
         //     }
         // })
         // .catch((err) => {
         //     alert("Ocorreu um erro ao editar os Dados de Entrega! Erro -> "+ err);
         // });
         alert('Dados de Entrega atualizados com sucesso')
-
+        navigation.navigate('Profile', { name: '' })
     }
 
     return (

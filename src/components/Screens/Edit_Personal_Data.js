@@ -3,6 +3,8 @@ import { StyleSheet, View, Image, TextInput, Text, TouchableOpacity, StatusBar, 
 import { RadioButton } from 'react-native-paper';
 import { TextInputMask } from 'react-native-masked-text'
 import Arrow_back from '../../img/arrow_back.svg';
+import api from '../../services/api';
+
 
 
 const Edit_Personal_Data = ({ navigation }) => {
@@ -17,12 +19,13 @@ const Edit_Personal_Data = ({ navigation }) => {
 
     const update = () => {
         var body = {
-            nome: nome,
+            _id: route.params.id,
+            name: nome,
             email: email,
             cpf: cpf,
-            dataNascimento: dataNascimento,
-            celular: celular,
-            sexo: sexo,
+            birthDate: dataNascimento,
+            phoneNumber: celular,
+            gender: sexo,
         }
         // api
         // .post("/admin/addproduct", body)
@@ -30,13 +33,15 @@ const Edit_Personal_Data = ({ navigation }) => {
         //     alert(response)
         //     if(response.data.success) {
         //         alert('Dados Pessoais atualizados com sucesso')
-        //         navigation.navigate('Profile_Store', { name: '' })
+        //         navigation.navigate('Profile', { name: '' })
         //     }
         // })
         // .catch((err) => {
         //     alert("Ocorreu um erro ao editar os Dados Pessoais! Erro -> "+ err);
         // });
         alert('Dados Pessoais atualizados com sucesso')
+        navigation.navigate('Profile', { name: '' })
+
 
     }
 

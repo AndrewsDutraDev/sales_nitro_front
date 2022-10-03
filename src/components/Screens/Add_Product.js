@@ -35,7 +35,9 @@ const Add_Product = ({ navigation }) => {
         // .catch((err) => {
         //     alert("Ocorreu um erro ao adicionar o produto! Erro -> "+ err);
         // });
-        alert('Produto adicionado com sucesso')
+        alert('Produto adicionado com sucesso');
+        navigation.navigate('Profile_Store', { name: '' })
+        
     }
 
     const add_quantidade = () => {

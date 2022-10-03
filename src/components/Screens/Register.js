@@ -92,11 +92,12 @@ const Register = ({ navigation }) => {
 				country: pais,
 			}
 			api
-			.post("/user/", body)
+			.post("/user", body)
 			.then((response) => {
 				if(response.data.success) {
 					alert('sucess')
 					setIsLoading(false);
+					navigation.navigate('Login');
 
 				}
 			})

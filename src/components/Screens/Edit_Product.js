@@ -30,7 +30,7 @@ const Edit_Product = ({ navigation, route }) => {
         // .then((response) => {
         //     if(response.data) {
         //         alert('Produto atualizado com sucesso')
-        //         navigation.navigate('Profile', { name: '' })
+        //         navigation.navigate('Profile_Store', { name: '' })
                 
         //     }
         // })
@@ -38,6 +38,8 @@ const Edit_Product = ({ navigation, route }) => {
         //     alert("Ocorreu um erro ao atualizar o Produto! Erro -> "+ err);
         // });
         alert('Produto atualizado com sucesso')
+        navigation.navigate('Profile_Store', { name: '' })
+
 
     }
 

@@ -3,6 +3,8 @@ import { StyleSheet, View, Image, TextInput, Text, TouchableOpacity, StatusBar, 
 import { RadioButton } from 'react-native-paper';
 import { TextInputMask } from 'react-native-masked-text'
 import Arrow_back from '../../img/arrow_back.svg';
+import api from '../../services/api';
+
 
 
 const Edit_Password = ({ navigation }) => {
@@ -28,6 +30,8 @@ const Edit_Password = ({ navigation }) => {
 			// 	alert("Ocorreu um erro ao editar os Dados de Entrega! Erro -> "+ err);
 			// });
 			alert('Dados de Entrega atualizados com sucesso')
+			navigation.navigate('Profile', { name: '' })
+
 			
 		}else {
 			alert("Senhas diferentes!");

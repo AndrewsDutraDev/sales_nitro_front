@@ -1,24 +1,61 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Image, View, Text, StatusBar, TouchableOpacity, KeyboardAvoidingView, Platform, Dimensions } from 'react-native';
 import Arrow_back from '../../img/arrow_back.svg';
 import Icon_dados_pessoais from '../../img/icon_dados_pessoais.svg';
 import Icon_arrow_front from '../../img/icon_arrow_front.svg';
 import Icon_dados_entrega from '../../img/icon_dados_entrega.svg';
 import Icon_dados_senha from '../../img/icon_dados_senha.svg';
+import api from '../../services/api';
+
 
 
 
 const Profile = ({ navigation }) => {
 
+    const [user, setUser] = useState();
+    const [isLoading, setIsLoading] = useState(false);
+
+
+    const load_profile = () => {
+        var body = {
+
+        }
+        setIsLoading(true);
+
+        api
+        .post("/user/show", body)
+        .then((response) => {
+            if(response.data.success) {
+                setIsLoading(false);
+                setUser(response.data);
+                alert(JSON.stringify(response.data));
+                // navigation.navigate('Home')
+            }
+        })
+        .catch((err) => {
+            setIsLoading(false);
+            alert("Login Inválido!");
+            
+        });
+    }
+
+    useEffect( () => {
+        load_profile();
+      }, []);
+
 
     return (
         <View style={style.bg_profile}>
+            { isLoading ? 
+            <View style={{ position: 'absolute', flex: 1, justifyContent: "center", alignItems: "center", zIndex: 999, height: '100%', width: '100%', backgroundColor: '#00000099' }}>
+                <ActivityIndicator color={"#fff"} size={50} /> 
+            </View> : <></>}
             <KeyboardAvoidingView behavior={ Platform.OS == 'ios' ? 'padding' : 'height' } keyboardVerticalOffset={10}>
                 <View style={style.container}>
                     <View style= {style.header}>
                         <View style={style.header_text}>
                             <TouchableOpacity 
-                                onPress={() => navigation.navigate('Login', { name: 'Jane' })}>
+                                onPress={() => navigation.navigate('Home', { name: 'Jane' })}>
                                 <Arrow_back width={25} height={25}  />
                             </TouchableOpacity>
                             <Text style={style.header_title}>Perfil</Text>

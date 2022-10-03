@@ -28,7 +28,8 @@ const Login = ({ navigation }) => {
 			.then((response) => {
 				if(response.data.success) {
 					setIsLoading(false);
-					navigation.navigate('Home', { name: 'Jane' })
+					// alert(JSON.stringify(response.data));
+					navigation.navigate('Home')
 				}
 			})
 			.catch((err) => {
@@ -85,9 +86,9 @@ const Login = ({ navigation }) => {
 						<Text style={style.text_cadastre_se} onPress={() => navigation.navigate('Register', { name: 'Jane' })}>Cadastre-se</Text> 
 					</View>
 
-					<View style={style.text_inline}>
-						<Text style={style.text_cadastre_se} onPress={() => navigation.navigate('Add_Product', { name: '' })}>Home</Text> 
-					</View>
+					{/* <View style={style.text_inline}>
+						<Text style={style.text_cadastre_se} onPress={() => navigation.navigate('Add_Product', { name: '' })}>Adicionar Produto</Text> 
+					</View> */}
 
 					<View style={style.text_inline}>
 						<Text style={style.text_cadastre_se} onPress={() => navigation.navigate('Profile', { name: '' })}>Profile</Text> 
@@ -96,9 +97,9 @@ const Login = ({ navigation }) => {
 					<View style={style.text_inline}>
 						<Text style={style.text_cadastre_se} onPress={() => navigation.navigate('Profile_Store', { name: '' })}>Profile Store</Text> 
 					</View>
-					<View style={style.text_inline}>
+					{/* <View style={style.text_inline}>
 						<Text style={style.text_cadastre_se} onPress={() => navigation.navigate('Home', { name: '' })}>Home</Text> 
-					</View>
+					</View> */}
 				</View>
 			</ScrollView>
 		</KeyboardAvoidingView>

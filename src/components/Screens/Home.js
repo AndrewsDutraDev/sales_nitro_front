@@ -217,7 +217,8 @@ const Home = ({ navigation }) => {
                         <Icon_compras width={20} height={20} />
                         <Text style={style.laterel_item_text}>Suas Compras</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={style.lateral_item}>
+                    <TouchableOpacity style={style.lateral_item}
+                    onPress={() => navigation.navigate('Profile', { name: '' })}>
                         <Icon_conta width={20} height={20} />
                         <Text style={style.laterel_item_text}>Sua Conta</Text>
                     </TouchableOpacity>
