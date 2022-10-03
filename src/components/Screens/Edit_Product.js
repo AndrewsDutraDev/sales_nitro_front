@@ -16,24 +16,28 @@ const Edit_Product = ({ navigation, route }) => {
     const [descricao, setDescricao] = useState();
     const [categoria, setCategoria] = useState();
 
-    const addProduct = () => {
+    const update = () => {
         alert('Produto atualizado com sucesso')
-        // var body = {
-        //     _id: route.params.id,
-        //     name: 'Testeeeeeeeeeeee'
-        // }
-        // api
-        // .post("/admin/changeproduct", body)
-        // .then((response) => {
-        //     if(response.data) {
-        //         alert('deu bom')
+        var body = {
+            _id: route.params.id,
+            name: nome,
+            valor: valor,
+            quantidade: quantidade,
+            descricao: descricao,
+            categoria: categoria,
+        }
+        api
+        .post("/admin/changeproduct", body)
+        .then((response) => {
+            if(response.data) {
+                alert('Dados Pessoais atualizados com sucesso')
+                navigation.navigate('Profile', { name: '' })
                 
-        //     }
-        // })
-        // .catch((err) => {
-        //     alert(err);
-
-        // });
+            }
+        })
+        .catch((err) => {
+            alert("Ocorreu um erro ao atualizar o Produto! Erro -> "+ err);
+        });
     }
 
     const add_quantidade = () => {
@@ -87,7 +91,6 @@ const Edit_Product = ({ navigation, route }) => {
                             <View style={style.image_picker}>
                                 <View style={style.image_container}>
                                     <Image style={style.image_content} source={require('../../img/imagem_teste.jpg')}></Image>
-                                    
                                 </View>
                                 <TouchableOpacity style={style.icon_cam}>
                                     <Icon_cam width={50} height={50} />
@@ -136,7 +139,7 @@ const Edit_Product = ({ navigation, route }) => {
                                 <View style={style.input_container}>
                                     <Text style={style.label_input}>Categoria*</Text>
                                     <RNPickerSelect 
-                                        onValueChange={(value) => console.log(value)}
+                                        onValueChange={(categoria) => setCategoria(categoria)}
                                         placeholder={{label: 'Selecione uma categoria', value: null}}
                                         items={[
                                             { label: 'Calçados', value: 'Calçados' },
@@ -149,7 +152,7 @@ const Edit_Product = ({ navigation, route }) => {
                                 </View>
                                 <View style={style.button_save_container}>
                                     <View>
-                                        <TouchableOpacity style={style.button_save} onPress={() => addProduct()}>
+                                        <TouchableOpacity style={style.button_save} onPress={() => update()}>
                                                 <Text style={style.text_save}>Salvar</Text>
                                         </TouchableOpacity>
                                     </View>

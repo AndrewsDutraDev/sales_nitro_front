@@ -123,7 +123,7 @@ const style = StyleSheet.create({
         height: '100%',
 		marginBottom: 40,
         position: 'relative',
-		backgroundColor: 'green',
+		// backgroundColor: 'green',
 	},
 	title_login: {
 		width: '100%',

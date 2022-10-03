@@ -15,6 +15,29 @@ const Edit_Personal_Data = ({ navigation }) => {
 
     const [sexo, setSexo] = React.useState('Feminino');
 
+    const update = () => {
+        var body = {
+            nome: nome,
+            email: email,
+            cpf: cpf,
+            dataNascimento: dataNascimento,
+            celular: celular,
+            sexo: sexo,
+        }
+        api
+        .post("/admin/addproduct", body)
+        .then((response) => {
+            alert(response)
+            if(response.data.success) {
+                alert('Dados Pessoais atualizados com sucesso')
+                navigation.navigate('Profile_Store', { name: '' })
+            }
+        })
+        .catch((err) => {
+            alert("Ocorreu um erro ao editar os Dados Pessoais! Erro -> "+ err);
+        });
+    }
+
     return (
         <View style={style.bg_edit_personal_data}>
             <KeyboardAvoidingView behavior={ Platform.OS == 'ios' ? 'padding' : 'height' } keyboardVerticalOffset={10}>
@@ -98,7 +121,9 @@ const Edit_Personal_Data = ({ navigation }) => {
 
                                 <View style={style.button_save_container}>
                                     <View>
-                                        <TouchableOpacity style={style.button_save}>
+                                        <TouchableOpacity style={style.button_save}
+                                        onPress={() => update()} 
+                                        >
                                                 <Text style={style.text_save}>Salvar</Text>
                                         </TouchableOpacity>
                                     </View>

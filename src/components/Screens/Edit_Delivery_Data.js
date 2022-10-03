@@ -15,6 +15,30 @@ const Edit_Delivery_Data = ({ navigation }) => {
 	const [complemento, setComplemento] = useState();
 	const [cep, setCep] = useState();
 
+    const update = () => {
+        var body = {
+            pais: pais,
+            cidade: cidade,
+            estado: estado,
+            endereco: endereco,
+            bairro: bairro,
+            complemento: complemento,
+            cep: cep,
+        }
+        api
+        .post("/admin/addproduct", body)
+        .then((response) => {
+            alert(response)
+            if(response.data.success) {
+                alert('Dados de Entrega atualizados com sucesso')
+                navigation.navigate('Profile_Store', { name: '' })
+            }
+        })
+        .catch((err) => {
+            alert("Ocorreu um erro ao editar os Dados de Entrega! Erro -> "+ err);
+        });
+    }
+
     return (
         <View style={style.bg_edit_personal_data}>
             <KeyboardAvoidingView behavior={ Platform.OS == 'ios' ? 'padding' : 'height' } keyboardVerticalOffset={10}>
@@ -83,7 +107,9 @@ const Edit_Delivery_Data = ({ navigation }) => {
 
                                 <View style={style.button_save_container}>
                                     <View>
-                                        <TouchableOpacity style={style.button_save}>
+                                        <TouchableOpacity style={style.button_save}
+                                        onPress={() => update()}
+                                        >
                                                 <Text style={style.text_save}>Salvar</Text>
                                         </TouchableOpacity>
                                     </View>

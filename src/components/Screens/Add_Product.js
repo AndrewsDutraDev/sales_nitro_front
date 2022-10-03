@@ -21,7 +21,7 @@ const Add_Product = ({ navigation }) => {
             value: valor,
             quantity: quantidade,
             descrition: descricao,
-            category: ''
+            category: categoria
         }
         api
         .post("/admin/addproduct", body)
@@ -33,7 +33,7 @@ const Add_Product = ({ navigation }) => {
             }
         })
         .catch((err) => {
-            alert("Ocorreu um erro ao adicionar o produto!");
+            alert("Ocorreu um erro ao adicionar o produto! Erro -> "+ err);
             
         });
     }
@@ -117,7 +117,7 @@ const Add_Product = ({ navigation }) => {
                                 <View style={style.input_container}>
                                     <Text style={style.label_input}>Categoria*</Text>
                                     <RNPickerSelect 
-                                        onValueChange={(value) => ''}
+                                        onValueChange={(categoria) => setCategoria(categoria)}
                                         placeholder={{label: 'Selecione uma categoria', value: null}}
                                         items={[
                                             { label: 'Calçados', value: 'Calçados' },

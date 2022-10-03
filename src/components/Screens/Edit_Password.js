@@ -10,6 +10,30 @@ const Edit_Password = ({ navigation }) => {
     const [senha, setSenha] = useState();
 	const [confirmarSenha, setConfirmarSenha] = useState();
 
+	const update = () => {
+        var body = {
+            senha: senha,
+        }
+		if(senha === confirmarSenha){
+			api
+			.post("/admin/addproduct", body)
+			.then((response) => {
+				alert(response)
+				if(response.data.success) {
+					alert('Dados de Entrega atualizados com sucesso')
+					navigation.navigate('Profile', { name: '' })
+				}
+			})
+			.catch((err) => {
+				alert("Ocorreu um erro ao editar os Dados de Entrega! Erro -> "+ err);
+			});
+		}else {
+			alert("Senhas diferentes!");
+
+		}
+        
+    }
+
     return (
         <View style={style.bg_edit_personal_data}>
             <KeyboardAvoidingView behavior={ Platform.OS == 'ios' ? 'padding' : 'height' } keyboardVerticalOffset={10}>
@@ -40,7 +64,8 @@ const Edit_Password = ({ navigation }) => {
 							</View>
 							<View style={style.button_save_container}>
                                     <View>
-                                        <TouchableOpacity style={style.button_save}>
+                                        <TouchableOpacity style={style.button_save}
+										onPress={() => update()}>
                                                 <Text style={style.text_save}>Salvar</Text>
                                         </TouchableOpacity>
                                     </View>
