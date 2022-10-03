@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Modal, View, TextInput, Image, Text, TouchableOpacity, StatusBar, KeyboardAvoidingView, Platform, ScrollView, Dimensions, Button } from 'react-native';
 import Icon_add_button from '../../img/icon_add_button.svg';
 import Icon_subtract_button from '../../img/icon_subtract_button.svg';
@@ -6,15 +6,41 @@ import Icon_edit from '../../img/icon_edit.svg';
 import Icon_delete from '../../img/icon_delete.svg';
 import Arrow_back from '../../img/arrow_back.svg';
 import RNPickerSelect from 'react-native-picker-select';
+import api from '../../services/api';
 
 const List_Product = ({ navigation }) => {
 
     const [array, setArray] = useState([0, 1, 2, 3, 4]);
     const [modalVisible, setModalVisible] = useState(false);
+    const [productsList, setProductsList] = useState([]);
 
-    const selectCurrentProduct = () => {
-
+    const selectCurrentProduct = (id) => {
+        setModalVisible(true)       
     }
+
+    const toGoProduct = () => {
+        navigation.navigate('Edit_Product', { id:  id})
+    }
+
+    const load_products = () => {
+        api
+        .get("/user/listproducts")
+        .then((response) => {
+            if(response.data) {
+                // alert(response.data[3]._id)
+                setProductsList(response.data);
+            }
+        })
+        .catch((err) => {
+            alert("Nenhum produto encontrado!");
+
+        });
+    };
+
+    useEffect( () => {
+        load_products();
+    }, []);
+
 
 
     return (
@@ -36,11 +62,12 @@ const List_Product = ({ navigation }) => {
                                 {/* <TouchableOpacity style={style.image_container}>
                                     <Image style={style.image_content} source={require('../../img/imagem_teste.jpg')}></Image>
                                 </TouchableOpacity>     */}
-                                {array.map(index => (
-                                    <TouchableOpacity key={index} style={style.image_container}
-                                    onPress={() => setModalVisible(true)}
-                                    >
+                                {productsList.map((elem) => (
+                                    <TouchableOpacity key={elem._id} style={style.image_container}
+                                    onPress={() => selectCurrentProduct(elem._id)}
+                                    >   
                                         <Image style={style.image_content} source={require('../../img/imagem_teste.jpg')}></Image>
+                                        <Text style={style.header_title}>{elem.name}</Text>
                                     </TouchableOpacity>
                                 ))}
                             </View>
@@ -58,7 +85,7 @@ const List_Product = ({ navigation }) => {
                                 <View style={style.modal_container}>
                                     <View style={style.button_container}>
                                         <TouchableOpacity
-                                        onPress={() => navigation.navigate('Edit_Product', { name: '' })}
+                                        onPress={() => toGoProduct()}
                                         >
                                             <Icon_edit width={50} height={50}/>
                                         </TouchableOpacity>

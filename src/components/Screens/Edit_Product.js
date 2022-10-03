@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, TextInput, Text, Image, TouchableOpacity, StatusBar, KeyboardAvoidingView, Platform, ScrollView, Dimensions, Button } from 'react-native';
 import Icon_add_button from '../../img/icon_add_button.svg';
 import Icon_subtract_button from '../../img/icon_subtract_button.svg';
 import Arrow_back from '../../img/arrow_back.svg';
 import Icon_cam from '../../img/icon_cam.svg';
+import api from '../../services/api';
 
 import RNPickerSelect from 'react-native-picker-select';
 
-const Edit_Product = ({ navigation }) => {
+const Edit_Product = ({ navigation, route }) => {
 
     const [nome, setNome] = useState();
     const [valor, setValor] = useState(0);
@@ -16,7 +17,23 @@ const Edit_Product = ({ navigation }) => {
     const [categoria, setCategoria] = useState();
 
     const addProduct = () => {
-        alert('Produto adicionado com sucesso')
+        alert('Produto atualizado com sucesso')
+        // var body = {
+        //     _id: route.params.id,
+        //     name: 'Testeeeeeeeeeeee'
+        // }
+        // api
+        // .post("/admin/changeproduct", body)
+        // .then((response) => {
+        //     if(response.data) {
+        //         alert('deu bom')
+                
+        //     }
+        // })
+        // .catch((err) => {
+        //     alert(err);
+
+        // });
     }
 
     const add_quantidade = () => {
@@ -30,6 +47,27 @@ const Edit_Product = ({ navigation }) => {
             setQuantidade(quantidade-1);
         }
     }
+
+    const load_product = () => {
+        var body = {
+            _id: route.params.id
+        }
+        api
+        .get("/user/listproduct", body)
+        .then((response) => {
+            if(response.data) {
+                alert(response.data)
+            }
+        })
+        .catch((err) => {
+            alert(err);
+
+        });
+    };
+
+    useEffect( () => {
+        load_product();
+    }, []);
 
     return (
         <View style={style.bg_edit_personal_data}>
@@ -111,7 +149,7 @@ const Edit_Product = ({ navigation }) => {
                                 </View>
                                 <View style={style.button_save_container}>
                                     <View>
-                                        <TouchableOpacity style={style.button_save}>
+                                        <TouchableOpacity style={style.button_save} onPress={() => addProduct()}>
                                                 <Text style={style.text_save}>Salvar</Text>
                                         </TouchableOpacity>
                                     </View>
