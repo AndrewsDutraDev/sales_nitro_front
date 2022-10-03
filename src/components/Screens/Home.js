@@ -82,10 +82,15 @@ const Home = ({ navigation, route }) => {
         let array = Array();
         // console.log(searchText);
         if (searchText) {
+            
             productsList.map(item => {
-                let itemName = item.name.toLowerCase();
-                if(itemName === searchText || itemName.startsWith(searchText) || itemName.includes(searchText)){
-                    array.push(item);
+                try{
+                    let itemName = item.name.toLowerCase();
+                    if(itemName === searchText || itemName.startsWith(searchText) || itemName.includes(searchText)){
+                        array.push(item);
+                    }
+                }catch(err){
+
                 }
             });
 
