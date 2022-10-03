@@ -24,18 +24,20 @@ const Edit_Personal_Data = ({ navigation }) => {
             celular: celular,
             sexo: sexo,
         }
-        api
-        .post("/admin/addproduct", body)
-        .then((response) => {
-            alert(response)
-            if(response.data.success) {
-                alert('Dados Pessoais atualizados com sucesso')
-                navigation.navigate('Profile_Store', { name: '' })
-            }
-        })
-        .catch((err) => {
-            alert("Ocorreu um erro ao editar os Dados Pessoais! Erro -> "+ err);
-        });
+        // api
+        // .post("/admin/addproduct", body)
+        // .then((response) => {
+        //     alert(response)
+        //     if(response.data.success) {
+        //         alert('Dados Pessoais atualizados com sucesso')
+        //         navigation.navigate('Profile_Store', { name: '' })
+        //     }
+        // })
+        // .catch((err) => {
+        //     alert("Ocorreu um erro ao editar os Dados Pessoais! Erro -> "+ err);
+        // });
+        alert('Dados Pessoais atualizados com sucesso')
+
     }
 
     return (

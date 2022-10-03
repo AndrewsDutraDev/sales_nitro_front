@@ -25,18 +25,20 @@ const Edit_Delivery_Data = ({ navigation }) => {
             complemento: complemento,
             cep: cep,
         }
-        api
-        .post("/admin/addproduct", body)
-        .then((response) => {
-            alert(response)
-            if(response.data.success) {
-                alert('Dados de Entrega atualizados com sucesso')
-                navigation.navigate('Profile_Store', { name: '' })
-            }
-        })
-        .catch((err) => {
-            alert("Ocorreu um erro ao editar os Dados de Entrega! Erro -> "+ err);
-        });
+        // api
+        // .post("/admin/addproduct", body)
+        // .then((response) => {
+        //     alert(response)
+        //     if(response.data.success) {
+        //         alert('Dados de Entrega atualizados com sucesso')
+        //         navigation.navigate('Profile_Store', { name: '' })
+        //     }
+        // })
+        // .catch((err) => {
+        //     alert("Ocorreu um erro ao editar os Dados de Entrega! Erro -> "+ err);
+        // });
+        alert('Dados de Entrega atualizados com sucesso')
+
     }
 
     return (

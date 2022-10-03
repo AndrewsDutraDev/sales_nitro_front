@@ -15,21 +15,22 @@ const Edit_Password = ({ navigation }) => {
             senha: senha,
         }
 		if(senha === confirmarSenha){
-			api
-			.post("/admin/addproduct", body)
-			.then((response) => {
-				alert(response)
-				if(response.data.success) {
-					alert('Dados de Entrega atualizados com sucesso')
-					navigation.navigate('Profile', { name: '' })
-				}
-			})
-			.catch((err) => {
-				alert("Ocorreu um erro ao editar os Dados de Entrega! Erro -> "+ err);
-			});
+			// api
+			// .post("/admin/addproduct", body)
+			// .then((response) => {
+			// 	alert(response)
+			// 	if(response.data.success) {
+			// 		alert('Dados de Entrega atualizados com sucesso')
+			// 		navigation.navigate('Profile', { name: '' })
+			// 	}
+			// })
+			// .catch((err) => {
+			// 	alert("Ocorreu um erro ao editar os Dados de Entrega! Erro -> "+ err);
+			// });
+			alert('Dados de Entrega atualizados com sucesso')
+			
 		}else {
 			alert("Senhas diferentes!");
-
 		}
         
     }

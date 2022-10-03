@@ -23,19 +23,19 @@ const Add_Product = ({ navigation }) => {
             descrition: descricao,
             category: categoria
         }
-        api
-        .post("/admin/addproduct", body)
-        .then((response) => {
-            alert(response)
-            if(response.data.success) {
-                alert('Produto adicionado com sucesso')
-                navigation.navigate('Profile_Store', { name: '' })
-            }
-        })
-        .catch((err) => {
-            alert("Ocorreu um erro ao adicionar o produto! Erro -> "+ err);
-            
-        });
+        // api
+        // .post("/admin/addproduct", body)
+        // .then((response) => {
+        //     alert(response)
+        //     if(response.data.success) {
+        //         alert('Produto adicionado com sucesso')
+        //         navigation.navigate('Profile_Store', { name: '' })
+        //     }
+        // })
+        // .catch((err) => {
+        //     alert("Ocorreu um erro ao adicionar o produto! Erro -> "+ err);
+        // });
+        alert('Produto adicionado com sucesso')
     }
 
     const add_quantidade = () => {

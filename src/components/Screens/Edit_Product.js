@@ -17,7 +17,6 @@ const Edit_Product = ({ navigation, route }) => {
     const [categoria, setCategoria] = useState();
 
     const update = () => {
-        alert('Produto atualizado com sucesso')
         var body = {
             _id: route.params.id,
             name: nome,
@@ -26,18 +25,20 @@ const Edit_Product = ({ navigation, route }) => {
             descricao: descricao,
             categoria: categoria,
         }
-        api
-        .post("/admin/changeproduct", body)
-        .then((response) => {
-            if(response.data) {
-                alert('Dados Pessoais atualizados com sucesso')
-                navigation.navigate('Profile', { name: '' })
+        // api
+        // .post("/admin/changeproduct", body)
+        // .then((response) => {
+        //     if(response.data) {
+        //         alert('Produto atualizado com sucesso')
+        //         navigation.navigate('Profile', { name: '' })
                 
-            }
-        })
-        .catch((err) => {
-            alert("Ocorreu um erro ao atualizar o Produto! Erro -> "+ err);
-        });
+        //     }
+        // })
+        // .catch((err) => {
+        //     alert("Ocorreu um erro ao atualizar o Produto! Erro -> "+ err);
+        // });
+        alert('Produto atualizado com sucesso')
+
     }
 
     const add_quantidade = () => {
