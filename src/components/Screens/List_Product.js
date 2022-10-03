@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Modal, View, TextInput, Image, Text, TouchableOpacity, StatusBar, KeyboardAvoidingView, Platform, ScrollView, Dimensions, Button } from 'react-native';
+import { StyleSheet, Modal, View, Alert, TextInput, Image, Text, TouchableOpacity, StatusBar, KeyboardAvoidingView, Platform, ScrollView, Dimensions, Button } from 'react-native';
 import Icon_add_button from '../../img/icon_add_button.svg';
 import Icon_subtract_button from '../../img/icon_subtract_button.svg';
 import Icon_edit from '../../img/icon_edit.svg';
@@ -11,15 +11,50 @@ import api from '../../services/api';
 const List_Product = ({ navigation }) => {
 
     const [array, setArray] = useState([0, 1, 2, 3, 4]);
+    const [productId, setProductId] = useState();
     const [modalVisible, setModalVisible] = useState(false);
     const [productsList, setProductsList] = useState([]);
 
     const selectCurrentProduct = (id) => {
-        setModalVisible(true)       
+        setModalVisible(true);
+        setProductId(id);   
+    }
+
+    const deleteProduct = () => {
+        Alert.alert(
+            "Excluir Produto",
+            "Deseja realmente excluir o produto selecionado?",
+            [
+              {
+                text: "Não",
+                onPress: () => console.log("cancel"),
+                style: "cancel"
+              },
+              { text: "Sim", onPress: () => remove()}
+            ]
+          );
+    }
+
+    const remove = () => {
+        var body = {
+            _id: productId,
+        }
+        api
+        .post("/admin/addproduct", body)
+        .then((response) => {
+            alert(response)
+            if(response.data.success) {
+                alert('Produto removido com sucesso!')
+                navigation.navigate('Profile_Store', { name: '' })
+            }
+        })
+        .catch((err) => {
+            alert("Ocorreu um erro ao remover Produto! Erro -> "+ err);
+        });
     }
 
     const toGoProduct = () => {
-        navigation.navigate('Edit_Product', { id:  id})
+        navigation.navigate('Edit_Product', { id:  productId})
     }
 
     const load_products = () => {
@@ -67,7 +102,7 @@ const List_Product = ({ navigation }) => {
                                     onPress={() => selectCurrentProduct(elem._id)}
                                     >   
                                         <Image style={style.image_content} source={require('../../img/imagem_teste.jpg')}></Image>
-                                        <Text style={style.header_title}>{elem.name}</Text>
+                                        <Text style={style.image_text}>{elem.name}</Text>
                                     </TouchableOpacity>
                                 ))}
                             </View>
@@ -89,7 +124,8 @@ const List_Product = ({ navigation }) => {
                                         >
                                             <Icon_edit width={50} height={50}/>
                                         </TouchableOpacity>
-                                        <TouchableOpacity>
+                                        <TouchableOpacity
+                                        onPress={() => deleteProduct()}>
                                             <Icon_delete width={50} height={50}/>
                                         </TouchableOpacity>
                                     </View>
@@ -162,9 +198,9 @@ const style = StyleSheet.create({
         justifyContent: 'space-between'
     },
     image_container: {
-        backgroundColor: '#acacac',
+        // backgroundColor: '#acacac',
         width: 140,
-        height: 140,
+        height: 200,
         borderColor: '#fff',
         borderWidth: 5,
         overflow: 'hidden',
@@ -173,6 +209,13 @@ const style = StyleSheet.create({
     image_content : {
         width: 140,
         height: 140,
+    },
+    image_text: {
+        display: 'flex',
+        width: '100%',
+        color: '#000',
+        fontSize: 16,
+        textAlign: 'center',
     },
 
     modal: {

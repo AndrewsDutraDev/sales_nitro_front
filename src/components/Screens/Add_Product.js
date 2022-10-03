@@ -10,7 +10,7 @@ import api from '../../services/api';
 const Add_Product = ({ navigation }) => {
 
     const [nome, setNome] = useState();
-    const [valor, setValor] = useState(0);
+    const [valor, setValor] = useState(0.0);
     const [quantidade, setQuantidade] = useState(0);
     const [descricao, setDescricao] = useState();
     const [categoria, setCategoria] = useState();
@@ -18,8 +18,8 @@ const Add_Product = ({ navigation }) => {
     const addProduct = () => {
         var body = {
             name: nome,
-            value: valor,
-            quantity: quantidade,
+            value:  parseFloat(valor),
+            quantity: parseInt(quantidade),
             descrition: descricao,
             category: categoria
         }
