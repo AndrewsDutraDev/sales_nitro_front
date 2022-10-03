@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Modal, View, Alert, TextInput, Image, Text, TouchableOpacity, StatusBar, KeyboardAvoidingView, Platform, ScrollView, Dimensions, Button } from 'react-native';
+import { ActivityIndicator } from "react-native";
 import Icon_add_button from '../../img/icon_add_button.svg';
 import Icon_subtract_button from '../../img/icon_subtract_button.svg';
 import Icon_edit from '../../img/icon_edit.svg';
@@ -14,6 +15,8 @@ const List_Product = ({ navigation }) => {
     const [productId, setProductId] = useState();
     const [modalVisible, setModalVisible] = useState(false);
     const [productsList, setProductsList] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+
 
     const selectCurrentProduct = (id) => {
         setModalVisible(true);
@@ -37,20 +40,25 @@ const List_Product = ({ navigation }) => {
 
     const remove = () => {
         // alert(productId)
+        setIsLoading(true);
         var body = {
             _id: productId,
         }
         api
         .delete("/admin/deleteproduct", body)
         .then((response) => {
-            alert(response)
-            if(response.data.success) {
-                alert('Produto removido com sucesso!')
-                navigation.navigate('Profile_Store', { name: '' })
-            }
+            alert(JSON.stringify(response))
+            alert('Produto removido com sucesso!')
+            load_products();
+            setModalVisible(!modalVisible);
+            setIsLoading(false);
+
+
         })
         .catch((err) => {
             alert("Ocorreu um erro ao remover Produto! Erro -> "+ err);
+            setIsLoading(false);
+
         });
     }
 
@@ -81,6 +89,10 @@ const List_Product = ({ navigation }) => {
 
     return (
         <View style={style.bg_edit_personal_data}>
+            { isLoading ? 
+            <View style={{ position: 'absolute', flex: 1, justifyContent: "center", alignItems: "center", zIndex: 999, height: '100%', width: '100%', backgroundColor: '#00000099' }}>
+                <ActivityIndicator color={"#fff"} size={50} /> 
+            </View> : <></>}
             <KeyboardAvoidingView behavior={ Platform.OS == 'ios' ? 'padding' : 'height' } keyboardVerticalOffset={10}>
                 <ScrollView>
                     <View style={style.container}>
