@@ -5,6 +5,7 @@ import Icon_subtract_button from '../../img/icon_subtract_button.svg';
 import Arrow_back from '../../img/arrow_back.svg';
 import Icon_cam from '../../img/icon_cam.svg';
 import RNPickerSelect from 'react-native-picker-select';
+import api from '../../services/api';
 
 const Add_Product = ({ navigation }) => {
 
@@ -15,7 +16,26 @@ const Add_Product = ({ navigation }) => {
     const [categoria, setCategoria] = useState();
 
     const addProduct = () => {
-        alert('Produto adicionado com sucesso')
+        var body = {
+            name: nome,
+            value: valor,
+            quantity: quantidade,
+            descrition: descricao,
+            category: ''
+        }
+        api
+        .post("/admin/addproduct", body)
+        .then((response) => {
+            alert(response)
+            if(response.data.success) {
+                alert('Produto adicionado com sucesso')
+                navigation.navigate('Profile_Store', { name: '' })
+            }
+        })
+        .catch((err) => {
+            alert("Ocorreu um erro ao adicionar o produto!");
+            
+        });
     }
 
     const add_quantidade = () => {
@@ -97,7 +117,7 @@ const Add_Product = ({ navigation }) => {
                                 <View style={style.input_container}>
                                     <Text style={style.label_input}>Categoria*</Text>
                                     <RNPickerSelect 
-                                        onValueChange={(value) => console.log(value)}
+                                        onValueChange={(value) => ''}
                                         placeholder={{label: 'Selecione uma categoria', value: null}}
                                         items={[
                                             { label: 'Calçados', value: 'Calçados' },
@@ -110,7 +130,7 @@ const Add_Product = ({ navigation }) => {
                                 </View>
                                 <View style={style.button_save_container}>
                                     <View>
-                                        <TouchableOpacity style={style.button_save}>
+                                        <TouchableOpacity style={style.button_save} onPress={ () => addProduct()}>
                                                 <Text style={style.text_save}>Salvar</Text>
                                         </TouchableOpacity>
                                     </View>
