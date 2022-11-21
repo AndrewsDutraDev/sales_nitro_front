@@ -105,7 +105,7 @@ const Home = ({ navigation, route }) => {
         return  (
         productsListResult.length > 0 ? productsListResult.map(item => (
             <TouchableOpacity style={style.list_item} key={item._id}
-            onPress={() => alert('produto')}
+            onPress={() => navigation.navigate('View_Product', { product: item })}
             >
                 <View style={style.item_header}>
                     <Text style={style.item_header_title}>Novidade</Text>
