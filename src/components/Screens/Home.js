@@ -256,6 +256,8 @@ const style = StyleSheet.create({
         height: '100%',
 		marginBottom: 40,
         position: 'relative',
+        backgroundColor: '#F5F5F5',
+
 	},
     header: {
         width: '100%',
@@ -343,6 +345,12 @@ const style = StyleSheet.create({
         marginBottom: 15,
         marginHorizontal: ((Dimensions.get('window').width - 20) - (140 * Math.floor((Dimensions.get('window').width - 20) / 140))) / (Math.floor((Dimensions.get('window').width - 20) / 140) * 4),
         overflow: 'hidden',
+        borderRadius: 5,
+        backgroundColor: '#fff',
+        shadowColor: '#000',
+        shadowOffset: {width: 5, height: 20},
+        shadowOpacity: 0.2,
+        elevation: 5,
     },
     item_header: {
         width: '100%',
