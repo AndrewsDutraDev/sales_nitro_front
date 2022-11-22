@@ -17,8 +17,9 @@ const Login = ({ navigation }) => {
 	const login = () => {
 		
 		if(email && password) {
+			
 			var body = {
-				email: email.email,
+				email: email.email.replace(" ", "").toLowerCase(),
 				password: password.password
 			}
 			setIsLoading(true);

@@ -142,7 +142,7 @@ const Home = ({ navigation, route }) => {
                                 </TouchableOpacity>
                                 <Text style={style.header_title}>SALESNITRO</Text>
                                 <TouchableOpacity 
-                                    onPress={() => navigation.navigate('Profile_Store', { name: 'Jane' })}>
+                                    onPress={() => navigation.navigate('View_Carrinho', { name: 'Jane' })}>
                                     <Icon_car width={25} height={25} />
                                 </TouchableOpacity>
                             </View>

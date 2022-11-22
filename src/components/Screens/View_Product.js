@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, TextInput, Text, Image, TouchableOpacity, StatusBar, KeyboardAvoidingView, Platform, ScrollView, Dimensions, Button } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, StatusBar, KeyboardAvoidingView, Platform, ScrollView, Dimensions } from 'react-native';
 import { ActivityIndicator } from "react-native";
 import 'react-native-reanimated';
 import Carousel, { Pagination } from 'react-native-snap-carousel'
@@ -7,23 +7,12 @@ import CarouselCardItem, { SLIDER_WIDTH, ITEM_WIDTH } from '../CarouselCardItem'
 import data from '../../../data';
 import Stars from 'react-native-stars';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-import Icon_add_button from '../../img/icon_add_button.svg';
-import Icon_subtract_button from '../../img/icon_subtract_button.svg';
 import Arrow_back from '../../img/arrow_back.svg';
-import Icon_cam from '../../img/icon_cam.svg';
-import RNPickerSelect from 'react-native-picker-select';
-import api from '../../services/api';
-import Color_Boll from '../Color_Boll';
-;
+import Square_Size from '../Components/Square_Size';
+import Color_Boll from '../Components/Color_Boll';
 
 const View_Product = ({ navigation, route }) => {
-    const [nome, setNome] = useState();
-    const [valor, setValor] = useState(0.0);
-    const [quantidade, setQuantidade] = useState(0);
-    const [descricao, setDescricao] = useState();
-    const [categoria, setCategoria] = useState();
     const [isLoading, setIsLoading] = useState(false);
-    const width = Dimensions.get('window').width;
     const isCarousel = React.useRef(null);
     const [index, setIndex] = React.useState(0);
     const [selectedColor, setSelectedColor] = useState();
@@ -82,9 +71,9 @@ const View_Product = ({ navigation, route }) => {
                         <Text style={style.product_parcel}>Em até 4x de {route.params.product.value/4} sem juros</Text>
                         <View style={style.product_stars}>
                             <Stars
-                                default={4}
+                                default={5}
                                 count={5}
-                                half={true}
+                                half={false}
                                 starSize={50}
                                 fullStar={<Icon name={'star'} size={25} style={[style.myStarStyle]}/>}
                                 emptyStar={<Icon name={'star-outline'} size={25} style={[style.myStarStyle, style.myEmptyStarStyle]}/>}
@@ -93,27 +82,15 @@ const View_Product = ({ navigation, route }) => {
                         </View>
                         <Text style={style.product_colors_title}>Escolha sua cor</Text>
                         <View style={style.product_colors_container}>
-                        <TouchableOpacity onPress={() => setSelectedColor('#EE4444')} style={{ width: 40, height: 40, borderColor: '#3C81F6', borderWidth: selectedColor === '#EE4444' ? 1: 0, borderRadius: 100, shadowColor: '#000', shadowOffset: {width: 5, height: 5}, shadowOpacity: 0.2, elevation: 4, padding: 4, marginHorizontal: 10, backgroundColor: '#fff'}}>
-                            <View style={{width: '100%', height: '100%', borderRadius: 100, backgroundColor: '#EE4444'}}></View>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => setSelectedColor('#3C81F6')} style={{ width: 40, height: 40, borderColor: '#3C81F6', borderWidth: selectedColor === '#3C81F6' ? 1: 0, borderRadius: 100, shadowColor: '#000', shadowOffset: {width: 5, height: 5}, shadowOpacity: 0.2, elevation: 4, padding: 4, marginHorizontal: 10, backgroundColor: '#fff'}}>
-                            <View style={{width: '100%', height: '100%', borderRadius: 100, backgroundColor: '#3C81F6'}}></View>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => setSelectedColor('#000000')} style={{ width: 40, height: 40, borderColor: '#3C81F6', borderWidth: selectedColor === '#000000' ? 1: 0, borderRadius: 100, shadowColor: '#000', shadowOffset: {width: 5, height: 5}, shadowOpacity: 0.2, elevation: 4, padding: 4, marginHorizontal: 10, backgroundColor: '#fff'}}>
-                            <View style={{width: '100%', height: '100%', borderRadius: 100, backgroundColor: '#000000'}}></View>
-                        </TouchableOpacity>
+                            <Color_Boll color='#EE4444' selectedColor={selectedColor} setSelectedColor={setSelectedColor}></Color_Boll>
+                            <Color_Boll color='#3C81F6' selectedColor={selectedColor} setSelectedColor={setSelectedColor}></Color_Boll>
+                            <Color_Boll color='#000000' selectedColor={selectedColor} setSelectedColor={setSelectedColor}></Color_Boll>
                         </View>
                         <Text style={style.product_colors_title}>Escolha o tamanho</Text>
                         <View style={style.product_colors_container}>
-                            <TouchableOpacity onPress={() => setSelectedSize('39')}>
-                                <Text style={{backgroundColor: selectedSize === '39' ? '#0066FF' : '#D9D9D9' , width: 40, height: 40, color: '#fff', borderRadius: 5, fontSize: 20, textAlign: 'center', textAlignVertical: 'center', marginHorizontal: 10}}>39</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={() => setSelectedSize('40')}>
-                                <Text style={{backgroundColor: selectedSize === '40' ? '#0066FF' : '#D9D9D9' , width: 40, height: 40, color: '#fff', borderRadius: 5, fontSize: 20, textAlign: 'center', textAlignVertical: 'center', marginHorizontal: 10}}>40</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={() => setSelectedSize('42')}>
-                                <Text style={{backgroundColor: selectedSize === '42' ? '#0066FF' : '#D9D9D9' , width: 40, height: 40, color: '#fff', borderRadius: 5, fontSize: 20, textAlign: 'center', textAlignVertical: 'center', marginHorizontal: 10}}>42</Text>
-                            </TouchableOpacity>
+                            <Square_Size size="39" selectedSize={selectedSize} setSelectedSize={setSelectedSize} />
+                            <Square_Size size="40" selectedSize={selectedSize} setSelectedSize={setSelectedSize} />
+                            <Square_Size size="41" selectedSize={selectedSize} setSelectedSize={setSelectedSize} />
                         </View>
                         <TouchableOpacity style={style.btn_comprar}
                         onPress={() => { navigation.navigate('Home', { name: 'Jane' }); alert('Pagamento!'); }}>

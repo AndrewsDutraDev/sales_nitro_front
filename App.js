@@ -14,6 +14,7 @@ import Edit_Product from './src/components/Screens/Edit_Product';
 import List_Product from './src/components/Screens/List_Product';
 import Home from './src/components/Screens/Home';
 import View_Product from './src/components/Screens/View_Product';
+import View_Carrinho from './src/components/Screens/View_Carrinho';
 
 const MyTheme = {
   ...DefaultTheme,
@@ -41,6 +42,7 @@ const InitialLogin = () => {
 				<Stack.Screen name="Edit_Password" component={Edit_Password} />
 				<Stack.Screen name="Profile_Store" component={Profile_Store} />
 				<Stack.Screen name="View_Product" component={View_Product} />
+				<Stack.Screen name="View_Carrinho" component={View_Carrinho} />
 				<Stack.Screen name="Home" component={Home} />
 			</Stack.Navigator>
 		</NavigationContainer>
