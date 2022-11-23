@@ -3,6 +3,7 @@ import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
 const Color_Boll = (props) => {
     const [selectedColor, setSelectedColor] = [props.selectedColor, props.setSelectedColor];
+    const dictColors = {'azul': '#3C81F6', 'vermelho': '#EE4444', 'preto': '#000000'}
     const [color] = [props.color];
     
     const button_handler = () => {
@@ -16,7 +17,7 @@ const Color_Boll = (props) => {
             width: '100%', 
             height: '100%', 
             borderRadius: 100, 
-            backgroundColor: color
+            backgroundColor: dictColors[color]
         }}></View>
     </TouchableOpacity>
     );

@@ -27,7 +27,8 @@ const View_Product = ({ navigation, route }) => {
 
     const but_product = () => {
         setCarProductNumber(carProductNumber+1);
-        
+        product.size = selectedSize;
+        product.color = selectedColor;
         carProductList.push(product)
         
         navigation.navigate('View_Carrinho', {
@@ -112,9 +113,9 @@ const View_Product = ({ navigation, route }) => {
                         </View>
                         <Text style={style.product_colors_title}>Escolha sua cor</Text>
                         <View style={style.product_colors_container}>
-                            <Color_Boll color='#EE4444' selectedColor={selectedColor} setSelectedColor={setSelectedColor}></Color_Boll>
-                            <Color_Boll color='#3C81F6' selectedColor={selectedColor} setSelectedColor={setSelectedColor}></Color_Boll>
-                            <Color_Boll color='#000000' selectedColor={selectedColor} setSelectedColor={setSelectedColor}></Color_Boll>
+                            <Color_Boll color='azul' selectedColor={selectedColor} setSelectedColor={setSelectedColor}></Color_Boll>
+                            <Color_Boll color='vermelho' selectedColor={selectedColor} setSelectedColor={setSelectedColor}></Color_Boll>
+                            <Color_Boll color='preto' selectedColor={selectedColor} setSelectedColor={setSelectedColor}></Color_Boll>
                         </View>
                         <Text style={style.product_colors_title}>Escolha o tamanho</Text>
                         <View style={style.product_colors_container}>

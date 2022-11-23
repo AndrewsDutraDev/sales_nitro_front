@@ -31,7 +31,6 @@ const View_Carrinho = ({ navigation, route }) => {
 
     const validate_cupom = (cupom) => {
         cupom_is_valid(cupom) ? setCupomDiscount(-10) : setCupomDiscount(0);
-        alert(cupom);
 
         setTotal(total)
     }
@@ -41,12 +40,12 @@ const View_Carrinho = ({ navigation, route }) => {
         carProductList.map(prod => {
             let product = {};
 
-            product.code = product.codigo,
+            product.code = prod.codigo,
             product.name = prod.name,
-            product.color = 'azul',
-            product.size = '42',
+            product.color = prod.color,
+            product.size = prod.size,
             product.quantity = 1,
-            product.total = 799.90
+            product.total = prod.value
 
             prodList.push(product);
         })
@@ -64,8 +63,8 @@ const View_Carrinho = ({ navigation, route }) => {
 
     const display_total = () => {
         let total = 0;
-        productList.length > 0 ? productList.map(product => {
-            total = total + product.total;
+        carProductList.length > 0 ? carProductList.map(product => {
+            total = total + product.value;
         })
         : total = 0;
 
@@ -91,11 +90,12 @@ const View_Carrinho = ({ navigation, route }) => {
         navigation.setOptions({
             carProductList: carProductList, setCarProductList: setCarProductList,
         })
+        change_product_list();
+        display_total();
     }, [navigation, carProductList, setCarProductList]);
 
     useEffect( () => {
-        display_total();
-        change_product_list();
+        
       }, []);
 
     const display_product_car = () => {

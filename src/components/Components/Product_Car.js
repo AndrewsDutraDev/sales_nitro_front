@@ -149,7 +149,8 @@ const style = StyleSheet.create({
     product_car_content_line_text: {
         fontSize: 13,
         marginHorizontal: 5,
-        color: '#9095A6'
+        color: '#9095A6',
+        textTransform: 'capitalize'
     },
     product_car_content_line_text_total: {
         width: '100%',
