@@ -63,7 +63,7 @@ const View_Product = ({ navigation, route }) => {
                                 onPress={() => navigation.navigate('Home', { name: 'Jane' })}>
                                 <Arrow_back width={25} height={25} fill={'#0066FF'} />
                             </TouchableOpacity>
-                            <Text style={style.header_title}>Adicionar Produto</Text>
+                            <Text style={style.header_title}></Text>
                         </View>
                     </View>
                     <View style= {style.content}>
