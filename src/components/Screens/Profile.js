@@ -15,7 +15,6 @@ const Profile = ({ navigation, route }) => {
     const [userName, setUserName] = useState(route.params.name);
     const [isLoading, setIsLoading] = useState(false);
 
-
     const load_profile = () => {
         var body = {
             _id: userId,
@@ -24,11 +23,14 @@ const Profile = ({ navigation, route }) => {
         api
         .post("/user/show", body)
         .then((response) => {
-            if(response.data.success) {
+            if(response.status === 200) {
                 setIsLoading(false);
                 setUser(response.data);
-                alert(JSON.stringify(response.data));
+                // alert(JSON.stringify(response.data));
                 // navigation.navigate('Home')
+            }else {
+                setIsLoading(false);
+                alert(JSON.stringify("Restart Aplication!"));
             }
         })
         .catch((err) => {

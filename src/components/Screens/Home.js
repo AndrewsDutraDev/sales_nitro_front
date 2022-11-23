@@ -26,6 +26,9 @@ const Home = ({ navigation, route }) => {
     const [lateralBarOpened, setlateralBarOpened] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
+    const [carProductNumber, setCarProductNumber] = useState(0);
+    const [carProductList, setCarProductList] = useState([]);
+
     // setUserId(route.params.id);
     // setUserName(route.params.name);
 
@@ -74,7 +77,6 @@ const Home = ({ navigation, route }) => {
       useEffect( () => {
         load_products();
       }, []);
-
       
 
       const search_products = (search) => {
@@ -105,7 +107,9 @@ const Home = ({ navigation, route }) => {
         return  (
         productsListResult.length > 0 ? productsListResult.map(item => (
             <TouchableOpacity style={style.list_item} key={item._id}
-            onPress={() => navigation.navigate('View_Product', { product: item })}
+            onPress={() => navigation.navigate('View_Product',
+             { product: item, carProductNumber: carProductNumber, setCarProductNumber: setCarProductNumber,
+                 carProductList: carProductList, setCarProductList: setCarProductList })}
             >
                 <View style={style.item_header}>
                     <Text style={style.item_header_title}>Novidade</Text>
@@ -141,9 +145,10 @@ const Home = ({ navigation, route }) => {
                                     <Menu_closed width={25} height={25} />
                                 </TouchableOpacity>
                                 <Text style={style.header_title}>SALESNITRO</Text>
-                                <TouchableOpacity 
-                                    onPress={() => navigation.navigate('View_Carrinho', { name: 'Jane' })}>
-                                    <Icon_car width={25} height={25} />
+                                <TouchableOpacity style={style.header_car}
+                                    onPress={() => navigation.navigate('View_Carrinho', { carProductList: carProductList, setCarProductList: setCarProductList })}>
+                                    <Text style={style.header_car_text}>{carProductNumber}</Text>
+                                    <Icon_car style={style.header_car_icon} width={25} height={25} />
                                 </TouchableOpacity>
                             </View>
                             <View style={style.header_searchBar}>
@@ -283,6 +288,27 @@ const style = StyleSheet.create({
         fontSize: 22,
         textAlign: 'center',
         fontWeight: 'bold'
+    },
+    header_car: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'flex-end',
+    },
+    header_car_text: {
+        width: 20,
+        height: 20,
+        fontSize: 12,
+        textAlign: 'center',
+        textAlignVertical: 'center',
+        backgroundColor: '#CF0909',
+        color: '#fff',
+        borderRadius: 10,
+        marginEnd: -10,
+        marginBottom: -5,
+        elevation: 3,
+        zIndex: 2
+    },
+    header_car_icon: {
     },
     searchIcon: {
         display: 'flex',

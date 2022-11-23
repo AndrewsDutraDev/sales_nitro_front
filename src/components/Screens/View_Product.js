@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, StatusBar, KeyboardAvoidingView, Platform, ScrollView, Dimensions } from 'react-native';
 import { ActivityIndicator } from "react-native";
 import 'react-native-reanimated';
@@ -12,6 +12,36 @@ import Square_Size from '../Components/Square_Size';
 import Color_Boll from '../Components/Color_Boll';
 
 const View_Product = ({ navigation, route }) => {
+    const [product, setProduct] = useState(route.params.product);
+    const [carProductNumber, setCarProductNumber] = [route.params.carProductNumber, route.params.setCarProductNumber];
+    const [carProductList, setCarProductList] = [route.params.carProductList, route.params.setCarProductList];
+
+    // alert(JSON.stringify(product));
+    const add_product = () => {
+        setCarProductNumber(carProductNumber+1);
+        
+        carProductList.push(product)
+        
+        navigation.navigate('Home', {}); 
+    };
+
+    const but_product = () => {
+        setCarProductNumber(carProductNumber+1);
+        
+        carProductList.push(product)
+        
+        navigation.navigate('View_Carrinho', {
+            carProductNumber: carProductNumber, setCarProductNumber: setCarProductNumber,
+            carProductList: carProductList, setCarProductList: setCarProductList,}); 
+    }
+
+    useEffect(() => {
+        navigation.setOptions({
+            carProductNumber: carProductNumber, setCarProductNumber: setCarProductNumber,
+            carProductList: carProductList, setCarProductList: setCarProductList,
+        })
+    }, [navigation, carProductNumber, setCarProductNumber, carProductList, setCarProductList]);
+
     const [isLoading, setIsLoading] = useState(false);
     const isCarousel = React.useRef(null);
     const [index, setIndex] = React.useState(0);
@@ -66,9 +96,9 @@ const View_Product = ({ navigation, route }) => {
                         </View>
                     </View>
                     <View style={style.product_content}>
-                        <Text style={style.product_name}>{route.params.product.name}</Text>
-                        <Text style={style.product_price}>R$ {route.params.product.value}</Text>
-                        <Text style={style.product_parcel}>Em até 4x de {route.params.product.value/4} sem juros</Text>
+                        <Text style={style.product_name}>{product.name}</Text>
+                        <Text style={style.product_price}>R$ {product.value}</Text>
+                        <Text style={style.product_parcel}>Em até 4x de {product.value/4} sem juros</Text>
                         <View style={style.product_stars}>
                             <Stars
                                 default={5}
@@ -93,16 +123,16 @@ const View_Product = ({ navigation, route }) => {
                             <Square_Size size="41" selectedSize={selectedSize} setSelectedSize={setSelectedSize} />
                         </View>
                         <TouchableOpacity style={style.btn_comprar}
-                        onPress={() => { navigation.navigate('Home', { name: 'Jane' }); alert('Pagamento!'); }}>
+                        onPress={() => {but_product();}}>
                             <Text style={style.text_comprar}>COMPRAR</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={style.btn_carrinho}
-                        onPress={() => { navigation.navigate('Home', { name: 'Jane' }); alert('Produto Adicionado!');}}>
+                        onPress={() => {add_product()}}>
                             <Text style={style.text_carrinho}>Adicionar ao carrinho</Text>
                         </TouchableOpacity>
-                        <Text style={style.prazo}>Consultar prazo de entrega</Text>
+                        {/* <TouchableOpacity style={style.prazo}><Text style={style.prazo_text}>Consultar prazo de entrega</Text></TouchableOpacity> */}
                         <Text style={style.detalhes_title}>Detalhes</Text>
-                        <Text style={style.detalhes_text}>{route.params.product.descrition}</Text>
+                        <Text style={style.detalhes_text}>{product.descrition}</Text>
                     </View>
                 </View>
             </ScrollView>
@@ -253,12 +283,15 @@ const style = StyleSheet.create({
         fontWeight: '700',
       },
       prazo: {
+        width: '100%',
+        marginVertical: 10
+      },
+      prazo_text: {
         fontSize: 16,
         fontWeight: '500',
         textDecorationLine: 'underline',
         color: '#000',
         textAlign: 'center',
-        marginVertical: 5
       },
       detalhes_title: {
         fontSize: 20,
