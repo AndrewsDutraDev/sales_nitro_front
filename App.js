@@ -3,6 +3,7 @@ import { NavigationContainer, DefaultTheme  } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import Login from './src/components/Screens/Login';
+import Teste from './src/components/Screens/Teste';
 import Register from './src/components/Screens/Register';
 import Add_Product from './src/components/Screens/Add_Product';
 import Profile from './src/components/Screens/Profile';
@@ -31,6 +32,7 @@ const InitialLogin = () => {
 	return (
 		<NavigationContainer theme={MyTheme}>
 			<Stack.Navigator  screenOptions={{ headerShown: false }}>
+				<Stack.Screen name="Teste" component={Teste} options={{}}/>
 				<Stack.Screen name="Login" component={Login} options={{ title: 'Welcome' }}/>
 				<Stack.Screen name="View_Carrinho" component={View_Carrinho} />
 				<Stack.Screen name="Add_Product" component={Add_Product} />

@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Modal, TextInput, Text, TouchableOpacity, StatusBar, KeyboardAvoidingView, Platform, ScrollView, Dimensions, Button } from 'react-native';
 import { ActivityIndicator } from "react-native";
-import 'react-native-reanimated';
-import { set } from 'react-native-reanimated';
 import Arrow_back from '../../img/arrow_back.svg';
 import Icon_Close from '../../img/icon_close.svg';
 import Product_Car from '../Components/Product_Car';
@@ -15,8 +13,6 @@ const View_Carrinho = ({ navigation, route }) => {
     const [cupomDiscount, setCupomDiscount] = useState(0);
     const [total, setTotal] = useState(0.0);
     const [frete, setFrete] = useState(0.0);
-    const [product, setProduct] = useState(
-        {name: 'Tênis Ferrari' ,color: 'Azul', size: '43', quantity: 1, total: 799.00});
     const [productList, setProductList] = useState([]);
     const [modalFreteVisible, setModalFreteVisible] = useState(false);
     const [carProductList, setCarProductList] = [route.params.carProductList, route.params.setCarProductList];
@@ -57,8 +53,6 @@ const View_Carrinho = ({ navigation, route }) => {
         if(cupom === "") {
             setCupomDiscount(0);   
         }
-
-        setCupom(cupom);
     };
 
     const display_total = () => {
