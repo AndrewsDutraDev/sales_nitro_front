@@ -1,22 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, StatusBar, KeyboardAvoidingView, Platform, ScrollView, Dimensions } from 'react-native';
-import { ActivityIndicator } from "react-native";
+import { StyleSheet, View, Text} from 'react-native';
 import 'react-native-reanimated';
 import Carousel, { Pagination } from 'react-native-snap-carousel'
 import CarouselCardItem, { SLIDER_WIDTH, ITEM_WIDTH } from '../CarouselCardItem';
 import data from '../../../data';
 import Stars from 'react-native-stars';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-import Arrow_back from '../../img/arrow_back.svg';
-import Square_Size from '../Components/Square_Size';
-import Color_Boll from '../Components/Color_Boll';
+
+import {Main_Container, Container, Content, Header, Button_Container} from '../Containers/Index_Container';
+
+import {Button_Back, Header_Title, Button_Solid, Square_Size, Color_Boll} from '../Components/Index_Components';
 
 const View_Product = ({ navigation, route }) => {
     const [product, setProduct] = useState(route.params.product);
     const [carProductNumber, setCarProductNumber] = [route.params.carProductNumber, route.params.setCarProductNumber];
     const [carProductList, setCarProductList] = [route.params.carProductList, route.params.setCarProductList];
+    const [isLoading, setIsLoading] = useState(false);
+    const isCarousel = React.useRef(null);
+    const [index, setIndex] = React.useState(0);
+    const [selectedColor, setSelectedColor] = useState();
+    const [selectedSize, setSelectedSize] = useState();
 
-    // alert(JSON.stringify(product));
     const add_product = () => {
         setCarProductNumber(carProductNumber+1);
         
@@ -43,58 +47,42 @@ const View_Product = ({ navigation, route }) => {
         })
     }, [navigation, carProductNumber, setCarProductNumber, carProductList, setCarProductList]);
 
-    const [isLoading, setIsLoading] = useState(false);
-    const isCarousel = React.useRef(null);
-    const [index, setIndex] = React.useState(0);
-    const [selectedColor, setSelectedColor] = useState();
-    const [selectedSize, setSelectedSize] = useState();
-
-    return (<View style={style.bg_view}>
-        { isLoading ? 
-        <View style={{ position: 'absolute', flex: 1, justifyContent: "center", alignItems: "center", zIndex: 999, height: '100%', width: '100%', backgroundColor: '#00000099' }}>
-            <ActivityIndicator color={"#fff"} size={50} /> 
-        </View> : <></>}
-        <KeyboardAvoidingView behavior={ Platform.OS == 'ios' ? 'padding' : 'height' } keyboardVerticalOffset={10}>
-            <ScrollView>
-                <View style={style.container}>
-                    <View style= {style.header}>
-                        <View style={style.header_text}>
-                            <TouchableOpacity 
-                                onPress={() => navigation.navigate('Home', { name: 'Jane' })}>
-                                <Arrow_back width={25} height={25} fill={'#0066FF'} />
-                            </TouchableOpacity>
-                            <Text style={style.header_title}></Text>
-                        </View>
-                    </View>
-                    <View style= {style.content}>
-                        <View style={style.image_slider}>
-                            <Carousel
-                                layout="tinder"
-                                layoutCardOffset={9}
-                                ref={isCarousel}
-                                data={data}
-                                renderItem={CarouselCardItem}
-                                sliderWidth={SLIDER_WIDTH}
-                                itemWidth={ITEM_WIDTH}
-                                onSnapToItem={(index) => setIndex(index)}
-                                useScrollView={true}
-                            />
-                            <Pagination
-                                dotsLength={data.length}
-                                activeDotIndex={index}
-                                carouselRef={isCarousel}
-                                dotStyle={{
-                                    width: 8,
-                                    height: 8,
-                                    borderRadius: 5,
-                                    marginHorizontal: 0,
-                                    backgroundColor: '#0066FF'
-                                }}
-                                inactiveDotOpacity={0.4}
-                                inactiveDotScale={0.6}
-                                tappableDots={true}
-                            />
-                        </View>
+   
+    return (
+        <Main_Container isLoading={isLoading} setIsLoading={setIsLoading}>
+            <Container alignItems="center" justifyContent="flex-start" flexDirection={'column'}>
+                <Header justifyContent="space-evenly">
+                    <Button_Back onPress={() => navigation.navigate('Home', {})} />
+                    <Header_Title text={''} />
+                </Header>
+                <Content>
+                    <View style={style.image_slider}>
+                        <Carousel
+                            layout="tinder"
+                            layoutCardOffset={1}
+                            ref={isCarousel}
+                            data={data}
+                            renderItem={CarouselCardItem}
+                            sliderWidth={SLIDER_WIDTH}
+                            itemWidth={ITEM_WIDTH}
+                            onSnapToItem={(index) => setIndex(index)}
+                            useScrollView={true}
+                        />
+                        <Pagination
+                            dotsLength={data.length}
+                            activeDotIndex={index}
+                            carouselRef={isCarousel}
+                            dotStyle={{
+                                width: 8,
+                                height: 8,
+                                borderRadius: 5,
+                                marginHorizontal: 0,
+                                backgroundColor: '#0066FF'
+                            }}
+                            inactiveDotOpacity={0.4}
+                            inactiveDotScale={0.6}
+                            tappableDots={true}
+                        />
                     </View>
                     <View style={style.product_content}>
                         <Text style={style.product_name}>{product.name}</Text>
@@ -123,67 +111,29 @@ const View_Product = ({ navigation, route }) => {
                             <Square_Size size="40" selectedSize={selectedSize} setSelectedSize={setSelectedSize} />
                             <Square_Size size="41" selectedSize={selectedSize} setSelectedSize={setSelectedSize} />
                         </View>
-                        <TouchableOpacity style={style.btn_comprar}
-                        onPress={() => {but_product();}}>
-                            <Text style={style.text_comprar}>COMPRAR</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={style.btn_carrinho}
-                        onPress={() => {add_product()}}>
-                            <Text style={style.text_carrinho}>Adicionar ao carrinho</Text>
-                        </TouchableOpacity>
-                        {/* <TouchableOpacity style={style.prazo}><Text style={style.prazo_text}>Consultar prazo de entrega</Text></TouchableOpacity> */}
+                        <Button_Container width={'100%'}>
+                            <Button_Solid text={'COMPRAR'} backgroundColor={'#0067FF'}
+                            onPress={() => { () => {but_product() }}} />
+                            <Button_Solid text={'Adicionar ao carrinho'} textColor={'#0067FF'} backgroundColor={'#ffffff'} borderColor={'#0067FF'}
+                            onPress={() => { add_product()}} />
+                        </Button_Container>
                         <Text style={style.detalhes_title}>Detalhes</Text>
                         <Text style={style.detalhes_text}>{product.descrition}</Text>
                     </View>
-                </View>
-            </ScrollView>
-        </KeyboardAvoidingView>
-    </View> );
+                </Content>
+            </Container>
+        </Main_Container>
+    );
 }
 
 const style = StyleSheet.create({
-    bg_view: {
-        width: '100%',
-		height: '100%',
-		marginTop: StatusBar.currentHeight,
-		flex: 1,
-    },
-	container: {
-		height: '100%',
-		width: Dimensions.get('window').width,
-		marginBottom: 40,
-	},
-    header: {
-        width: '100%',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'column'
-    },
-    header_text: {
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'row',
-        paddingVertical: 40,
-        paddingHorizontal: 40,
-        alignItems: 'center',
-        justifyContent: 'space-evenly',
-    },
-    header_title: {
-        display: 'flex',
-        width: '100%',
-        color: '#000',
-        fontSize: 26,
-        textAlign: 'center',
-    },
     image_slider: {
-        display: 'flex',
         width: '100%',
+        display: 'flex',
     },
     product_content: {
         display: 'flex',
         width: '100%',
-        paddingHorizontal: 50,
     },
 
     product_name: {
@@ -248,51 +198,6 @@ const style = StyleSheet.create({
       },
       product_size_item: {
         
-      },
-      btn_comprar: {
-        width: '100%',
-        height: 50,
-        backgroundColor: '#0067FF',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 5,
-        marginVertical: 10,
-        marginHorizontal: 10,
-      },
-      text_comprar: {
-        color: '#fff',
-        fontSize: 16,
-        fontWeight: '700',
-      },
-      btn_carrinho: {
-        width: '100%',
-        height: 50,
-        borderWidth: 3,
-        backgroundColor: '#fff',
-        borderColor: '#0067FF',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 5,
-        marginVertical: 10,
-        marginHorizontal: 10,
-      },
-      text_carrinho: {
-        color: '#0067ff',
-        fontSize: 16,
-        fontWeight: '700',
-      },
-      prazo: {
-        width: '100%',
-        marginVertical: 10
-      },
-      prazo_text: {
-        fontSize: 16,
-        fontWeight: '500',
-        textDecorationLine: 'underline',
-        color: '#000',
-        textAlign: 'center',
       },
       detalhes_title: {
         fontSize: 20,

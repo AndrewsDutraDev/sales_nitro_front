@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Modal, View, Alert, TextInput, Image, Text, TouchableOpacity, StatusBar, KeyboardAvoidingView, Platform, ScrollView, Dimensions, Button } from 'react-native';
-import { ActivityIndicator } from "react-native";
-import Icon_add_button from '../../img/icon_add_button.svg';
-import Icon_subtract_button from '../../img/icon_subtract_button.svg';
+import { StyleSheet, View, Alert, Image, Text, TouchableOpacity, Dimensions } from 'react-native';
 import Icon_edit from '../../img/icon_edit.svg';
 import Icon_delete from '../../img/icon_delete.svg';
-import Arrow_back from '../../img/arrow_back.svg';
-import RNPickerSelect from 'react-native-picker-select';
 import api from '../../services/api';
+
+import {Main_Container, Container, Content, Header, Modal_Center, Button_Container} from '../Containers/Index_Container';
+
+import {Button_Back, Header_Title} from '../Components/Index_Components';
 
 const List_Product = ({ navigation }) => {
 
@@ -17,13 +16,19 @@ const List_Product = ({ navigation }) => {
     const [productsList, setProductsList] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
-
-    const selectCurrentProduct = (id) => {
+    /**
+     * Método para abrir a modal do produto e setar o id do produto selecionado
+     * @param {Number} id 
+     */
+    const select_current_product = (id) => {
         setModalVisible(true);
-        setProductId(id);   
+        setProductId(id);
     }
 
-    const deleteProduct = () => {
+    /**
+     * Método para abrir a mensagem de confirmação de deleção
+     */
+    const delete_product = () => {
         Alert.alert(
             "Excluir Produto",
             "Deseja realmente excluir o produto selecionado?",
@@ -37,118 +42,129 @@ const List_Product = ({ navigation }) => {
             ]
           );
     }
-
+    
+    /**
+     * Método para remover um produto
+     */
     const remove = () => {
-        // alert(productId)
-        setIsLoading(true);
-        var body = {
-            _id: productId,
+
+        /**
+		 * Cria o body que será enviado no request
+		 * @param {Number} productId 
+		 * @returns 
+		 */
+        const body_request = (productId) => {
+            let body = {
+                _id: productId,
+            }
+            
+            return body;
         }
-        api
-        .delete("/admin/deleteproduct", body)
-        .then((response) => {
-            alert(JSON.stringify(response))
-            alert('Produto removido com sucesso!')
-            load_products();
-            setModalVisible(!modalVisible);
-            setIsLoading(false);
 
+        /**
+		 * Método para fazer o request da remoção do produto
+		 * @param {JSON} body 
+		 */
+        const request_remove = (body) => {
+            api.delete("/admin/deleteproduct", body)
+            .then((response) => {
+                alert(JSON.stringify(response))
+                alert('Produto removido com sucesso!')
+                load_products();
+                setModalVisible(!modalVisible);
+                setIsLoading(false);
+            })
+            .catch((err) => {
+                alert("Ocorreu um erro ao remover Produto! Erro -> "+ err);
+                setIsLoading(false);
+            });
+        }
 
-        })
-        .catch((err) => {
-            alert("Ocorreu um erro ao remover Produto! Erro -> "+ err);
-            setIsLoading(false);
+        /**
+         * Método para executar a remoção
+         */
+        const remove_product = () => {
+            setIsLoading(true);
 
-        });
+            let body = body_request(productId);
+
+            request_remove(body);
+        }
+
+        remove_product();
     }
 
+    /**
+     * Método para redirecionar para a pagina de produto
+     */
     const toGoProduct = () => {
         navigation.navigate('Edit_Product', { id:  productId})
     }
 
+    /**
+     * Método para carregar a lista de produtos
+     */
     const load_products = () => {
-        api
-        .get("/user/listproducts")
-        .then((response) => {
-            if(response.data) {
-                // alert(response.data[3]._id)
-                setProductsList(response.data);
-            }
-        })
-        .catch((err) => {
-            alert("Nenhum produto encontrado!");
 
-        });
+        /**
+         * Método para fazer o request da lista de produtos
+         */
+        const request_products = () => {
+            api.get("/user/listproducts")
+            .then((response) => {
+                if(response.data) {
+                    setIsLoading(false);
+                    setProductsList(response.data);
+                }
+            })
+            .catch((err) => {
+                alert("Nenhum produto encontrado!");
+            });
+        }
+
+        setIsLoading(true);
+        
+        request_products();
     };
 
     useEffect( () => {
         load_products();
     }, []);
 
-
-
     return (
-        <View style={style.bg_edit_personal_data}>
-            { isLoading ? 
-            <View style={{ position: 'absolute', flex: 1, justifyContent: "center", alignItems: "center", zIndex: 999, height: '100%', width: '100%', backgroundColor: '#00000099' }}>
-                <ActivityIndicator color={"#fff"} size={50} /> 
-            </View> : <></>}
-            <KeyboardAvoidingView behavior={ Platform.OS == 'ios' ? 'padding' : 'height' } keyboardVerticalOffset={10}>
-                <ScrollView>
-                    <View style={style.container}>
-                        <View style= {style.header}>
-                            <View style={style.header_text}>
-                                <TouchableOpacity 
-                                    onPress={() => navigation.navigate('Profile_Store', { name: 'Jane' })}>
-                                    <Arrow_back width={25} height={25} fill={'#0066FF'} />
-                                </TouchableOpacity>
-                                <Text style={style.header_title}>Selecione um Produto</Text>
-                            </View>
-                        </View>
-                        <View style= {style.content}>
-                            <View style={style.list_container}>
-                                {/* <TouchableOpacity style={style.image_container}>
-                                    <Image style={style.image_content} source={require('../../img/imagem_teste.jpg')}></Image>
-                                </TouchableOpacity>     */}
-                                {productsList.map((elem) => (
-                                    <TouchableOpacity key={elem._id} style={style.image_container}
-                                    onPress={() => selectCurrentProduct(elem._id)}
-                                    >   
-                                        <Image style={style.image_content} source={require('../../img/imagem_teste.jpg')}></Image>
-                                        <Text style={style.image_text}>{elem.name}</Text>
-                                    </TouchableOpacity>
-                                ))}
-                            </View>
-                        </View>
-                        <Modal 
-                            animationType="slide"
-                            transparent={true}
-                            visible={modalVisible}
-                            onRequestClose={() => {
-                                setModalVisible(!modalVisible);
-                            }}
-                            
-                        >
-                            <View style={style.modal}>
-                                <View style={style.modal_container}>
-                                    <View style={style.button_container}>
-                                        <TouchableOpacity
-                                        onPress={() => toGoProduct()}
-                                        >
-                                            <Icon_edit width={50} height={50}/>
-                                        </TouchableOpacity>
-                                        <TouchableOpacity
-                                        onPress={() => deleteProduct()}>
-                                            <Icon_delete width={50} height={50}/>
-                                        </TouchableOpacity>
-                                    </View>
-                                </View>
-                            </View>
-                        </Modal>
+        <Main_Container isLoading={isLoading} setIsLoading={setIsLoading}>
+            <Container alignItems="center" justifyContent="center" flexDirection={'column'}>
+                <Header justifyContent="space-evenly">
+                    <Button_Back onPress={() => navigation.navigate('Profile_Store', {})} />
+                    <Header_Title text={'Selecione um Produto'} />
+                </Header>
+                <Content>
+                    <View style={style.list_container}>
+                        {productsList.map((elem) => (
+                            <TouchableOpacity key={elem._id} style={style.image_container}
+                            onPress={() => select_current_product(elem._id)}
+                            >   
+                                <Image style={style.image_content} source={require('../../img/imagem_teste.jpg')}></Image>
+                                <Text style={style.image_text}>{elem.name}</Text>
+                            </TouchableOpacity>
+                        ))}
                     </View>
-                </ScrollView>
-            </KeyboardAvoidingView>
-        </View>  
+                </Content>
+                <Modal_Center title={'Opções'} fontSize={18} isVisible={modalVisible} setIsVisible={setModalVisible}
+                width={'80%'} justifyContent={'center'} closeWidth={18} closeHeight={18}>
+                    <Button_Container flexDirection={'row'} justifyContent={'space-around'}>
+                        <TouchableOpacity
+                        onPress={() => toGoProduct()}>
+                            <Icon_edit width={50} height={50}/>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                        onPress={() => delete_product()}>
+                            <Icon_delete width={50} height={50}/>
+                        </TouchableOpacity>
+                    </Button_Container>
+                </Modal_Center>
+            </Container>
+        </Main_Container>
     )
 };
 
@@ -166,44 +182,9 @@ const List_Product = ({ navigation }) => {
 // });
 
 const style = StyleSheet.create({
-    bg_edit_personal_data: {
-        width: '100%',
-		height: '100%',
-		marginTop: StatusBar.currentHeight,
-		flex: 1,
-    },
-	container: {
-		height: '100%',
-		width: Dimensions.get('window').width,
-		marginBottom: 40,
-	},
-    header: {
-        width: '100%',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'column'
-    },
-    header_text: {
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'row',
-        paddingVertical: 40,
-        paddingHorizontal: 40,
-        alignItems: 'center',
-        justifyContent: 'space-evenly',
-    },
-    header_title: {
-        display: 'flex',
-        width: '100%',
-        color: '#000',
-        fontSize: 22,
-        textAlign: 'center',
-    },
     list_container: {
         width: '100%',
 		marginTop: 30,
-		paddingHorizontal: 25,
         display: 'flex',
         flexDirection:'row',
         flexWrap: 'wrap',

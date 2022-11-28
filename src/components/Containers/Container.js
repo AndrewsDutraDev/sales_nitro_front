@@ -1,27 +1,37 @@
 import React from 'react';
-import { View, Dimensions } from 'react-native';
+import {StyleSheet, View, Dimensions } from 'react-native';
 
-const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
 
 const Container = (props) => {
+
+    /**
+     * Método para verificar se a propriedade é válida
+     * @param {Object} prop 
+     * @returns 
+     */
     const is_valid = (prop) => {
         return !(prop === undefined);
     }
 
     return (
-        <View style={{
-            height: HEIGHT,
-            width: WIDTH,
-            display: 'flex',
-            ustifyContent: is_valid(props.justifyContent) ? props.justifyContent : 'center',
+        <View style={[style.container, {
+            justifyContent: is_valid(props.justifyContent) ? props.justifyContent : 'center',
             alignItems: is_valid(props.alignItems) ? props.alignItems : 'center',
             flexDirection: is_valid(props.flexDirection) ? props.flexDirection : 'row',
-
-        }}>
+        }]}>
             {props.children}
         </View>
     );
 };
+
+const style = StyleSheet.create({
+    container: {
+        height: '100%',
+        width: WIDTH,
+        display: 'flex',
+        paddingBottom: 40,
+    }
+})
 
 export default Container;

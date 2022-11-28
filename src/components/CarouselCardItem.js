@@ -1,4 +1,3 @@
-import { width } from '@fortawesome/free-solid-svg-icons/faEye';
 import React from 'react'
 import { View, Text, StyleSheet, Dimensions, Image } from "react-native"
 
@@ -21,7 +20,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
     borderRadius: 8,
-    width: ITEM_WIDTH,
+    width: '80%',
     paddingBottom: 20,
     shadowColor: "#000",
     shadowOffset: {
@@ -40,7 +39,6 @@ const styles = StyleSheet.create({
     color: "#222",
     fontSize: 28,
     fontWeight: "bold",
-    paddingLeft: 20,
     paddingTop: 20,
   },
   body: {

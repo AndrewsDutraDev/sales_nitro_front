@@ -5,6 +5,9 @@ const Square_Size = (props) => {
     const [selectedSize, setSelectedSize] = [props.selectedSize, props.setSelectedSize];
     const [size] = [props.size];
     
+    /**
+     * Método para lidar com o botão
+     */
     const button_handler = () => {
         setSelectedSize(size);
     }

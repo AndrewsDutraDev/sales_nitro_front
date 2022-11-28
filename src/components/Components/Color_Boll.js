@@ -6,6 +6,9 @@ const Color_Boll = (props) => {
     const dictColors = {'azul': '#3C81F6', 'vermelho': '#EE4444', 'preto': '#000000'}
     const [color] = [props.color];
     
+    /**
+     * Método para lidar com o botão
+     */
     const button_handler = () => {
         setSelectedColor(color);
     }

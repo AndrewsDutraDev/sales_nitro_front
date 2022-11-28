@@ -5,8 +5,17 @@ import Loading from '../Components/Loading';
 const Main_Container = (props) => {
     const [isLoading, setIsLoading] =[props.isLoading, props.setIsLoading];
 
+    /**
+     * Método para verificar se a propriedade é válida
+     * @param {Object} prop 
+     * @returns 
+     */
+    const is_valid = (prop) => {
+        return !(prop === undefined);
+    }
+
     return (
-        <View style={style.main_view}>
+        <View style={[style.main_view, {backgroundColor: is_valid(props.backgroundColor) ? props.backgroundColor : '#fff'}]}>
             {isLoading ? <Loading /> : <></>}
             <KeyboardAvoidingView behavior={ Platform.OS == 'ios' ? 'padding' : 'height' } keyboardVerticalOffset={10}>
                 <ScrollView>

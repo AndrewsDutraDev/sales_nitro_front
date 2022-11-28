@@ -29,9 +29,6 @@ const Home = ({ navigation, route }) => {
     const [carProductNumber, setCarProductNumber] = useState(0);
     const [carProductList, setCarProductList] = useState([]);
 
-    // setUserId(route.params.id);
-    // setUserName(route.params.name);
-
     const fadeIn = () => {
         // Will change fadeAnim value to 1 in 5 seconds
         setlateralBarOpened(true);

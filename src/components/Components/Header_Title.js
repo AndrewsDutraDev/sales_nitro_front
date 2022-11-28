@@ -1,13 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Modal, TextInput, Text, TouchableOpacity, StatusBar, KeyboardAvoidingView, Platform, ScrollView, Dimensions, Button } from 'react-native';
+import React from 'react';
+import { StyleSheet, View, Text } from 'react-native';
 
 const Header_Title = (props) => {
     let Icon = props.icon;
 
+    /**
+     * Método para verificar se a propriedade é válida
+     * @param {Object} prop 
+     * @returns 
+     */
+    const is_valid = (prop) => {
+        return !(prop === undefined);
+    }
+
     return (
-        <View style={style.header_title}>
-            <Text style={style.header_text}>{props.text}</Text>
-            <Icon style={style.header_icon} width={30} height={30} />
+        <View style={[style.header_title, {
+            justifyContent: is_valid(props.justifyContent) ? props.justifyContent : 'flex-end',
+        }]}>
+            <Text style={[style.header_text, {
+                color: is_valid(props.textColor) ? props.textColor : '#0066FF'
+            }]}>{props.text}</Text>
+            {is_valid(Icon) ? (<Icon style={style.header_icon} width={30} height={30} /> ): <></> }
         </View>
     );
 };
@@ -17,12 +30,10 @@ const style = StyleSheet.create({
         width: '80%',
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'flex-end',
         flexDirection: 'row',
     },
     header_text: {
-        fontSize: 26,
-        color: '#0066FF',
+        fontSize: 20,
         textAlign: 'right',
     },
     header_icon: {
