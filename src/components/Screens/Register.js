@@ -6,6 +6,9 @@ import SVGImg from '../../img/next_button.svg';
 import { TextInputMask } from 'react-native-masked-text'
 import api from '../../services/api';
 
+import { Step_Container, Field_Group, Page_Container, Container, Content, Header, Main_Container, Button_Container } from '../Containers/Index_Container';
+import {Button_Back, Label_Field, Text_Field, Button_Round, Header_Title, Step_Item, Step_Boll, Step_Line, Page_Title, Text_Field_Masked} from '../Components/Index_Components';
+
 const Register = ({ navigation }) => {
 
 	const [page, setPage] = useState(1);
@@ -26,6 +29,15 @@ const Register = ({ navigation }) => {
 	const [sexo, setSexo] = React.useState('Feminino');
 
     const [isLoading, setIsLoading] = useState(false);
+
+	/**
+     * Método para verificar se a propriedade é válida
+     * @param {Object} prop 
+     * @returns 
+     */
+     const is_valid = (prop) => {
+        return !(prop === undefined);
+    }
 
 	const nextPage = () => {
 		if(page < 3) {
@@ -111,110 +123,80 @@ const Register = ({ navigation }) => {
 	}
 
   return (
-	<View style={style.bg_register}>
-		{ isLoading ? 
-		<View style={{ position: 'absolute', flex: 1, justifyContent: "center", alignItems: "center", zIndex: 999, height: '100%', width: '100%', backgroundColor: '#00000099' }}>
-			<ActivityIndicator color={"#fff"} size={50} /> 
-		</View> : <></>}
-		<KeyboardAvoidingView behavior={ Platform.OS == 'ios' ? 'padding' : 'height' } keyboardVerticalOffset={10}>
-			<ScrollView>
-				<View style={style.container}>
-					<View style={style.button_changer}>
-						<View style={style.changer_container}>
-							<Text style={style.changer_text}>Passo 1</Text>
-							<View style={ page >= 1 ? [style.changer_boll, style.blue] : [style.changer_boll, style.gray]}></View>
-						</View>
-						<View style={style.changer_container}>
-							<Text style={style.changer_text}></Text>
-							<View style={page > 1 ? [style.changer_line, style.blue] : [style.changer_line, style.gray] }></View>
-						</View>
-						<View style={style.changer_container}>
-							<Text style={style.changer_text}>Passo 2</Text>
-							<View style={page >= 2 ? [style.changer_boll, style.blue] : [style.changer_boll, style.gray]}></View>
-						</View>
-						<View style={style.changer_container}>
-							<Text style={style.changer_text}></Text>
-							<View style={page > 2 ? [style.changer_line, style.blue] : [style.changer_line, style.gray]}></View>
-						</View>
-						<View style={style.changer_container}>
-							<Text style={style.changer_text}>Passo 3</Text>
-							<View style={page >= 3 ? [style.changer_boll, style.blue] : [style.changer_boll, style.gray]}></View>
-						</View>
+	<Main_Container isLoading={isLoading} setIsLoading={setIsLoading}>
+		<Container alignItems="center" justifyContent="flex-start" flexDirection={'column'}>
+			<Header justifyContent="space-evenly">
+				<Button_Back onPress={() => navigation.navigate('Login', {})} />
+				<Header_Title text="Cadastro"/>
+			</Header>
+			<Content width={'90%'}>
+				<Step_Container>
+					<Step_Item text={'Passo 1'} stepView={Step_Boll} stepViewBackground={ page >= 1 ? '#0066ff' : '#D9D9D9'} />
+					<Step_Item text={''} stepView={Step_Line} stepViewBackground={page > 1 ? '#0066ff' : '#D9D9D9'} />
+					<Step_Item text={'Passo 2'} stepView={Step_Boll} stepViewBackground={ page >= 2 ? '#0066ff' : '#D9D9D9'} />
+					<Step_Item text={''} stepView={Step_Line} stepViewBackground={page > 2 ? '#0066ff' : '#D9D9D9'} />
+					<Step_Item text={'Passo 3'} stepView={Step_Boll} stepViewBackground={ page >= 3 ? '#0066ff' : '#D9D9D9'} />
+				</Step_Container>
+				<Page_Container currentPageIndex={page} pageIndex={1} >
+					<Page_Title text={'Dados Pessoais'} />
+
+					<Field_Group>
+						<Label_Field text={'Nome*'} textColor={'#333333'} />
+						<Text_Field placeholder={'Ex. Zé Roberto'} 
+						onChangeText={(nome) => setNome(nome)} value={is_valid(nome) ? nome.nome : ''}/>
+					</Field_Group>
+
+					<Field_Group>
+						<Label_Field text={'Email*'} textColor={'#333333'} />
+						<Text_Field placeholder={'Ex. Zé Roberto'} 
+						onChangeText={(email) => setEmail(email)} value={is_valid(email)? email.email : ''}/>
+					</Field_Group>
+
+					<Field_Group>
+						<Label_Field text={'CPF*'} textColor={'#333333'} />
+						<Text_Field_Masked placeholder={'Ex. 000.000.000-00'} 
+						onChangeText={(cpf) => setCpf(cpf)} value={is_valid(cpf)? cpf.cpf : ''}
+						type={'cpf'}
+						/>
+					</Field_Group>
+
+					<Field_Group>
+						<Label_Field text={'Data de Nascimento*'} textColor={'#333333'} />
+						<Text_Field_Masked placeholder={'Ex. 12/11/1999'} 
+						onChangeText={(dataNascimento) => setDataNascimento(dataNascimento)} 
+						value={is_valid(dataNascimento)? dataNascimento.dataNascimento : ''}
+						type={'datetime'} 
+						options={{
+							format: 'DD/MM/YYYY'
+						}}
+						/>
+					</Field_Group>
+
+					<View style={style.radio_container}>
+						<Text style={style.label_input}>Sexo:*</Text>
+						<RadioButton value="Feminino" color='#0066FF' uncheckedColor='#0066FF'
+							status={ sexo === 'Feminino' ? 'checked' : 'unchecked' }
+							onPress={() => setSexo('Feminino')}
+						/>
+						<Text style={style.label_input}>Feminino</Text>
+						<RadioButton value="Masculino" color='#0066FF' uncheckedColor='#0066FF'
+							status={ sexo === 'Masculino' ? 'checked' : 'unchecked' }
+							onPress={() => setSexo('Masculino')}
+						/>
+						<Text style={style.label_input}>Masculino</Text>
+
 					</View>
 
-					<View style={page === 1 ? [style.content, style.show] : [style.content, style.hide]}>
-						<Text style={style.title_register}>Dados Pessoais</Text>
-						<View style={style.form_container}>
-							<View style={style.input_container}>
-								<Text style={style.label_input}>Nome*</Text>
-								<TextInput style={style.input_text} placeholder='Ex. Zé Roberto'
-								onChangeText={(nome) => setNome(nome)}
-								/>
-							</View>
-							<View style={style.input_container}>
-								<Text style={style.label_input}>Email*</Text>
-								<TextInput style={style.input_text} placeholder='Ex. zézinho@mail.com'
-								onChangeText={(email) => setEmail(email)}
-								/>
-							</View>
-							<View style={style.input_container}>
-								<Text style={style.label_input}>CPF*</Text>
-								<TextInputMask
-									style={style.input_text}
-									placeholder='Ex. 000.000.000-00'
-									type={'cpf'}
-									value={cpf}
-									onChangeText={(cpf) => setCpf(cpf)}
-								/>
-							</View>
-							<View style={style.input_container}>
-								<Text style={style.label_input}>Data de Nascimento*</Text>
-								<TextInputMask
-									style={style.input_text} 
-									placeholder='Ex. 12/11/1999'
-									type={'datetime'}
-									options={{
-										format: 'DD/MM/YYYY'
-									}}
-									value={dataNascimento}
-									onChangeText={(dataNascimento) => setDataNascimento(dataNascimento)}
-								/>
-							</View>
-							<View style={style.radio_container}>
-								<Text style={style.label_input}>Sexo:*</Text>
-								<RadioButton value="Feminino" color='#0066FF' uncheckedColor='#0066FF'
-									status={ sexo === 'Feminino' ? 'checked' : 'unchecked' }
-									onPress={() => setSexo('Feminino')}
-								/>
-								<Text style={style.label_input}>Feminino</Text>
-								<RadioButton value="Masculino" color='#0066FF' uncheckedColor='#0066FF'
-									status={ sexo === 'Masculino' ? 'checked' : 'unchecked' }
-									onPress={() => setSexo('Masculino')}
-								/>
-								<Text style={style.label_input}>Masculino</Text>
-
-							</View>
-
-							<View style={style.button_prev_next}>
-								<View>
-									<TouchableOpacity style={style.button_prev}
-									onPress={() => prevPage()}
-									>
-											<SVGImg width={25} height={25} />
-									</TouchableOpacity>
-								</View>
-								<View>
-									<TouchableOpacity style={style.button_next}
-									onPress={() => nextPage()}
-									>
-											<SVGImg width={25} height={25} />
-									</TouchableOpacity>
-								</View>
-							</View>
-
-							
-						</View>
-					</View>
+					<Button_Container width={'100%'} flexDirection={'row'} justifyContent={'space-around'}>
+						<Button_Round width={40} height={40} 
+						icon={SVGImg} backgroundColor={'#0066FF'} borderColor={'#0066FF'}
+						transform={[{ rotate: '180deg' }]}
+						onPress={() => prevPage()} />
+						<Button_Round width={40} height={40} 
+						icon={SVGImg} backgroundColor={'#0066FF'} borderColor={'#0066FF'}
+						onPress={() => nextPage()} />
+					</Button_Container>
+				</Page_Container>
 
 					<View style={page === 2 ? [style.content, style.show] : [style.content, style.hide]}>
 						<Text style={style.title_register}>Dados de Entrega</Text>
@@ -332,10 +314,9 @@ const Register = ({ navigation }) => {
 							</View>
 						</View>
 					</View>
-				</View>
-			</ScrollView>
-		</KeyboardAvoidingView>
-	</View>
+			</Content>
+		</Container>
+	</Main_Container>
   );
 };
 

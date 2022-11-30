@@ -14,6 +14,7 @@ const Content = (props) => {
 
     return (
         <View style={[style.content, {
+            width: is_valid(props.width) ? props.width : '80%',
             justifyContent: is_valid(props.justifyContent) ? props.justifyContent : 'center',
             alignItems: is_valid(props.alignItems) ? props.alignItems : 'center',
             flexDirection: is_valid(props.flexDirection) ? props.flexDirection : 'column',
@@ -25,7 +26,6 @@ const Content = (props) => {
 
 const style = StyleSheet.create({
     content: {
-        width: '80%',
         display: 'flex',
     }
 })
