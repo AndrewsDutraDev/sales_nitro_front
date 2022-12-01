@@ -10,7 +10,6 @@ import {Button_Back, Header_Title} from '../Components/Index_Components';
 
 const List_Product = ({ navigation }) => {
 
-    // const [array, setArray] = useState([0, 1, 2, 3, 4]);
     const [productId, setProductId] = useState();
     const [modalVisible, setModalVisible] = useState(false);
     const [productsList, setProductsList] = useState([]);
