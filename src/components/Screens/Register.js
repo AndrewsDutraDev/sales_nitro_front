@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-import { ActivityIndicator } from "react-native";
 import { StyleSheet, View, TextInput, Text, TouchableOpacity, StatusBar, KeyboardAvoidingView, Platform, ScrollView, Dimensions } from 'react-native';
 import { RadioButton } from 'react-native-paper';
 import SVGImg from '../../img/next_button.svg';
 import { TextInputMask } from 'react-native-masked-text'
 import api from '../../services/api';
 
-import { Step_Container, Field_Group, Page_Container, Container, Content, Header, Main_Container, Button_Container } from '../Containers/Index_Container';
-import {Button_Back, Label_Field, Text_Field, Button_Round, Header_Title, Step_Item, Step_Boll, Step_Line, Page_Title, Text_Field_Masked} from '../Components/Index_Components';
+import { Step_Container, Radio_Container, Field_Group, Page_Container, Container, Content, Header, Main_Container, Button_Container } from '../Containers/Index_Container';
+import {Button_Back, Label_Field, Text_Field, Button_Round, Header_Title, Step_Item, Step_Boll, Step_Line, Page_Title, Text_Field_Masked, Button_Solid} from '../Components/Index_Components';
 
 const Register = ({ navigation }) => {
 
@@ -172,7 +171,7 @@ const Register = ({ navigation }) => {
 						/>
 					</Field_Group>
 
-					<View style={style.radio_container}>
+					<Radio_Container>
 						<Text style={style.label_input}>Sexo:*</Text>
 						<RadioButton value="Feminino" color='#0066FF' uncheckedColor='#0066FF'
 							status={ sexo === 'Feminino' ? 'checked' : 'unchecked' }
@@ -184,8 +183,7 @@ const Register = ({ navigation }) => {
 							onPress={() => setSexo('Masculino')}
 						/>
 						<Text style={style.label_input}>Masculino</Text>
-
-					</View>
+					</Radio_Container>
 
 					<Button_Container width={'100%'} flexDirection={'row'} justifyContent={'space-around'}>
 						<Button_Round width={40} height={40} 
@@ -196,80 +194,113 @@ const Register = ({ navigation }) => {
 						icon={SVGImg} backgroundColor={'#0066FF'} borderColor={'#0066FF'}
 						onPress={() => nextPage()} />
 					</Button_Container>
+
 				</Page_Container>
 
-					<View style={page === 2 ? [style.content, style.show] : [style.content, style.hide]}>
-						<Text style={style.title_register}>Dados de Entrega</Text>
-						<View style={style.form_container}>
-							<View style={style.input_container}>
-								<Text style={style.label_input}>Endereco*</Text>
-								<TextInput style={style.input_text} placeholder='Ex. Rua Dez, 988'
-								onChangeText={(endereco) => setEndereco(endereco)}
-								/>
-							</View>
-							<View style={style.input_container}>
-								<Text style={style.label_input}>Bairro*</Text>
-								<TextInput style={style.input_text} placeholder='Ex. Centro'
-								onChangeText={(bairro) => setBairro(bairro)}
-								/>
-							</View>
-							<View style={style.input_container}>
-								<Text style={style.label_input}>Complemento	*</Text>
-								<TextInput style={style.input_text} placeholder='Ex. Ao lado da famácia São João'
-								onChangeText={(complemento) => setComplemento(complemento)}
-								/>
-							</View>
-							<View style={style.input_container}>
-								<Text style={style.label_input}>Cidade	*</Text>
-								<TextInput style={style.input_text} placeholder='Ex. Guaporé'
-								onChangeText={(cidade) => setCidade(cidade)}
-								/>
-							</View>
-							<View style={style.input_container}>
-								<Text style={style.label_input}>Estado	*</Text>
-								<TextInput style={style.input_text} placeholder='Ex. Guaporé'
-								onChangeText={(estado) => setEstado(estado)}
-								/>
-							</View>
-							<View style={style.input_container}>
-								<Text style={style.label_input}>País	*</Text>
-								<TextInput style={style.input_text} placeholder='Ex. Guaporé'
-								onChangeText={(pais) => setPais(pais)}
-								/>
-							</View>
-							<View style={style.input_container}>
-								<Text style={style.label_input}>CEP*</Text>
+				{/* Página 2 */}
+				<Page_Container currentPageIndex={page} pageIndex={2} >
+					<Page_Title text={'Dados de Entrega'} />
 
-								<TextInputMask
-									style={style.input_text} 
-									placeholder='Ex. 96.225-000'
-									type={'zip-code'}
-									value={cep}
-									onChangeText={(cep) => setCep(cep)}
-								/>
+					<Field_Group>
+						<Label_Field text={'Endereco*'} textColor={'#333333'} />
+						<Text_Field placeholder={'Ex. Rua Dez, 988'} 
+						onChangeText={(endereco) => setEndereco(endereco)} value={is_valid(endereco) ? endereco.endereco : ''}/>
+					</Field_Group>
 
-								
-							</View>
+					<Field_Group>
+						<Label_Field text={'Bairro*'} textColor={'#333333'} />
+						<Text_Field placeholder={'Ex. Centro'} 
+						onChangeText={(bairro) => setBairro(bairro)} value={is_valid(bairro) ? bairro.bairro : ''}/>
+					</Field_Group>
 
-							<View style={style.button_prev_next}>
-								<View>
-									<TouchableOpacity style={style.button_prev}
-									onPress={() => prevPage()}
-									>
-											<SVGImg width={25} height={25} />
-									</TouchableOpacity>
-								</View>
-								<View>
-									<TouchableOpacity style={style.button_next}
-									onPress={() => nextPage()}
-									>
-											<SVGImg width={25} height={25} />
-									</TouchableOpacity>
-								</View>
-							</View>
-						</View>
-					</View>
+					<Field_Group>
+						<Label_Field text={'Complemento*'} textColor={'#333333'} />
+						<Text_Field placeholder={'Ex. Ao lado da famácia São João'} 
+						onChangeText={(complemento) => setComplemento(complemento)} value={is_valid(complemento) ? complemento.complemento : ''}/>
+					</Field_Group>
 
+					<Field_Group>
+						<Label_Field text={'Cidade*'} textColor={'#333333'} />
+						<Text_Field placeholder={'Ex. Guaporé'} 
+						onChangeText={(cidade) => setCidade(cidade)} value={is_valid(cidade) ? cidade.cidade : ''}/>
+					</Field_Group>
+
+					<Field_Group>
+						<Label_Field text={'Estado*'} textColor={'#333333'} />
+						<Text_Field placeholder={'Ex. Rio Grande do Sul'} 
+						onChangeText={(estado) => setEstado(estado)} value={is_valid(estado) ? estado.estado : ''}/>
+					</Field_Group>
+
+					<Field_Group>
+						<Label_Field text={'País*'} textColor={'#333333'} />
+						<Text_Field placeholder={'Ex. Rio Grande do Sul'} 
+						onChangeText={(pais) => setPais(pais)} value={is_valid(pais) ? pais.pais : ''}/>
+					</Field_Group>
+
+					<Field_Group>
+						<Label_Field text={'CEP*'} textColor={'#333333'} />
+						<Text_Field_Masked placeholder={'Ex. 96.225-000'} 
+						onChangeText={(cep) => setCep(cep)} 
+						value={is_valid(dataNascimento)? dataNascimento.dataNascimento : ''}
+						type={'zip-code'} 
+						/>
+					</Field_Group>
+
+					<Button_Container width={'100%'} flexDirection={'row'} justifyContent={'space-around'}>
+						<Button_Round width={40} height={40} 
+						icon={SVGImg} backgroundColor={'#0066FF'} borderColor={'#0066FF'}
+						transform={[{ rotate: '180deg' }]}
+						onPress={() => prevPage()} />
+						<Button_Round width={40} height={40} 
+						icon={SVGImg} backgroundColor={'#0066FF'} borderColor={'#0066FF'}
+						onPress={() => nextPage()} />
+					</Button_Container>
+
+				</Page_Container>
+
+				{/* Página 3 */}
+				<Page_Container currentPageIndex={page} pageIndex={3} >
+					<Page_Title text={'Informações da Conta'} />
+
+					<Field_Group>
+						<Label_Field text={'Celular*'} textColor={'#333333'} />
+						<Text_Field_Masked placeholder={'Ex. 53 999000000'} 
+						onChangeText={(celular) => setCelular(celular)} 
+						value={is_valid(celular)? celular.celular : ''}
+						type={'cel-phone'}
+						options={{
+							maskType: 'BRL',
+							withDDD: true,
+							dddMask: '(99) '
+						}}
+						/>
+					</Field_Group>
+
+					<Field_Group>
+						<Label_Field text={'Senha*'} textColor={'#333333'} />
+						<Text_Field placeholder={'Sua senha'} 
+						onChangeText={(senha) => setSenha(senha)} value={is_valid(senha) ? senha.senha : ''}/>
+					</Field_Group>
+					
+					<Field_Group>
+						<Label_Field text={'Confirme sua senha*'} textColor={'#333333'} />
+						<Text_Field placeholder={'Repita sua senha'} 
+						onChangeText={(confirmarSenha) => setConfirmarSenha(confirmarSenha)} value={is_valid(senha) ? confirmarSenha.confirmarSenha : ''}/>
+					</Field_Group>
+
+					<Field_Group>
+						<Text style={style.label_description}>
+							Ao clicar em “criar conta”, você passa a  concordo com o uso dos seus dados para compra e experiência no site conforme a 
+							<Text style={style.hightligh_description}>Política de Privacidade </Text> 
+						</Text>
+					</Field_Group>
+
+					<Button_Container width={'100%'} flexDirection={'row'} justifyContent={'space-around'}>
+					<Button_Solid text={'Criar conta'} backgroundColor={'#0067FF'}
+                        onPress={() => nextPage()} />
+					</Button_Container>
+					
+				</Page_Container>
 					<View 
 					style={page === 3 ? [style.content, style.show] : [style.content, style.hide]}
 					>

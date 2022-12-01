@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, View, Text, } from 'react-native';
-import {Step_Boll} from '../Components/Index_Components';
 
 const Step_Item = (props) => {
     let StepView = props.stepView;
