@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, TextInput, Text, TouchableOpacity, StatusBar, KeyboardAvoidingView, Platform, ScrollView, Dimensions } from 'react-native';
+import { StyleSheet, Text, StatusBar, Dimensions } from 'react-native';
 import { RadioButton } from 'react-native-paper';
 import SVGImg from '../../img/next_button.svg';
-import { TextInputMask } from 'react-native-masked-text'
 import api from '../../services/api';
 
 import { Step_Container, Radio_Container, Field_Group, Page_Container, Container, Content, Header, Main_Container, Button_Container } from '../Containers/Index_Container';
@@ -10,6 +9,7 @@ import {Button_Back, Label_Field, Text_Field, Button_Round, Header_Title, Step_I
 
 const Register = ({ navigation }) => {
 
+    const [isLoading, setIsLoading] = useState(false);
 	const [page, setPage] = useState(1);
 	const [nome, setNome] = useState();
 	const [email, setEmail] = useState();
@@ -25,9 +25,7 @@ const Register = ({ navigation }) => {
 	const [celular, setCelular] = useState();
 	const [senha, setSenha] = useState();
 	const [confirmarSenha, setConfirmarSenha] = useState();
-	const [sexo, setSexo] = React.useState('Feminino');
-
-    const [isLoading, setIsLoading] = useState(false);
+	const [sexo, setSexo] = useState('Feminino');
 
 	/**
      * Método para verificar se a propriedade é válida
@@ -38,62 +36,86 @@ const Register = ({ navigation }) => {
         return !(prop === undefined);
     }
 
+	/**
+	 * Método para passar para a próxima página
+	 */
 	const nextPage = () => {
 		if(page < 3) {
 			if(validate_blank[page]()){
 				setPage(page+1);
 			}else {
-				alert("Preencha os campos!")
+				alert("Preencha os campos!");
 			}
 		}else{
 			createAccount();
 		}
 	}
 
+	/**
+	 * Método para voltar à página anterior
+	 */
 	const prevPage = () => {
 		if(page > 1) {
 			setPage(page-1);
 		}
 	}
 
+	/**
+	 * Método para validação dos dados em branco de cada página
+	 */
 	const validate_blank = {
 		1: () => {
-			if(nome && email && cpf && sexo) {
-				return true;
-			}
-			else {
-				return false;
-			}
+			return (nome && email && cpf && sexo);
 		},
 		2: () => {
-			if(endereco && bairro && complemento && dataNascimento && cep) {
-				return true;
-			}
-			else {
-				return false;
-			}
+			return (endereco && bairro && complemento && dataNascimento && cep);
 		},
 		3: () => {
-			if(celular && senha && confirmarSenha) {
-				return true;
-			}
-			else {
-				return false;
-			}
+			return (celular && senha && confirmarSenha);
 		}
 	}
 
+	/**
+	 * Método para criar a conta do usuário
+	 */
 	const createAccount = () => {
-		if(validate_blank[3]()){
-			setIsLoading(true);
 
-			var body = {
+		/**
+		 * Remove os caracteres indesejaveis e trasnforma em letras minusculas
+		 * @param {String} email 
+		 * @returns {String}
+		 */
+		 const email_remove_regex = (email) => {
+			return email.replace(" ", "").toLowerCase();
+		}
+
+		/**
+		 * 
+		 * @param {String} nome -> nome do usuário
+		 * @param {String} email -> email do usuário
+		 * @param {String} cpf -> cpf do usuário
+		 * @param {Boolean} sexo -> sexo do usuário
+		 * @param {String} celular -> celular do usuário
+		 * @param {String} birthDate -> data de aniversário do usuário
+		 * @param {String} senha -> senha da conta do usuário
+		 * @param {String} endereco -> endereço do usuário
+		 * @param {String} bairro -> bairro do usuário
+		 * @param {String} cidade -> cidade do usuário
+		 * @param {String} estado -> estado do usuário
+		 * @param {String} cep -> cep do usuário
+		 * @param {String} pais -> país do usuário
+		 * @returns {JSON}
+		 */
+		const body_request = (nome, email, cpf, sexo, celular, birthDate, senha, endereco,
+			bairro, cidade, estado, cep, pais) => {
+
+			let body = {
 				name: nome,
-				email: email,
+				email: email_remove_regex(email),
 				cpf: cpf, 
 				gender: sexo, 
 				phoneNumber: celular, 
-				birthDate: 1, 
+				birthDate: birthDate, 
 				password: senha, 
 				street: endereco, 
 				district: bairro, 
@@ -102,11 +124,20 @@ const Register = ({ navigation }) => {
 				zipCode: cep, 
 				country: pais,
 			}
-			api
-			.post("/user", body)
+
+			return body;
+		}
+
+		
+		/**
+		 * Método para fazer o request do usuário
+		 * @param {JSON} body 
+		 */
+		const request_register = (body) => {
+			api.post("/user", body)
 			.then((response) => {
 				if(response.data.success) {
-					alert('sucess')
+					alert('Usuário Cadastrado!')
 					setIsLoading(false);
 					navigation.navigate('Login');
 
@@ -115,10 +146,29 @@ const Register = ({ navigation }) => {
 			.catch((err) => {
 				setIsLoading(false);
 				alert("Registro Inválido!");
+				console.error(`ERROR -> ${err}`);
 			});
-		}else {
-			alert("Preencha os campos!")
 		}
+
+		/**
+		 * Método para validar o Cadastro
+		 */
+		const validate_register = () => {
+			if(validate_blank[3]()){
+				setIsLoading(true);
+	
+				let body = body_request(nome, email, cpf, sexo, celular, birthDate, senha,
+					endereco, bairro, cidade, estado, cep, pais);
+				
+				request_register(body);
+				
+			}else {
+				alert("Preencha os campos!")
+			}
+		}
+		
+		validate_register();
+		
 	}
 
   return (
@@ -285,7 +335,7 @@ const Register = ({ navigation }) => {
 					<Field_Group>
 						<Label_Field text={'Confirme sua senha*'} textColor={'#333333'} />
 						<Text_Field placeholder={'Repita sua senha'} 
-						onChangeText={(confirmarSenha) => setConfirmarSenha(confirmarSenha)} value={is_valid(senha) ? confirmarSenha.confirmarSenha : ''}/>
+						onChangeText={(confirmarSenha) => setConfirmarSenha(confirmarSenha)} value={is_valid(confirmarSenha) ? confirmarSenha.confirmarSenha : ''}/>
 					</Field_Group>
 
 					<Field_Group>
@@ -301,50 +351,6 @@ const Register = ({ navigation }) => {
 					</Button_Container>
 					
 				</Page_Container>
-					<View 
-					style={page === 3 ? [style.content, style.show] : [style.content, style.hide]}
-					>
-						<Text style={style.title_register}>Informações da Conta</Text>
-						<View style={style.form_container}>
-							<View style={style.input_container}>
-								<Text style={style.label_input}>Celular*</Text>
-								<TextInputMask
-									style={style.input_text} 
-									placeholder='Ex. 53 999000000'
-									type={'cel-phone'}
-									options={{
-										maskType: 'BRL',
-										withDDD: true,
-										dddMask: '(99) '
-									}}
-									value={celular}
-									onChangeText={(celular) => setCelular(celular)}
-								/>
-							</View>
-							<View style={style.input_container}>
-								<Text style={style.label_input}>Senha*</Text>
-								<TextInput style={style.input_text} placeholder='Sua senha'
-								onChangeText={(senha) => setSenha(senha)}
-								/>
-							</View>
-							<View style={style.input_container}>
-								<Text style={style.label_input}>Confirme sua senha*</Text>
-								<TextInput style={style.input_text} placeholder='Repita sua senha'
-								onChangeText={(confirmarSenha) => setConfirmarSenha(confirmarSenha)}
-								/>
-							</View>
-							<View style={style.input_container}>
-								<Text style={style.label_description}>Ao clicar em “criar conta”, você passa a  concordo com o uso dos seus dados para compra e experiência no site conforme a <Text style={style.hightligh_description}>Política de Privacidade </Text> </Text>
-							</View>
-							<View style={style.button_container}>
-								<TouchableOpacity style={style.button_create}
-								onPress={() => nextPage()}
-								>
-									<Text style={style.label_create}>Criar conta</Text>
-								</TouchableOpacity>
-							</View>
-						</View>
-					</View>
 			</Content>
 		</Container>
 	</Main_Container>

@@ -22,7 +22,7 @@ const Login = ({ navigation }) => {
 		 * Verifica se o login é valido
 		 * @param {String} email 
 		 * @param {String} password 
-		 * @returns 
+		 * @returns {Boolean}
 		 */
 		const is_valid_login = (email, password) => {
 			return email && password;
@@ -31,7 +31,7 @@ const Login = ({ navigation }) => {
 		/**
 		 * Remove os caracteres indesejaveis e trasnforma em letras minusculas
 		 * @param {String} email 
-		 * @returns 
+		 * @returns {String}
 		 */
 		const email_remove_regex = (email) => {
 			return email.replace(" ", "").toLowerCase();
@@ -41,7 +41,7 @@ const Login = ({ navigation }) => {
 		 * Cria o body que será enviado no request
 		 * @param {String} email 
 		 * @param {String} password 
-		 * @returns 
+		 * @returns {JSON}
 		 */
 		const body_request = (email, password) => {
 			let body = {
@@ -67,7 +67,7 @@ const Login = ({ navigation }) => {
 			.catch((err) => {
 				setIsLoading(false);
 				alert("Login Inválido!");
-				console.log(`ERROR -> ${err}`);
+				console.error(`ERROR -> ${err}`);
 			});
 		}
 		
