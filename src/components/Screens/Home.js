@@ -13,6 +13,8 @@ import Icon_compras from '../../img/icon_compras.svg';
 import Icon_conta from '../../img/icon_conta.svg';
 import api from '../../services/api';
 
+import {Main_Container, Container, Content, Header, Button_Container} from '../Containers/Index_Container';
+
 const Home = ({ navigation, route }) => {
 
     const [array, setArray] = useState([]);

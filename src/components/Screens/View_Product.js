@@ -12,7 +12,7 @@ import {Main_Container, Container, Content, Header, Button_Container} from '../C
 import {Button_Back, Header_Title, Button_Solid, Square_Size, Color_Boll} from '../Components/Index_Components';
 
 const View_Product = ({ navigation, route }) => {
-    const [product, setProduct] = useState(route.params.product);
+    const [product] = useState(route.params.product);
     const [carProductNumber, setCarProductNumber] = [route.params.carProductNumber, route.params.setCarProductNumber];
     const [carProductList, setCarProductList] = [route.params.carProductList, route.params.setCarProductList];
     const [isLoading, setIsLoading] = useState(false);
@@ -21,6 +21,9 @@ const View_Product = ({ navigation, route }) => {
     const [selectedColor, setSelectedColor] = useState();
     const [selectedSize, setSelectedSize] = useState();
 
+    /**
+     * Método para adicionar um produto ao carrinho
+     */
     const add_product = () => {
         setCarProductNumber(carProductNumber+1);
         
@@ -29,7 +32,10 @@ const View_Product = ({ navigation, route }) => {
         navigation.navigate('Home', {}); 
     };
 
-    const but_product = () => {
+    /**
+     * Método para comprar o produto
+     */
+    const buy_product = () => {
         setCarProductNumber(carProductNumber+1);
         product.size = selectedSize;
         product.color = selectedColor;
@@ -113,7 +119,7 @@ const View_Product = ({ navigation, route }) => {
                         </View>
                         <Button_Container width={'100%'}>
                             <Button_Solid text={'COMPRAR'} backgroundColor={'#0067FF'}
-                            onPress={() => { () => {but_product() }}} />
+                            onPress={() => { () => {buy_product() }}} />
                             <Button_Solid text={'Adicionar ao carrinho'} textColor={'#0067FF'} backgroundColor={'#ffffff'} borderColor={'#0067FF'}
                             onPress={() => { add_product()}} />
                         </Button_Container>

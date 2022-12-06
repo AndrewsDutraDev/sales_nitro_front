@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import { StyleSheet, View, TextInput, Text, Image, TouchableOpacity, StatusBar, KeyboardAvoidingView, Platform, ScrollView, Dimensions, Button } from 'react-native';
 import { ActivityIndicator } from "react-native";
 
+import {Main_Container, Container, Content, Header, Field_Group, Modal_Bottom, Button_Container} from '../Containers/Index_Container';
+import {Button_Back, Header_Title, Text_Field, Label_Field, Button_Solid, Divisor, Details_Line, Link_Button, Product_Car} from '../Components/Index_Components';
+
+
 import Icon_add_button from '../../img/icon_add_button.svg';
 import Icon_subtract_button from '../../img/icon_subtract_button.svg';
 import Arrow_back from '../../img/arrow_back.svg';
@@ -17,6 +21,15 @@ const Add_Product = ({ navigation }) => {
     const [descricao, setDescricao] = useState();
     const [categoria, setCategoria] = useState();
     const [isLoading, setIsLoading] = useState(false);
+
+    /**
+     * Método para verificar se a propriedade é válida
+     * @param {Object} prop 
+     * @returns 
+     */
+     const is_valid = (prop) => {
+        return !(prop === undefined);
+    }
 
 
     const addProduct = () => {
@@ -62,100 +75,80 @@ const Add_Product = ({ navigation }) => {
     }
 
     return (
-        <View style={style.bg_edit_personal_data}>
-            { isLoading ? 
-            <View style={{ position: 'absolute', flex: 1, justifyContent: "center", alignItems: "center", zIndex: 999, height: '100%', width: '100%', backgroundColor: '#00000099' }}>
-                <ActivityIndicator color={"#fff"} size={50} /> 
-            </View> : <></>}
-            <KeyboardAvoidingView behavior={ Platform.OS == 'ios' ? 'padding' : 'height' } keyboardVerticalOffset={10}>
-                <ScrollView>
-                    <View style={style.container}>
-                        <View style= {style.header}>
-                            <View style={style.header_text}>
-                                <TouchableOpacity 
-                                    onPress={() => navigation.navigate('Profile_Store', { name: 'Jane' })}>
-                                    <Arrow_back width={25} height={25} fill={'#0066FF'} />
-                                </TouchableOpacity>
-                                <Text style={style.header_title}>Adicionar Produto</Text>
-                            </View>
+        <Main_Container isLoading={isLoading} setIsLoading={setIsLoading}>
+            <Container alignItems="center" justifyContent={'center'} flexDirection={'column'}>
+                <Header justifyContent="space-evenly">
+                    <Button_Back onPress={() => navigation.navigate('Profile_Store', {})} />
+                    <Header_Title text="Adicionar Produto" />
+                </Header>
+                <Content width={'100%'}>
+                    <View style={style.image_picker}>
+                        <View style={style.image_container}>
+                            <Image style={style.image_content} source={require('../../img/imagem_teste.jpg')}></Image>
                         </View>
-                        <View style= {style.content}>
-                            <View style={style.image_picker}>
-                                <View style={style.image_container}>
-                                    <Image style={style.image_content} source={require('../../img/imagem_teste.jpg')}></Image>
-                                    
-                                </View>
-                                <TouchableOpacity style={style.icon_cam}>
-                                    <Icon_cam width={50} height={50} />
-                                </TouchableOpacity>
-                            </View>
-                            <View style={style.form_container}>
-                                <View style={style.input_container}>
-                                    <Text style={style.label_input}>Nome*</Text>
-                                    <TextInput style={style.input_text} placeholder='Ex. Sapato'
-                                    onChangeText={(nome) => setNome(nome)}
-                                    />
-                                </View>
-                                <View style={style.input_container}>
-                                    <Text style={style.label_input}>Valor*</Text>
-                                    <TextInput style={style.input_text} placeholder='R$ 0.00'
-                                    onChangeText={(valor) => setValor(valor)}
-                                    />
-                                </View>
-                                <View style={style.input_container}>
-                                    <Text style={style.label_input}>Quantidade*</Text>
-                                    <View style={style.input_container_with_icons}>
-                                        <TouchableOpacity
-                                        onPress={() => subtract_quantidade()}
-                                        style={style.icon_left}>
-                                            <Icon_subtract_button width={25} height={25} />
-                                        </TouchableOpacity>
-                                        <TextInput style={style.input_text_center}
-                                        editable={false}
-                                        placeholder={quantidade.toString()}
-                                        />
-                                        <TouchableOpacity
-                                         onPress={() => add_quantidade()}
-                                        style={style.icon_right}>
-                                            <Icon_add_button width={25} height={25} />
-                                        </TouchableOpacity>
-                                    </View>
-                                </View>
-                                <View style={style.input_container}>
-                                    <Text style={style.label_input}>Descrição*</Text>
-                                    <TextInput style={style.input_text_multiline} placeholder='Coloque aqui a descrição do produto'
-                                    onChangeText={(descricao) => setDescricao(descricao)}
-                                    multiline={true}
-                                    numberOfLines={4}
-                                    />
-                                </View>
-                                <View style={style.input_container}>
-                                    <Text style={style.label_input}>Categoria*</Text>
-                                    <RNPickerSelect 
-                                        onValueChange={(categoria) => setCategoria(categoria)}
-                                        placeholder={{label: 'Selecione uma categoria', value: null}}
-                                        items={[
-                                            { label: 'Calçados', value: 'Calçados' },
-                                            { label: 'Roupas', value: 'Roupas' },
-                                            { label: 'Acessórios', value: 'Acessórios' },
-                                        ]}
-                                        
-                                        // style={style.select}
-                                    />
-                                </View>
-                                <View style={style.button_save_container}>
-                                    <View>
-                                        <TouchableOpacity style={style.button_save} onPress={ () => addProduct()}>
-                                                <Text style={style.text_save}>Salvar</Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                </View>
-                            </View>
-                        </View>
+                        <TouchableOpacity style={style.icon_cam}>
+                            <Icon_cam width={50} height={50} />
+                        </TouchableOpacity>
                     </View>
-                </ScrollView>
-            </KeyboardAvoidingView>
-        </View>  
+                    <View style={style.form_container}>
+                        <Field_Group>
+                            <Label_Field text={'Nome*'} textColor={'#333333'} />
+                            <Text_Field placeholder={'Ex. Sapato'} 
+                            onChangeText={(nome) => setNome(nome)} value={is_valid(nome) ? nome.nome : ''}/>
+                        </Field_Group>
+                        <Field_Group>
+                            <Label_Field text={'Valor*'} textColor={'#333333'} />
+                            <Text_Field placeholder={'R$ 0.00'} 
+                            onChangeText={(valor) => setValor(valor)} value={is_valid(valor) ? valor.valor : ''}/>
+                        </Field_Group>
+                        <View style={style.input_container}>
+                            <Text style={style.label_input}>Quantidade*</Text>
+                            <View style={style.input_container_with_icons}>
+                                <TouchableOpacity
+                                onPress={() => subtract_quantidade()}
+                                style={style.icon_left}>
+                                    <Icon_subtract_button width={25} height={25} />
+                                </TouchableOpacity>
+                                <TextInput style={style.input_text_center}
+                                editable={false}
+                                placeholder={quantidade.toString()}
+                                />
+                                <TouchableOpacity
+                                    onPress={() => add_quantidade()}
+                                style={style.icon_right}>
+                                    <Icon_add_button width={25} height={25} />
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                        <Field_Group>
+                            <Label_Field text={'Descrição*'} textColor={'#333333'} />
+                            <Text_Field placeholder={'Coloque aqui a descrição do produto'} 
+                            multiline={true} numberOfLines={4}
+                            textAlignVertical={'top'}
+                            onChangeText={(descricao) => setValor(descricao)} value={is_valid(descricao) ? descricao.descricao : ''}/>
+                        </Field_Group>
+                        <View style={style.input_container}>
+                            <Text style={style.label_input}>Categoria*</Text>
+                            <RNPickerSelect 
+                                onValueChange={(categoria) => setCategoria(categoria)}
+                                placeholder={{label: 'Selecione uma categoria', value: null}}
+                                items={[
+                                    { label: 'Calçados', value: 'Calçados' },
+                                    { label: 'Roupas', value: 'Roupas' },
+                                    { label: 'Acessórios', value: 'Acessórios' },
+                                ]}
+                                
+                                // style={style.select}
+                            />
+                        </View>
+					<Button_Container width={'100%'} flexDirection={'row'} justifyContent={'space-around'}>
+                        <Button_Solid text={'SALVAR'} backgroundColor={'#0067FF'}
+                            onPress={() => { () => {addProduct() }}} />
+                    </Button_Container>
+                    </View>
+                </Content>
+            </Container>
+        </Main_Container>
     )
 };
 

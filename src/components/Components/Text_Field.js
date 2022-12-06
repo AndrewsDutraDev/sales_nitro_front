@@ -16,6 +16,9 @@ const Text_Field = (props) => {
     <TextInput style={[style.input_text, {width: is_valid(props.width) ? props.width : '100%'}]} 
         placeholder={is_valid(props.placeholder) ? props.placeholder : ''}
         autoCapitalize = {is_valid(props.autoCapitalize) ? props.autoCapitalize :'none'}
+        multiline = {is_valid(props.multiline) ? props.multiline :false}
+        numberOfLines = {is_valid(props.numberOfLines) ? props.numberOfLines :undefined}
+        textAlignVertical = {is_valid(props.textAlignVertical) ? props.textAlignVertical :undefined}
         onChangeText={(cupom) => props.onChangeText(cupom)}
         keyboardType={is_valid(props.keyboardType) ? props.keyboardType : 'default'}
         value={props.value}
