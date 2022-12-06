@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, TextInput, Text, Image, TouchableOpacity, StatusBar, Dimensions, } from 'react-native';
+import { StyleSheet, View, Text, Image, TouchableOpacity, StatusBar, Dimensions, } from 'react-native';
 
-import {Main_Container, Container, Content, Header, Field_Group, Modal_Bottom, Button_Container} from '../Containers/Index_Container';
+import {Main_Container, Container, Content, Header, Field_Group, Button_Container} from '../Containers/Index_Container';
 import {Button_Back, Quantity_Box, Header_Title, Text_Field, Label_Field, Button_Solid,} from '../Components/Index_Components';
 
 import Icon_cam from '../../img/icon_cam.svg';
@@ -26,35 +26,82 @@ const Add_Product = ({ navigation }) => {
         return !(prop === undefined);
     }
 
-
+    /**
+     * Método para adicionar um produto no banco
+     */
     const addProduct = () => {
-        var body = {
-            name: nome,
-            value:  parseFloat(valor),
-            quantity: parseInt(quantidade),
-            descrition: descricao,
-            category: categoria
-        }
 
-        setIsLoading(true);
-        api
-        .post("/admin/addproduct", body)
-        .then((response) => {
-            alert(response)
-            if(response.data.success) {
-                setIsLoading(false);
-                alert('Produto adicionado com sucesso')
-                navigation.navigate('List_Product')
+        /**
+         * Função para retornar se as informações do produto são válidas.
+         * @param {String} nome 
+         * @param {String} valor 
+         * @param {String} quantidade 
+         * @param {String} descricao 
+         * @param {String} categoria 
+         * @returns {boolean}
+         */
+        const is_valid_product = (nome, valor, quantidade, descricao, categoria) => {
+            return nome && valor && quantidade && descricao && categoria;
+        };
+
+        /**
+         * Cria o body que será enviado no request
+         * @param {String} nome 
+         * @param {String} valor 
+         * @param {String} quantidade 
+         * @param {String} descricao 
+         * @param {String} categoria 
+         * @returns {JSON}
+         */
+        const body_request = (nome, valor, quantidade, descricao, categoria) => {
+            let body = {
+                name: nome,
+                value:  parseFloat(valor),
+                quantity: parseInt(quantidade),
+                descrition: descricao,
+                category: categoria
             }
-        })
-        .catch((err) => {
-            setIsLoading(false);
-            alert("Ocorreu um erro ao adicionar o produto! Erro -> "+ err);
-            
-        });
-        // alert('Produto adicionado com sucesso');
-        // navigation.navigate('Profile_Store', { name: '' })
+
+            return body;
+        };
+
+        /**
+         * Método para realizar o request 
+         * @param {JSON} body 
+         */
+        const request_insert_product = (body) => {
+            api.post("/admin/addproduct", body)
+            .then((response) => {
+                alert(response)
+                if(response.data.success) {
+                    setIsLoading(false);
+                    alert('Produto adicionado com sucesso!')
+                    navigation.navigate('List_Product');
+                }
+            })
+            .catch((err) => {
+                setIsLoading(false);
+                alert("Não foi possível adicionar o produto!");
+				console.error(`ERROR -> ${err}`);
+            });
+        };
+
+        /**
+		 * Método para validar a inserção do produto
+		 */
+        const validate_add_product = () => {
+            if(is_valid_product(nome, valor, quantidade, descricao, categoria)) {
+                setIsLoading(true);
+    
+                let body = body_request(nome, valor, quantidade, descricao, categoria)
+                
+                request_insert_product(body);
+            } else {
+				alert("Preencha os campos!")
+            }
+        };
         
+        validate_add_product();
     }
 
     return (
@@ -84,16 +131,16 @@ const Add_Product = ({ navigation }) => {
                             <Text_Field placeholder={'R$ 0.00'} 
                             onChangeText={(valor) => setValor(valor)} value={is_valid(valor) ? valor.valor : ''}/>
                         </Field_Group>
-                        <View style={style.input_container}>
-                            <Text style={style.label_input}>Quantidade*</Text>
+                        <Field_Group>
+                            <Label_Field text={'Quantidade*'} textColor={'#333333'} />
                             <Quantity_Box quantidade={quantidade} setQuantidade={setQuantidade} />
-                        </View>
+                        </Field_Group>
                         <Field_Group>
                             <Label_Field text={'Descrição*'} textColor={'#333333'} />
                             <Text_Field placeholder={'Coloque aqui a descrição do produto'} 
                             multiline={true} numberOfLines={4}
                             textAlignVertical={'top'}
-                            onChangeText={(descricao) => setValor(descricao)} value={is_valid(descricao) ? descricao.descricao : ''}/>
+                            onChangeText={(descricao) => setDescricao(descricao)} value={is_valid(descricao) ? descricao.descricao : ''}/>
                         </Field_Group>
                         <Field_Group>
                             <Label_Field text={'Categoria*'} textColor={'#333333'} />
@@ -104,9 +151,7 @@ const Add_Product = ({ navigation }) => {
                                     { label: 'Calçados', value: 'Calçados' },
                                     { label: 'Roupas', value: 'Roupas' },
                                     { label: 'Acessórios', value: 'Acessórios' },
-                                ]}
-                                
-                                // style={style.select}
+                                ]} 
                             />
                         </Field_Group>
 					<Button_Container width={'100%'} flexDirection={'row'} justifyContent={'space-around'}>
@@ -134,40 +179,6 @@ const Add_Product = ({ navigation }) => {
 // });
 
 const style = StyleSheet.create({
-    bg_edit_personal_data: {
-        width: '100%',
-		height: '100%',
-		marginTop: StatusBar.currentHeight,
-		flex: 1,
-    },
-	container: {
-		height: '100%',
-		width: Dimensions.get('window').width,
-		marginBottom: 40,
-	},
-    header: {
-        width: '100%',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'column'
-    },
-    header_text: {
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'row',
-        paddingVertical: 40,
-        paddingHorizontal: 40,
-        alignItems: 'center',
-        justifyContent: 'space-evenly',
-    },
-    header_title: {
-        display: 'flex',
-        width: '100%',
-        color: '#000',
-        fontSize: 26,
-        textAlign: 'center',
-    },
     image_picker: {
         width: '100%',
 		paddingHorizontal: 25,
@@ -198,108 +209,6 @@ const style = StyleSheet.create({
 		marginTop: 30,
 		paddingHorizontal: 25
 	},
-	label_input: {
-		fontSize: 12,
-		color: '#333333',
-		letterSpacing: 1,
-		lineHeight: 16,
-		paddingBottom: 5
-	},
-	input_container: {
-		width: '100%',
-		padding: 10,
-        
-	},
-    input_container_with_icons: {
-		width: '100%',
-		padding: 10,
-        display: 'flex',
-        flexDirection: 'row',
-		alignItems: 'center',
-        justifyContent: 'center',
-        position: 'relative'
-	},
-	radio_container: {
-		width: '100%',
-		padding: 10,
-		display: 'flex',
-		flexDirection: 'row',
-		alignItems: 'center'
-	},
-	input_text: {
-		width: '100%',
-		backgroundColor: '#fff',
-		padding: 15,
-		paddingEnd: 50,
-		marginVertical: 5,
-		borderRadius: 4,
-		borderWidth: 1,
-		borderColor: '#D8D8D8',
-		color: '#757575',
-	},
-    input_text_multiline: {
-		width: '100%',
-		backgroundColor: '#fff',
-        padding: 15,
-		paddingEnd: 50,
-		marginVertical: 5,
-		borderRadius: 4,
-		borderWidth: 1,
-		borderColor: '#D8D8D8',
-		color: '#757575',
-        textAlignVertical: 'top'
-	},
-    input_text_center: {
-		width: '100%',
-		backgroundColor: '#fff',
-		padding: 15,
-		marginVertical: 5,
-		borderRadius: 4,
-		borderWidth: 1,
-		borderColor: '#D8D8D8',
-		color: '#757575',
-        textAlign: 'center',
-	},
-    // select: {
-	// 	width: '100%',
-	// 	backgroundColor: '#000',
-	// 	padding: 15,
-	// 	paddingEnd: 50,
-	// 	marginVertical: 5,
-	// 	borderRadius: 4,
-	// 	borderWidth: 1,
-	// 	borderColor: '#D8D8D8',
-	// 	color: '#757575',
-	// },
-    button_save_container:{
-		display: 'flex',
-		width: '100%',
-		justifyContent: 'center',
-		alignItems: 'center',
-    	flexDirection: 'row',
-		marginVertical: 20,
-	},	
-	button_save: {
-		width: 100,
-		height: 50,
-		borderRadius: 5,
-		backgroundColor: '#0067FF',
-		display: 'flex',
-		alignItems: 'center',
-		justifyContent: 'center'
-	},
-    text_save: {
-        fontSize: 16,
-        color: '#fff'
-    },
-    icon_right: {
-        marginStart: -40,
-    },
-    icon_left:{
-        display: 'flex',
-        marginEnd: -40,
-        zIndex: 1
-    }
 });
 
 export default Add_Product;

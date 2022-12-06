@@ -3,6 +3,7 @@ import { StyleSheet, TextInput, View, } from 'react-native';
 
 import Icon_add_button from '../../img/icon_add_button.svg';
 import Icon_subtract_button from '../../img/icon_subtract_button.svg';
+import { Button_Solid, } from '../Components/Index_Components';
 
 const Quantity_Box = (props) => {
 
