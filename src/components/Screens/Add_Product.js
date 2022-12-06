@@ -1,14 +1,9 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, TextInput, Text, Image, TouchableOpacity, StatusBar, KeyboardAvoidingView, Platform, ScrollView, Dimensions, Button } from 'react-native';
-import { ActivityIndicator } from "react-native";
+import { StyleSheet, View, TextInput, Text, Image, TouchableOpacity, StatusBar, Dimensions, } from 'react-native';
 
 import {Main_Container, Container, Content, Header, Field_Group, Modal_Bottom, Button_Container} from '../Containers/Index_Container';
-import {Button_Back, Header_Title, Text_Field, Label_Field, Button_Solid, Divisor, Details_Line, Link_Button, Product_Car} from '../Components/Index_Components';
+import {Button_Back, Quantity_Box, Header_Title, Text_Field, Label_Field, Button_Solid,} from '../Components/Index_Components';
 
-
-import Icon_add_button from '../../img/icon_add_button.svg';
-import Icon_subtract_button from '../../img/icon_subtract_button.svg';
-import Arrow_back from '../../img/arrow_back.svg';
 import Icon_cam from '../../img/icon_cam.svg';
 import RNPickerSelect from 'react-native-picker-select';
 import api from '../../services/api';
@@ -62,18 +57,6 @@ const Add_Product = ({ navigation }) => {
         
     }
 
-    const add_quantidade = () => {
-        if(quantidade < 100) {
-            setQuantidade(quantidade+1);
-        }
-    }
-
-    const subtract_quantidade = () => {
-        if(quantidade > 0) {
-            setQuantidade(quantidade-1);
-        }
-    }
-
     return (
         <Main_Container isLoading={isLoading} setIsLoading={setIsLoading}>
             <Container alignItems="center" justifyContent={'center'} flexDirection={'column'}>
@@ -103,22 +86,7 @@ const Add_Product = ({ navigation }) => {
                         </Field_Group>
                         <View style={style.input_container}>
                             <Text style={style.label_input}>Quantidade*</Text>
-                            <View style={style.input_container_with_icons}>
-                                <TouchableOpacity
-                                onPress={() => subtract_quantidade()}
-                                style={style.icon_left}>
-                                    <Icon_subtract_button width={25} height={25} />
-                                </TouchableOpacity>
-                                <TextInput style={style.input_text_center}
-                                editable={false}
-                                placeholder={quantidade.toString()}
-                                />
-                                <TouchableOpacity
-                                    onPress={() => add_quantidade()}
-                                style={style.icon_right}>
-                                    <Icon_add_button width={25} height={25} />
-                                </TouchableOpacity>
-                            </View>
+                            <Quantity_Box quantidade={quantidade} setQuantidade={setQuantidade} />
                         </View>
                         <Field_Group>
                             <Label_Field text={'Descrição*'} textColor={'#333333'} />
@@ -127,11 +95,11 @@ const Add_Product = ({ navigation }) => {
                             textAlignVertical={'top'}
                             onChangeText={(descricao) => setValor(descricao)} value={is_valid(descricao) ? descricao.descricao : ''}/>
                         </Field_Group>
-                        <View style={style.input_container}>
-                            <Text style={style.label_input}>Categoria*</Text>
+                        <Field_Group>
+                            <Label_Field text={'Categoria*'} textColor={'#333333'} />
                             <RNPickerSelect 
-                                onValueChange={(categoria) => setCategoria(categoria)}
                                 placeholder={{label: 'Selecione uma categoria', value: null}}
+                                onValueChange={(categoria) => setCategoria(categoria)}
                                 items={[
                                     { label: 'Calçados', value: 'Calçados' },
                                     { label: 'Roupas', value: 'Roupas' },
@@ -140,7 +108,7 @@ const Add_Product = ({ navigation }) => {
                                 
                                 // style={style.select}
                             />
-                        </View>
+                        </Field_Group>
 					<Button_Container width={'100%'} flexDirection={'row'} justifyContent={'space-around'}>
                         <Button_Solid text={'SALVAR'} backgroundColor={'#0067FF'}
                             onPress={() => { () => {addProduct() }}} />
