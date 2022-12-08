@@ -22,9 +22,10 @@ import Page_Title from "./Page_Title";
 import Button_Round from "./Button_Round";
 import Text_Field_Masked from "./Text_Field_Masked";
 import Quantity_Box from "./Quantity_Box";
+import Image_Picker from "./Image_Picker";
 
 export {Button_Back, Button_Solid, Color_Boll, Container_Half_Color,
     Details_Line, Divisor, Header_Title, Image_Container, Label_Field,
     Link_Button, Loading, Logo, Product_Car, Profile_Item, Square_Size,
     Text_Field_Iconized, Text_Field, Text_Field_Masked, Step_Item, Step_Line, Step_Boll,
-    Page_Title, Button_Round, Quantity_Box, }
+    Page_Title, Button_Round, Quantity_Box, Image_Picker, }

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, View, Text, Image, TouchableOpacity, StatusBar, Dimensions, } from 'react-native';
 
 import {Main_Container, Container, Content, Header, Field_Group, Button_Container} from '../Containers/Index_Container';
-import {Button_Back, Quantity_Box, Header_Title, Text_Field, Label_Field, Button_Solid,} from '../Components/Index_Components';
+import {Button_Back, Quantity_Box, Image_Picker, Header_Title, Text_Field, Label_Field, Button_Solid,} from '../Components/Index_Components';
 
 import Icon_cam from '../../img/icon_cam.svg';
 import RNPickerSelect from 'react-native-picker-select';
@@ -112,14 +112,7 @@ const Add_Product = ({ navigation }) => {
                     <Header_Title text="Adicionar Produto" />
                 </Header>
                 <Content width={'100%'}>
-                    <View style={style.image_picker}>
-                        <View style={style.image_container}>
-                            <Image style={style.image_content} source={require('../../img/imagem_teste.jpg')}></Image>
-                        </View>
-                        <TouchableOpacity style={style.icon_cam}>
-                            <Icon_cam width={50} height={50} />
-                        </TouchableOpacity>
-                    </View>
+                    <Image_Picker onPress={() => {console.log("teste");}} />
                     <View style={style.form_container}>
                         <Field_Group>
                             <Label_Field text={'Nome*'} textColor={'#333333'} />
@@ -179,31 +172,6 @@ const Add_Product = ({ navigation }) => {
 // });
 
 const style = StyleSheet.create({
-    image_picker: {
-        width: '100%',
-		paddingHorizontal: 25,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    image_container: {
-        backgroundColor: '#acacac',
-        width: 150,
-        height: 150,
-        borderColor: '#fff',
-        borderWidth: 5,
-        overflow: 'hidden'
-    },
-    image_content : {
-        width: 150,
-        height: 150,
-    },
-    icon_cam: {
-        width: 150,
-        marginTop: -30,
-        marginEnd: -30,
-        alignItems: 'flex-end'
-    },
     form_container: {
 		width: '100%',
 		marginTop: 30,

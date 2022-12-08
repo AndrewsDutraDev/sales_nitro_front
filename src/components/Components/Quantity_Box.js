@@ -1,9 +1,8 @@
 import React from 'react';
-import { StyleSheet, TextInput, View, } from 'react-native';
+import { StyleSheet, TextInput, View, TouchableOpacity} from 'react-native';
 
 import Icon_add_button from '../../img/icon_add_button.svg';
 import Icon_subtract_button from '../../img/icon_subtract_button.svg';
-import { Button_Solid, } from '../Components/Index_Components';
 
 const Quantity_Box = (props) => {
 
@@ -32,7 +31,7 @@ const Quantity_Box = (props) => {
             <TouchableOpacity
                 onPress={() => subtract_quantidade()}
                 style={style.icon_left}>
-                <Icon_subtract_button width={25} height={25} />
+                <Icon_subtract_button width={35} height={35} />
             </TouchableOpacity>
             <TextInput style={style.input_text_center}
             editable={false}
@@ -41,7 +40,7 @@ const Quantity_Box = (props) => {
             <TouchableOpacity
                 onPress={() => add_quantidade()}
             style={style.icon_right}>
-                <Icon_add_button width={25} height={25} />
+                <Icon_add_button width={35} height={35} />
             </TouchableOpacity>
         </View>
     );
@@ -51,30 +50,29 @@ const Quantity_Box = (props) => {
 const style = StyleSheet.create({
     quantity_box: {
         width: '100%',
-		padding: 10,
         display: 'flex',
         flexDirection: 'row',
 		alignItems: 'center',
         justifyContent: 'center',
         position: 'relative',
     },
-    input_text: {
-        width: '100%',
+    input_text_center: {
+		width: '100%',
 		backgroundColor: '#fff',
-		padding: 15,
+        paddingVertical: 15,
 		marginVertical: 5,
 		borderRadius: 4,
 		borderWidth: 1,
 		borderColor: '#D8D8D8',
 		color: '#757575',
         textAlign: 'center',
-    },
+	},
     icon_right: {
-        marginStart: -40,
+        marginStart: -50,
     },
     icon_left:{
         display: 'flex',
-        marginEnd: -40,
+        marginEnd: -50,
         zIndex: 1
     }
 });
