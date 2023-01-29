@@ -5,7 +5,9 @@ import { TextInputMask } from 'react-native-masked-text'
 import Arrow_back from '../../img/arrow_back.svg';
 import api from '../../services/api';
 
+import {Main_Container, Container, Content, Header, Modal_Center, Button_Container, Field_Group} from '../Containers/Index_Container';
 
+import {Button_Back, Label_Field, Text_Field, Button_Round, Header_Title, Step_Item, Step_Boll, Step_Line, Page_Title, Text_Field_Masked, Button_Solid} from '../Components/Index_Components';
 
 const Edit_Delivery_Data = ({ navigation }) => {
 
@@ -16,156 +18,162 @@ const Edit_Delivery_Data = ({ navigation }) => {
 	const [bairro, setBairro] = useState();
 	const [complemento, setComplemento] = useState();
 	const [cep, setCep] = useState();
+    const [isLoading, setIsLoading] = useState(false);
+
+    /**
+     * Método para verificar se a propriedade é válida
+     * @param {Object} prop 
+     * @returns 
+     */
+    const is_valid = (prop) => {
+        return !(prop === undefined);
+    }
 
     const load_data = () => {
         
     }
 
     const update = () => {
-        var body = {
-            pais: pais,
-            cidade: cidade,
-            estado: estado,
-            endereco: endereco,
-            bairro: bairro,
-            complemento: complemento,
-            cep: cep,
+
+        /**
+         * Função para retornar se as informações do produto são válidas.
+         * @param {String} endereco 
+         * @param {String} bairro 
+         * @param {String} complemento 
+         * @param {String} cidade 
+         * @param {String} estado 
+         * @param {String} pais 
+         * @param {String} cep 
+         * @returns {boolean}
+         */
+        const is_valid_delivery_data = (endereco, bairro, complemento, cidade, estado, pais, cep) => {
+            return endereco && bairro && complemento && cidade && estado && pais && cep;
         }
-        // api
-        // .post("/admin/addproduct", body)
-        // .then((response) => {
-        //     alert(response)
-        //     if(response.data.success) {
-        //         alert('Dados de Entrega atualizados com sucesso')
-        //         navigation.navigate('Profile', { name: '' })
-        //     }
-        // })
-        // .catch((err) => {
-        //     alert("Ocorreu um erro ao editar os Dados de Entrega! Erro -> "+ err);
-        // });
-        alert('Dados de Entrega atualizados com sucesso')
-        navigation.navigate('Profile', { name: '' })
+
+        /**
+         * Cria o body que será enviado no request.
+         * @param {String} endereco 
+         * @param {String} bairro 
+         * @param {String} complemento 
+         * @param {String} cidade 
+         * @param {String} estado 
+         * @param {String} pais 
+         * @param {String} cep 
+         * @returns {JSON}
+         */
+        const body_request = (endereco, bairro, complemento, cidade, estado, pais, cep) => {
+            let body = {
+                endereco: endereco,
+                bairro: bairro,
+                complemento: complemento,
+                cidade: cidade,
+                estado: estado,
+                pais: pais,
+                cep: cep,
+            };
+
+            return body;
+        }
+
+        /**
+         * Método para realizar o request.
+         * @param {JSON} body 
+         */
+        const request_update = (body) => {
+            api.post("route", body)
+            .then((response) => {
+                alert(response);
+                if(response.data.success) {
+                    setIsLoading(false);
+                    alert("Dados de Entrega Atualizados!");
+                    navigation.navigate('Profile');
+                }
+            })
+            .catch((err) => {
+                setIsLoading(false);
+                alert("Não foi possível atualizar os dados de entrega!");
+                console.error(`ERROR -> ${err}`)
+            });
+        }
+
+        /**
+         * Método para validar a atualização dos dados de entrega.
+         */
+        const validate_update_delivery_data = () => {
+            if(is_valid_delivery_data(endereco, bairro, complemento, cidade, estado, pais, cep)) {
+                setIsLoading(true);
+
+                let body = body_request(endereco, bairro, complemento, cidade, estado, pais, cep);
+
+                request_update(body);
+            } else {
+                alert("Preencha os campos!")
+            }
+        }
+
+        validate_update_delivery_data();
     }
 
     return (
-        <View style={style.bg_edit_personal_data}>
-            <KeyboardAvoidingView behavior={ Platform.OS == 'ios' ? 'padding' : 'height' } keyboardVerticalOffset={10}>
-                <ScrollView>
-                    <View style={style.container}>
-                        <View style= {style.header}>
-                            <View style={style.header_text}>
-                                <TouchableOpacity 
-                                    onPress={() => navigation.navigate('Profile', { name: 'Jane' })}>
-                                    <Arrow_back width={25} height={25} fill={'#0066FF'} />
-                                </TouchableOpacity>
-                                <Text style={style.header_title}>Dados de Entrega</Text>
-                            </View>
-                        </View>
-                        <View style= {style.content}>
-                            <View style={style.form_container}>
-                                <View style={style.input_container}>
-                                    <Text style={style.label_input}>Endereco*</Text>
-                                    <TextInput style={style.input_text} placeholder='Ex. Rua Dez, 988'
-                                    onChangeText={(endereco) => setEndereco(endereco)}
-                                    />
-                                </View>
-                                <View style={style.input_container}>
-                                    <Text style={style.label_input}>Bairro*</Text>
-                                    <TextInput style={style.input_text} placeholder='Ex. Centro'
-                                    onChangeText={(bairro) => setBairro(bairro)}
-                                    />
-                                </View>
-                                <View style={style.input_container}>
-                                    <Text style={style.label_input}>Complemento	*</Text>
-                                    <TextInput style={style.input_text} placeholder='Ex. Ao lado da famácia São João'
-                                    onChangeText={(complemento) => setComplemento(complemento)}
-                                    />
-                                </View>
-                                <View style={style.input_container}>
-                                    <Text style={style.label_input}>Cidade	*</Text>
-                                    <TextInput style={style.input_text} placeholder='Ex. Guaporé'
-                                    onChangeText={(cidade) => setCidade(cidade)}
-                                    />
-                                </View>
-                                <View style={style.input_container}>
-                                    <Text style={style.label_input}>Estado	*</Text>
-                                    <TextInput style={style.input_text} placeholder='Ex. Guaporé'
-                                    onChangeText={(estado) => setEstado(estado)}
-                                    />
-                                </View>
-                                <View style={style.input_container}>
-                                    <Text style={style.label_input}>País	*</Text>
-                                    <TextInput style={style.input_text} placeholder='Ex. Guaporé'
-                                    onChangeText={(pais) => setPais(pais)}
-                                    />
-                                </View>
-                                <View style={style.input_container}>
-                                    <Text style={style.label_input}>CEP*</Text>
+        <Main_Container isLoading={isLoading} setIsLoading={setIsLoading}>
+            <Container alignItems="center" justifyContent="center" flexDirection={'column'}>
+                <Header justifyContent="space-evenly">
+                    <Button_Back onPress={() => navigation.navigate('Profile', {})} />
+                    <Header_Title text={'Dados de Entrega'} />
+                </Header>
+                <Content width={'100%'}>
+                    <View style={style.form_container}>
+                        <Field_Group>
+                            <Label_Field text={'Endereco*'} textColor={'#333333'} />
+                            <Text_Field placeholder={'Ex. Rua Dez, 988'} 
+                            onChangeText={(endereco) => setEndereco(endereco)} value={is_valid(endereco) ? endereco.endereco : ''}/>
+                        </Field_Group>
+                        <Field_Group>
+                            <Label_Field text={'Bairro*'} textColor={'#333333'} />
+                            <Text_Field placeholder={'Ex. Centro'} 
+                            onChangeText={(bairro) => setBairro(bairro)} value={is_valid(bairro) ? bairro.bairro : ''}/>
+                        </Field_Group>
+                        <Field_Group>
+                            <Label_Field text={'Complemento'} textColor={'#333333'} />
+                            <Text_Field placeholder={'Ex. Ao lado da famácia São João'} 
+                            onChangeText={(complemento) => setComplemento(complemento)} value={is_valid(complemento) ? complemento.complemento : ''}/>
+                        </Field_Group>
+                        <Field_Group>
+                            <Label_Field text={'Cidade*'} textColor={'#333333'} />
+                            <Text_Field placeholder={'Ex. Guaporé'} 
+                            onChangeText={(cidade) => setCidade(cidade)} value={is_valid(cidade) ? cidade.cidade : ''}/>
+                        </Field_Group>
+                        <Field_Group>
+                            <Label_Field text={'Estado*'} textColor={'#333333'} />
+                            <Text_Field placeholder={'Ex. Guaporé'} 
+                            onChangeText={(estado) => setEstado(estado)} value={is_valid(estado) ? estado.estado : ''}/>
+                        </Field_Group>
+                        <Field_Group>
+                            <Label_Field text={'País*'} textColor={'#333333'} />
+                            <Text_Field placeholder={'Ex. Guaporé'} 
+                            onChangeText={(pais) => setPais(pais)} value={is_valid(pais) ? pais.pais : ''}/>
+                        </Field_Group>
 
-                                    <TextInputMask
-                                        style={style.input_text} 
-                                        placeholder='Ex. 96.225-000'
-                                        type={'zip-code'}
-                                        value={cep}
-                                        onChangeText={(cep) => setCep(cep)}
-                                    />
-
-                                    
-                                </View>
-
-                                <View style={style.button_save_container}>
-                                    <View>
-                                        <TouchableOpacity style={style.button_save}
-                                        onPress={() => update()}
-                                        >
-                                                <Text style={style.text_save}>Salvar</Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                </View>
-                            </View>
-                        </View>
+                        <Field_Group>
+                            <Label_Field text={'CEP*'} textColor={'#333333'} />
+                            <Text_Field_Masked placeholder={'Ex. 96.225-000'} 
+                                onChangeText={(cep) => setCep(cep)} 
+                                value={is_valid(cep)? cep.cep : ''}
+                                type={'zip-code'}
+                            />
+                        </Field_Group>
+                        <Button_Container width={'100%'} flexDirection={'row'} justifyContent={'space-around'}>
+                            <Button_Solid text={'SALVAR'} backgroundColor={'#0067FF'}
+                                onPress={() => { () => {update() }}} />
+                        </Button_Container>
                     </View>
-                </ScrollView>
-            </KeyboardAvoidingView>
-        </View>  
+                </Content>
+            </Container>
+        </Main_Container> 
     )
 };
 
 const style = StyleSheet.create({
-    bg_edit_personal_data: {
-        width: '100%',
-		height: '100%',
-		marginTop: StatusBar.currentHeight,
-		flex: 1,
-    },
-	container: {
-		height: '100%',
-		width: Dimensions.get('window').width,
-		marginBottom: 40,
-	},
-    header: {
-        width: '100%',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'column'
-    },
-    header_text: {
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'row',
-        paddingVertical: 40,
-        paddingHorizontal: 40,
-        alignItems: 'center',
-        justifyContent: 'space-evenly',
-    },
-    header_title: {
-        display: 'flex',
-        width: '100%',
-        color: '#000',
-        fontSize: 26,
-        textAlign: 'center',
-    },
     form_container: {
 		width: '100%',
 		marginTop: 30,

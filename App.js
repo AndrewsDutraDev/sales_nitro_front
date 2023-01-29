@@ -32,17 +32,17 @@ const InitialLogin = () => {
 	return (
 		<NavigationContainer theme={MyTheme}>
 			<Stack.Navigator  screenOptions={{ headerShown: false }}>
+				<Stack.Screen name="Edit_Delivery_Data" component={Edit_Delivery_Data} />
 				<Stack.Screen name="Add_Product" component={Add_Product} />
-				<Stack.Screen name="Home" component={Home} initialParams={{id: 1, name: 'Gabriel'}} />
+				<Stack.Screen name="Register" component={Register} />
 				<Stack.Screen name="Login" component={Login} options={{ title: 'Welcome' }}/>
+				<Stack.Screen name="Home" component={Home} initialParams={{id: 1, name: 'Gabriel'}} />
 				<Stack.Screen name="Profile" component={Profile} />
 				<Stack.Screen name="Teste" component={Teste} options={{}}/>
 				<Stack.Screen name="View_Carrinho" component={View_Carrinho} />
-				<Stack.Screen name="Register" component={Register} />
 				<Stack.Screen name="Edit_Product" component={Edit_Product} />
 				<Stack.Screen name="List_Product" component={List_Product} />
 				<Stack.Screen name="Edit_Personal_Data" component={Edit_Personal_Data} />
-				<Stack.Screen name="Edit_Delivery_Data" component={Edit_Delivery_Data} />
 				<Stack.Screen name="Edit_Password" component={Edit_Password} />
 				<Stack.Screen name="Profile_Store" component={Profile_Store} />
 				<Stack.Screen name="View_Product" component={View_Product} />
