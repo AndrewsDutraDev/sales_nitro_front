@@ -1,22 +1,19 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Image, TextInput, Text, TouchableOpacity, StatusBar, KeyboardAvoidingView, Platform, ScrollView, Dimensions } from 'react-native';
-import { RadioButton } from 'react-native-paper';
-import { TextInputMask } from 'react-native-masked-text'
-import Arrow_back from '../../img/arrow_back.svg';
+import { StyleSheet, View, } from 'react-native';
 import api from '../../services/api';
 
-import {Main_Container, Container, Content, Header, Modal_Center, Button_Container, Field_Group} from '../Containers/Index_Container';
+import {Main_Container, Container, Content, Header, Button_Container, Field_Group} from '../Containers/Index_Container';
 
-import {Button_Back, Label_Field, Text_Field, Button_Round, Header_Title, Step_Item, Step_Boll, Step_Line, Page_Title, Text_Field_Masked, Button_Solid} from '../Components/Index_Components';
+import {Button_Back, Label_Field, Text_Field, Header_Title, Text_Field_Masked, Button_Solid} from '../Components/Index_Components';
 
 const Edit_Delivery_Data = ({ navigation }) => {
 
-    const [pais, setPais] = useState();
-	const [cidade, setCidade] = useState();
-	const [estado, setEstado] = useState();
 	const [endereco, setEndereco] = useState();
 	const [bairro, setBairro] = useState();
 	const [complemento, setComplemento] = useState();
+	const [cidade, setCidade] = useState();
+	const [estado, setEstado] = useState();
+    const [pais, setPais] = useState();
 	const [cep, setCep] = useState();
     const [isLoading, setIsLoading] = useState(false);
 
@@ -29,14 +26,13 @@ const Edit_Delivery_Data = ({ navigation }) => {
         return !(prop === undefined);
     }
 
-    const load_data = () => {
-        
-    }
-
-    const update = () => {
+    /**
+     * Método para atualizar os dados de entrega.
+     */
+    const update_delivery_data = () => {
 
         /**
-         * Função para retornar se as informações do produto são válidas.
+         * Função para retornar se as informações de entrega são válidas.
          * @param {String} endereco 
          * @param {String} bairro 
          * @param {String} complemento 
@@ -164,7 +160,7 @@ const Edit_Delivery_Data = ({ navigation }) => {
                         </Field_Group>
                         <Button_Container width={'100%'} flexDirection={'row'} justifyContent={'space-around'}>
                             <Button_Solid text={'SALVAR'} backgroundColor={'#0067FF'}
-                                onPress={() => { () => {update() }}} />
+                                onPress={() => { () => {update_delivery_data() }}} />
                         </Button_Container>
                     </View>
                 </Content>
@@ -179,56 +175,6 @@ const style = StyleSheet.create({
 		marginTop: 30,
 		paddingHorizontal: 25
 	},
-	label_input: {
-		fontSize: 12,
-		color: '#333333',
-		letterSpacing: 1,
-		lineHeight: 16,
-		paddingBottom: 5
-	},
-	input_container: {
-		width: '100%',
-		padding: 10
-	},
-	radio_container: {
-		width: '100%',
-		padding: 10,
-		display: 'flex',
-		flexDirection: 'row',
-		alignItems: 'center'
-	},
-	input_text: {
-		width: '100%',
-		backgroundColor: '#fff',
-		padding: 15,
-		paddingEnd: 50,
-		marginVertical: 5,
-		borderRadius: 4,
-		borderWidth: 1,
-		borderColor: '#D8D8D8',
-		color: '#757575',
-	},
-    button_save_container:{
-		display: 'flex',
-		width: '100%',
-		justifyContent: 'center',
-		alignItems: 'center',
-    	flexDirection: 'row',
-		marginVertical: 20,
-	},	
-	button_save: {
-		width: 100,
-		height: 50,
-		borderRadius: 5,
-		backgroundColor: '#0067FF',
-		display: 'flex',
-		alignItems: 'center',
-		justifyContent: 'center'
-	},
-    text_save: {
-        fontSize: 16,
-        color: '#fff'
-    }
 });
 
 export default Edit_Delivery_Data;
