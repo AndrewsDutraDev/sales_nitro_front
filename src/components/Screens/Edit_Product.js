@@ -16,43 +16,83 @@ const Edit_Product = ({ navigation, route }) => {
     const [descricao, setDescricao] = useState();
     const [categoria, setCategoria] = useState();
 
-    const update = () => {
-        var body = {
-            _id: route.params.id,
-            name: nome,
-            valor: valor,
-            quantidade: quantidade,
-            descricao: descricao,
-            categoria: categoria,
+    /**
+     * Método para atualizar um produto.
+     */
+    const update_product = () => {
+
+        /**
+         * Função para retornar se as informações do produto são válidas.
+         * @param {String} nome 
+         * @param {String} valor 
+         * @param {String} quantidade 
+         * @param {String} descricao 
+         * @param {String} categoria 
+         * @returns {boolean}
+         */
+        const is_valid_product = (nome, valor, quantidade, descricao, categoria) => {
+            return nome && valor && quantidade && descricao && categoria;
+        };
+
+         /**
+         * Cria o body que será enviado no request.
+         * @param {String} nome 
+         * @param {String} valor 
+         * @param {String} quantidade 
+         * @param {String} descricao 
+         * @param {String} categoria 
+         * @returns {JSON}
+         */
+         const body_request = (nome, valor, quantidade, descricao, categoria) => {
+            let body = {
+                _id: route.params.id,
+                name: nome,
+                valor: valor,
+                quantidade: quantidade,
+                descricao: descricao,
+                categoria: categoria,
+            }
+
+            return body;
+        };
+
+        /**
+         * Método para realizar o request.
+         * @param {JSON} body 
+         */
+        const request_update_product = (body) => {
+            api.post("/admin/changeproduct", body)
+            .then((response) => {
+                alert(response);
+                if(response.data.success) {
+                    setIsLoading(false);
+                    alert("Produto atualizado com sucesso!")
+                    navigation.navigate('List_Product');
+                }
+            })
+            .then((err) => {
+                setIsLoading(false);
+                alert("Não foi possível atualizar o produto!");
+				console.error(`ERROR -> ${err}`);
+            })
         }
-        // api
-        // .post("/admin/changeproduct", body)
-        // .then((response) => {
-        //     if(response.data) {
-        //         alert('Produto atualizado com sucesso')
-        //         navigation.navigate('Profile_Store', { name: '' })
-                
-        //     }
-        // })
-        // .catch((err) => {
-        //     alert("Ocorreu um erro ao atualizar o Produto! Erro -> "+ err);
-        // });
-        alert('Produto atualizado com sucesso')
-        navigation.navigate('Profile_Store', { name: '' })
 
+        /**
+		 * Método para validar a inserção do produto
+		 */
+        const validate_update_product = () => {
+            if(is_valid_product(nome, valor, quantidade, descricao, categoria)) {
+                setIsLoading(true);
 
-    }
+                let body = body_request(nome, valor, quantidade, descricao, categoria);
 
-    const add_quantidade = () => {
-        if(quantidade < 100) {
-            setQuantidade(quantidade+1);
+                request_update_product(body);
+            } else {
+                alert("Preencha os campos!");
+            }
         }
-    }
 
-    const subtract_quantidade = () => {
-        if(quantidade > 0) {
-            setQuantidade(quantidade-1);
-        }
+        validate_update_product();
     }
 
     const load_product = () => {
@@ -73,156 +113,72 @@ const Edit_Product = ({ navigation, route }) => {
     };
 
     useEffect( () => {
-        load_product();
+        // load_product();
     }, []);
 
     return (
-        <View style={style.bg_edit_personal_data}>
-            <KeyboardAvoidingView behavior={ Platform.OS == 'ios' ? 'padding' : 'height' } keyboardVerticalOffset={10}>
-                <ScrollView>
-                    <View style={style.container}>
-                        <View style= {style.header}>
-                            <View style={style.header_text}>
-                                <TouchableOpacity 
-                                    onPress={() => navigation.navigate('Profile_Store', { name: 'Jane' })}>
-                                    <Arrow_back width={25} height={25} fill={'#0066FF'} />
-                                </TouchableOpacity>
-                                <Text style={style.header_title}>Editar Produto</Text>
-                            </View>
-                        </View>
-                        <View style= {style.content}>
-                            <View style={style.image_picker}>
-                                <View style={style.image_container}>
-                                    <Image style={style.image_content} source={require('../../img/imagem_teste.jpg')}></Image>
-                                </View>
-                                <TouchableOpacity style={style.icon_cam}>
-                                    <Icon_cam width={50} height={50} />
-                                </TouchableOpacity>
-                            </View>
-                            <View style={style.form_container}>
-                                <View style={style.input_container}>
-                                    <Text style={style.label_input}>Nome*</Text>
-                                    <TextInput style={style.input_text} placeholder='Ex. Sapato'
-                                    value={nome}
-                                    onChangeText={(nome) => setNome(nome)}
-                                    />
-                                </View>
-                                <View style={style.input_container}>
-                                    <Text style={style.label_input}>Valor*</Text>
-                                    <TextInput style={style.input_text} placeholder='R$ 0.00'
-                                    value={valor}
-                                    onChangeText={(valor) => setValor(valor)}
-                                    />
-                                </View>
-                                <View style={style.input_container}>
-                                    <Text style={style.label_input}>Quantidade*</Text>
-                                    <View style={style.input_container_with_icons}>
-                                        <TouchableOpacity
-                                        onPress={() => subtract_quantidade()}
-                                        style={style.icon_left}>
-                                            <Icon_subtract_button width={25} height={25} />
-                                        </TouchableOpacity>
-                                        <TextInput style={style.input_text_center}
-                                        editable={false}
-                                        placeholder={quantidade.toString()}
-                                        value={quantidade.toString()}
-
-                                        />
-                                        <TouchableOpacity
-                                         onPress={() => add_quantidade()}
-                                        style={style.icon_right}>
-                                            <Icon_add_button width={25} height={25} />
-                                        </TouchableOpacity>
-                                    </View>
-                                </View>
-                                <View style={style.input_container}>
-                                    <Text style={style.label_input}>Descrição*</Text>
-                                    <TextInput style={style.input_text_multiline} placeholder='Coloque aqui a descrição do produto'
-                                    value={descricao}
-                                    onChangeText={(descricao) => setDescricao(descricao)}
-                                    multiline={true}
-                                    numberOfLines={4}
-                                    />
-                                </View>
-                                <View style={style.input_container}>
-                                    <Text style={style.label_input}>Categoria*</Text>
-                                    <RNPickerSelect 
-                                        onValueChange={(categoria) => setCategoria(categoria)}
-                                        placeholder={{label: 'Selecione uma categoria', value: null}}
-                                        items={[
-                                            { label: 'Calçados', value: 'Calçados' },
-                                            { label: 'Roupas', value: 'Roupas' },
-                                            { label: 'Acessórios', value: 'Acessórios' },
-                                        ]}
-                                        value={categoria}
-                                        
-                                        // style={style.select}
-                                    />
-                                </View>
-                                <View style={style.button_save_container}>
-                                    <View>
-                                        <TouchableOpacity style={style.button_save} onPress={() => update()}>
-                                                <Text style={style.text_save}>Salvar</Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                </View>
-                            </View>
-                        </View>
+        <Main_Container isLoading={isLoading} setIsLoading={setIsLoading}>
+            <Container alignItems="center" justifyContent="center" flexDirection={'column'}>
+            <Header justifyContent="space-evenly">
+                <Button_Back onPress={() => navigation.navigate('Profile_Store', {})} />
+                <Header_Title text={'Editar Produto'} />
+            </Header>
+            <Content width={'100%'}>
+                <View style={style.image_picker}>
+                    <View style={style.image_container}>
+                        <Image style={style.image_content} source={require('../../img/imagem_teste.jpg')}></Image>
                     </View>
-                </ScrollView>
-            </KeyboardAvoidingView>
-        </View>  
+                    <TouchableOpacity style={style.icon_cam}>
+                        <Icon_cam width={50} height={50} />
+                    </TouchableOpacity>
+                </View>
+                    <View style={style.form_container}>
+                        <Field_Group>
+                            <Label_Field text={'Nome*'} textColor={'#333333'} />
+                            <Text_Field placeholder={'Ex. Sapato'} 
+                            onChangeText={(nome) => setNome(nome)} value={is_valid(nome) ? nome.nome : ''}/>
+                        </Field_Group>
+                        <Field_Group>
+                            <Label_Field text={'Valor*'} textColor={'#333333'} />
+                            <Text_Field placeholder={'R$ 0.00'} 
+                            onChangeText={(valor) => setValor(valor)} value={is_valid(valor) ? valor.valor : ''}/>
+                        </Field_Group>
+                        <Field_Group>
+                            <Label_Field text={'Quantidade*'} textColor={'#333333'} />
+                            <Quantity_Box quantidade={quantidade} setQuantidade={setQuantidade} />
+                        </Field_Group>
+                        <Field_Group>
+                            <Label_Field text={'Descrição*'} textColor={'#333333'} />
+                            <Text_Field placeholder={'Coloque aqui a descrição do produto'} 
+                            multiline={true} numberOfLines={4}
+                            textAlignVertical={'top'}
+                            onChangeText={(descricao) => setDescricao(descricao)} value={is_valid(descricao) ? descricao.descricao : ''}/>
+                        </Field_Group>
+                        <Field_Group>
+                            <Label_Field text={'Categoria*'} textColor={'#333333'} />
+                            <RNPickerSelect 
+                                placeholder={{label: 'Selecione uma categoria', value: null}}
+                                onValueChange={(categoria) => setCategoria(categoria)}
+                                items={[
+                                    { label: 'Calçados', value: 'Calçados' },
+                                    { label: 'Roupas', value: 'Roupas' },
+                                    { label: 'Acessórios', value: 'Acessórios' },
+                                ]}
+                                value={categoria}
+                            />
+                        </Field_Group>
+                        <Button_Container width={'100%'} flexDirection={'row'} justifyContent={'space-around'}>
+                            <Button_Solid text={'SALVAR'} backgroundColor={'#0067FF'}
+                                onPress={() => { () => {update_product() }}} />
+                        </Button_Container>
+                    </View>
+                </Content>
+            </Container>
+        </Main_Container>
     )
 };
 
-// const style = StyleSheet.create({
-//     bg_home: {
-//         width: '100%',
-//         height: '100%',
-//         marginTop: StatusBar.currentHeight,
-//         flex: 1,
-//     },
-//     container: {
-//       height: Dimensions.get('window').height,
-//       width: Dimensions.get('window').width,
-//     },
-// });
-
 const style = StyleSheet.create({
-    bg_edit_personal_data: {
-        width: '100%',
-		height: '100%',
-		marginTop: StatusBar.currentHeight,
-		flex: 1,
-    },
-	container: {
-		height: '100%',
-		width: Dimensions.get('window').width,
-		marginBottom: 40,
-	},
-    header: {
-        width: '100%',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'column'
-    },
-    header_text: {
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'row',
-        paddingVertical: 40,
-        paddingHorizontal: 40,
-        alignItems: 'center',
-        justifyContent: 'space-evenly',
-    },
-    header_title: {
-        display: 'flex',
-        width: '100%',
-        color: '#000',
-        fontSize: 26,
-        textAlign: 'center',
-    },
     image_picker: {
         width: '100%',
 		paddingHorizontal: 25,
