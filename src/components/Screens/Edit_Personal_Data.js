@@ -1,17 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Image, TextInput, Text, TouchableOpacity, StatusBar, KeyboardAvoidingView, Platform, ScrollView, Dimensions } from 'react-native';
-import { ActivityIndicator } from "react-native";
+import { StyleSheet, View, Text, } from 'react-native';
 import { RadioButton } from 'react-native-paper';
-import { TextInputMask } from 'react-native-masked-text'
-import Arrow_back from '../../img/arrow_back.svg';
 import api from '../../services/api';
 
-import {Main_Container, Container, Content, Header, Radio_Container, Modal_Center,
-    Button_Container, Field_Group} from '../Containers/Index_Container';
+import {Main_Container, Container, Content, Header, Radio_Container,
+ Button_Container, Field_Group} from '../Containers/Index_Container';
    
-   import {Button_Back, Label_Field, Text_Field, Button_Round, Header_Title,
-    Step_Item, Step_Boll, Step_Line, Page_Title, Text_Field_Masked, Button_Solid}
-    from '../Components/Index_Components';
+import {Button_Back, Label_Field, Text_Field, Header_Title, 
+ Text_Field_Masked, Button_Solid}from '../Components/Index_Components';
 
 const Edit_Personal_Data = ({ navigation, route }) => {
 
