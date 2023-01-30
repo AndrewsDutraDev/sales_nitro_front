@@ -4,8 +4,13 @@ import { RadioButton } from 'react-native-paper';
 import SVGImg from '../../img/next_button.svg';
 import api from '../../services/api';
 
-import { Step_Container, Radio_Container, Field_Group, Page_Container, Container, Content, Header, Main_Container, Button_Container } from '../Containers/Index_Container';
-import {Button_Back, Label_Field, Text_Field, Button_Round, Header_Title, Step_Item, Step_Boll, Step_Line, Page_Title, Text_Field_Masked, Button_Solid} from '../Components/Index_Components';
+import { Step_Container, Radio_Container, Field_Group, Page_Container,
+ Container, Content, Header, Main_Container, Button_Container }
+  from '../Containers/Index_Container';
+  
+import {Button_Back, Label_Field, Text_Field, Button_Round,
+ Header_Title, Step_Item, Step_Boll, Step_Line, Page_Title, Text_Field_Masked, 
+ Button_Solid} from '../Components/Index_Components';
 
 const Register = ({ navigation }) => {
 

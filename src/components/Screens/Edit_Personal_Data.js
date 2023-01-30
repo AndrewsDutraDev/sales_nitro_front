@@ -25,10 +25,10 @@ const Edit_Personal_Data = ({ navigation, route }) => {
     const [isLoading, setIsLoading] = useState(false);
 
     /**
-         * Método para verificar se a propriedade é válida
-         * @param {Object} prop 
-         * @returns 
-         */
+     * Método para verificar se a propriedade é válida
+     * @param {Object} prop 
+     * @returns {boolean}
+     */
     const is_valid = (prop) => {
         return !(prop === undefined);
     }
