@@ -15,7 +15,7 @@ const Details_Line = (props) => {
     return (
         <View style={style.details_line}>
             <Text style={style.details_text}>{props.text}</Text>
-            <Text style={style.details_text_bold}>{is_valid(props.textBold) ? props.textBold : ''}</Text>
+            <Text style={[style.details_text_bold, {color: is_valid(props.textBoldColor) ? props.textBoldColor : '#000'} ]}>{is_valid(props.textBold) ? props.textBold : ''}</Text>
         </View>
     );
 };

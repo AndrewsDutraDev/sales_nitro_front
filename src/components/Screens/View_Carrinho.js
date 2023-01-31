@@ -154,7 +154,7 @@ const View_Carrinho = ({ navigation, route }) => {
                     </View>
                     <Button_Container width={'100%'}>
                         <Button_Solid text={'Finalizar pedido'} backgroundColor={'#0067FF'}
-                        onPress={() => {alert('Pagamento!'); }} />
+                        onPress={() => {navigation.navigate('Payment', {frete: frete, total: total+frete+cupomDiscount}); }} />
                         <Button_Solid text={'Escolher mais produtos'} textColor={'#0067FF'} backgroundColor={'#ffffff'} borderColor={'#0067FF'}
                         onPress={() => { navigation.navigate('Home', {});}} />
                     </Button_Container>

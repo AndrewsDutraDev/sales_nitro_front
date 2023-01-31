@@ -16,6 +16,8 @@ import List_Product from './src/components/Screens/List_Product';
 import Home from './src/components/Screens/Home';
 import View_Product from './src/components/Screens/View_Product';
 import View_Carrinho from './src/components/Screens/View_Carrinho';
+import Feed from './src/components/Screens/Feed';
+import Payment from './src/components/Screens/Payment';
 
 const MyTheme = {
   ...DefaultTheme,
@@ -32,14 +34,16 @@ const InitialLogin = () => {
 	return (
 		<NavigationContainer theme={MyTheme}>
 			<Stack.Navigator  screenOptions={{ headerShown: false }}>
+				<Stack.Screen name="Login" component={Login} options={{ title: 'Welcome' }}/>
+				<Stack.Screen name="Payment" component={Payment} initialParams={{frete: 0, total: 0}} />
+				<Stack.Screen name="Profile" component={Profile} />
 				<Stack.Screen name="Edit_Personal_Data" component={Edit_Personal_Data} />
 				<Stack.Screen name="Edit_Password" component={Edit_Password} />
 				<Stack.Screen name="Edit_Delivery_Data" component={Edit_Delivery_Data} />
 				<Stack.Screen name="Add_Product" component={Add_Product} />
 				<Stack.Screen name="Register" component={Register} />
-				<Stack.Screen name="Login" component={Login} options={{ title: 'Welcome' }}/>
+				<Stack.Screen name="Feed" component={Feed} initialParams={{carProductList: null }} />
 				<Stack.Screen name="Home" component={Home} initialParams={{id: 1, name: 'Gabriel'}} />
-				<Stack.Screen name="Profile" component={Profile} />
 				<Stack.Screen name="Teste" component={Teste} options={{}}/>
 				<Stack.Screen name="View_Carrinho" component={View_Carrinho} />
 				<Stack.Screen name="Edit_Product" component={Edit_Product} />

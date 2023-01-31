@@ -119,7 +119,7 @@ const View_Product = ({ navigation, route }) => {
                         </View>
                         <Button_Container width={'100%'}>
                             <Button_Solid text={'COMPRAR'} backgroundColor={'#0067FF'}
-                            onPress={() => { () => {buy_product() }}} />
+                            onPress={() => { buy_product() }} />
                             <Button_Solid text={'Adicionar ao carrinho'} textColor={'#0067FF'} backgroundColor={'#ffffff'} borderColor={'#0067FF'}
                             onPress={() => { add_product()}} />
                         </Button_Container>

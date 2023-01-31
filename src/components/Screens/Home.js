@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ActivityIndicator } from "react-native";
-import { StyleSheet, Animated,  Modal, View, TextInput, Image, Text, TouchableOpacity, StatusBar, KeyboardAvoidingView, Platform, ScrollView, Dimensions, Button } from 'react-native';
+import { StyleSheet, Animated, Modal, View, TextInput, Image, Text, TouchableOpacity, StatusBar, KeyboardAvoidingView, Platform, ScrollView, Dimensions, Button } from 'react-native';
 import Icon_edit from '../../img/icon_edit.svg';
 import Icon_delete from '../../img/icon_delete.svg';
 import Menu_closed from '../../img/menu_closed.svg';
@@ -8,7 +8,9 @@ import Menu_opened from '../../img/menu_opened.svg';
 import Icon_car from '../../img/icon_car.svg';
 import Icon_search from '../../img/icon_search.svg';
 import Icon_novidades from '../../img/icon_novidades.svg';
+import Icon_products from '../../img/icon_products.svg';
 import Icon_favoritos from '../../img/icon_favoritos.svg';
+import Icon_feed from '../../img/icon_feed.svg';
 import Icon_compras from '../../img/icon_compras.svg';
 import Icon_conta from '../../img/icon_conta.svg';
 import api from '../../services/api';
@@ -55,6 +57,7 @@ const Home = ({ navigation, route }) => {
         }, 500);
 
       };
+      
       const load_products = () => {
         setIsLoading(true);
         api
@@ -224,8 +227,17 @@ const Home = ({ navigation, route }) => {
                         <Text style={style.laterel_item_text}>Novidades</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={style.lateral_item}>
+                        <Icon_products width={20} height={20} />
+                        <Text style={style.laterel_item_text}>Produtos</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={style.lateral_item}>
                         <Icon_favoritos width={20} height={20} />
                         <Text style={style.laterel_item_text}>Favoritos</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={style.lateral_item}
+                    onPress={() => navigation.navigate('Feed', {id: userId, name: userName, productsList: productsList, setProductsList: setProductsList, carProductList: carProductList, setCarProductList: setCarProductList, carProductNumber: carProductNumber, setCarProductNumber: setCarProductNumber,})}>
+                        <Icon_feed width={20} height={20} />
+                        <Text style={style.laterel_item_text}>Feed</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={style.lateral_item}>
                         <Icon_compras width={20} height={20} />
@@ -500,6 +512,7 @@ const style = StyleSheet.create({
         width: '100%',
         display: 'flex',
         justifyContent: 'flex-start',
+        alignItems: 'center',
         flexDirection: 'row',
         paddingEnd: 50,
         marginVertical: 15
