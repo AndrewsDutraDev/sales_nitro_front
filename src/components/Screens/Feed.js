@@ -1,11 +1,10 @@
 import React, {useState} from 'react';
-import { Text } from 'react-native';
-import {Main_Container, Container, Content, Header, Button_Container} from '../Containers/Index_Container';
+import { Container, Content, Header, } from '../Containers/Index_Container';
 import Feed_Container from '../Containers/Feed_Container';
 import Main_Container_Feed from '../Containers/Main_Container_Feed';
 import {Button_Back, Header_Title} from '../Components/Index_Components';
 import Video_Square from '../Components/Video_Square';
-import { useEffect } from 'react';
+
 const Feed = ({ navigation, route }) => {
     const [productsList, setProductsList] = useState(route.params.productsList, route.params.setProductsList, );
     const [carProductList, setCarProductList] = useState(route.params.carProductList, route.params.setCarProductList);

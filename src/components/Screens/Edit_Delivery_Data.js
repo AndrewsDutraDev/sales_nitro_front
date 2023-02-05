@@ -151,7 +151,6 @@ const Edit_Delivery_Data = ({ navigation }) => {
                             <Text_Field placeholder={'Ex. Guaporé'} 
                             onChangeText={(pais) => setPais(pais)} value={is_valid(pais) ? pais.pais : ''}/>
                         </Field_Group>
-
                         <Field_Group>
                             <Label_Field text={'CEP*'} textColor={'#333333'} />
                             <Text_Field_Masked placeholder={'Ex. 96.225-000'} 

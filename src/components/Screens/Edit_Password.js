@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Image, TextInput, Text, TouchableOpacity, StatusBar, Dimensions } from 'react-native';
-import Arrow_back from '../../img/arrow_back.svg';
+import { StyleSheet, View, } from 'react-native';
 import api from '../../services/api';
 
-import {Main_Container, Container, Content, Header, Modal_Center,
+import {Main_Container, Container, Content, Header,
  Button_Container, Field_Group} from '../Containers/Index_Container';
 
-import {Button_Back, Label_Field, Text_Field, Button_Round, Header_Title,
- Step_Item, Step_Boll, Step_Line, Page_Title, Text_Field_Masked, Button_Solid}
+import {Button_Back, Label_Field, Text_Field, Header_Title, Button_Solid}
  from '../Components/Index_Components';
 
 const Edit_Password = ({ navigation }) => {

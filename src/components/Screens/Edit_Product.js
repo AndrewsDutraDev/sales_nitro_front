@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, TextInput, Text, Image, TouchableOpacity, StatusBar, KeyboardAvoidingView, Platform, ScrollView, Dimensions, Button } from 'react-native';
-import Icon_add_button from '../../img/icon_add_button.svg';
-import Icon_subtract_button from '../../img/icon_subtract_button.svg';
-import Arrow_back from '../../img/arrow_back.svg';
+import { StyleSheet, View, Image, TouchableOpacity, } from 'react-native';
 import Icon_cam from '../../img/icon_cam.svg';
 import api from '../../services/api';
 
@@ -209,108 +206,6 @@ const style = StyleSheet.create({
 		marginTop: 30,
 		paddingHorizontal: 25
 	},
-	label_input: {
-		fontSize: 12,
-		color: '#333333',
-		letterSpacing: 1,
-		lineHeight: 16,
-		paddingBottom: 5
-	},
-	input_container: {
-		width: '100%',
-		padding: 10,
-        
-	},
-    input_container_with_icons: {
-		width: '100%',
-		padding: 10,
-        display: 'flex',
-        flexDirection: 'row',
-		alignItems: 'center',
-        justifyContent: 'center',
-        position: 'relative'
-	},
-	radio_container: {
-		width: '100%',
-		padding: 10,
-		display: 'flex',
-		flexDirection: 'row',
-		alignItems: 'center'
-	},
-	input_text: {
-		width: '100%',
-		backgroundColor: '#fff',
-		padding: 15,
-		paddingEnd: 50,
-		marginVertical: 5,
-		borderRadius: 4,
-		borderWidth: 1,
-		borderColor: '#D8D8D8',
-		color: '#757575',
-	},
-    input_text_multiline: {
-		width: '100%',
-		backgroundColor: '#fff',
-        padding: 15,
-		paddingEnd: 50,
-		marginVertical: 5,
-		borderRadius: 4,
-		borderWidth: 1,
-		borderColor: '#D8D8D8',
-		color: '#757575',
-        textAlignVertical: 'top'
-	},
-    input_text_center: {
-		width: '100%',
-		backgroundColor: '#fff',
-		padding: 15,
-		marginVertical: 5,
-		borderRadius: 4,
-		borderWidth: 1,
-		borderColor: '#D8D8D8',
-		color: '#757575',
-        textAlign: 'center',
-	},
-    // select: {
-	// 	width: '100%',
-	// 	backgroundColor: '#000',
-	// 	padding: 15,
-	// 	paddingEnd: 50,
-	// 	marginVertical: 5,
-	// 	borderRadius: 4,
-	// 	borderWidth: 1,
-	// 	borderColor: '#D8D8D8',
-	// 	color: '#757575',
-	// },
-    button_save_container:{
-		display: 'flex',
-		width: '100%',
-		justifyContent: 'center',
-		alignItems: 'center',
-    	flexDirection: 'row',
-		marginVertical: 20,
-	},	
-	button_save: {
-		width: 100,
-		height: 50,
-		borderRadius: 5,
-		backgroundColor: '#0067FF',
-		display: 'flex',
-		alignItems: 'center',
-		justifyContent: 'center'
-	},
-    text_save: {
-        fontSize: 16,
-        color: '#fff'
-    },
-    icon_right: {
-        marginStart: -40,
-    },
-    icon_left:{
-        display: 'flex',
-        marginEnd: -40,
-        zIndex: 1
-    }
 });
 
 export default Edit_Product;

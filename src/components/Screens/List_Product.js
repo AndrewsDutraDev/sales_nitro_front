@@ -167,19 +167,6 @@ const List_Product = ({ navigation }) => {
     )
 };
 
-// const style = StyleSheet.create({
-//     bg_home: {
-//         width: '100%',
-//         height: '100%',
-//         marginTop: StatusBar.currentHeight,
-//         flex: 1,
-//     },
-//     container: {
-//       height: Dimensions.get('window').height,
-//       width: Dimensions.get('window').width,
-//     },
-// });
-
 const style = StyleSheet.create({
     list_container: {
         width: '100%',
@@ -191,7 +178,6 @@ const style = StyleSheet.create({
         justifyContent: 'space-between'
     },
     image_container: {
-        // backgroundColor: '#acacac',
         width: 140,
         height: 200,
         borderColor: '#fff',
@@ -209,30 +195,7 @@ const style = StyleSheet.create({
         color: '#000',
         fontSize: 16,
         textAlign: 'center',
-    },
-
-    modal: {
-        height: '100%',
-		width: Dimensions.get('window').width,
-        backgroundColor: '#00000080',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    modal_container: {
-        width: '50%',
-        backgroundColor: '#fff',
-        borderRadius: 5,
-        paddingHorizontal: 10,
-        paddingVertical: 15
-    },
-    button_container: {
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-around'
-    },
-    
+    },   
 });
 
 export default List_Product;

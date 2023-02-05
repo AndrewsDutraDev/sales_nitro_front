@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, Image, TouchableOpacity, StatusBar, Dimensions, } from 'react-native';
+import { StyleSheet, View, } from 'react-native';
 
 import {Main_Container, Container, Content, Header, Field_Group, Button_Container} from '../Containers/Index_Container';
 import {Button_Back, Quantity_Box, Image_Picker, Header_Title, Text_Field, Label_Field, Button_Solid,} from '../Components/Index_Components';
 
-import Icon_cam from '../../img/icon_cam.svg';
 import RNPickerSelect from 'react-native-picker-select';
 import api from '../../services/api';
 
