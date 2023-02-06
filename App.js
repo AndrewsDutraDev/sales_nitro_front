@@ -3,7 +3,6 @@ import { NavigationContainer, DefaultTheme  } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import Login from './src/components/Screens/Login';
-import Teste from './src/components/Screens/Teste';
 import Register from './src/components/Screens/Register';
 import Add_Product from './src/components/Screens/Add_Product';
 import Profile from './src/components/Screens/Profile';
@@ -44,7 +43,6 @@ const InitialLogin = () => {
 				<Stack.Screen name="Register" component={Register} />
 				<Stack.Screen name="Feed" component={Feed} initialParams={{carProductList: null }} />
 				<Stack.Screen name="Home" component={Home} initialParams={{id: 1, name: 'Gabriel'}} />
-				<Stack.Screen name="Teste" component={Teste} options={{}}/>
 				<Stack.Screen name="View_Carrinho" component={View_Carrinho} />
 				<Stack.Screen name="Edit_Product" component={Edit_Product} />
 				<Stack.Screen name="List_Product" component={List_Product} />
